@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Complet Vidéosurveillance — CCTV & IP Surveillance</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0047AB;
+    --accent: #00BFFF;
+    --accent2: #FF6B2B;
+    --bg: #F4F7FB;
+    --white: #ffffff;
+    --dark: #0D1B2A;
+    --mid: #4A5568;
+    --light: #E8EFF7;
+    --border: #CBD5E0;
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --red: #EF4444;
+    --card-shadow: 0 4px 24px rgba(0,71,171,0.10);
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    gap: 2rem;
+    box-shadow: 0 2px 16px rgba(0,71,171,0.07);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--primary);
+    text-decoration: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-logo span { color: var(--accent2); }
+
+  .nav-links {
+    display: flex;
+    gap: 1.4rem;
+    list-style: none;
+    overflow-x: auto;
+    flex: 1;
+    padding-bottom: 2px;
+  }
+
+  .nav-links a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--mid);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links a:hover { color: var(--primary); }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(135deg, #0D1B2A 0%, #0047AB 60%, #0088CC 100%);
+    color: white;
+    padding: 7rem 2rem 5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1.2rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.4rem;
+    animation: fadeDown 0.7s 0.1s ease both;
+  }
+
+  .hero h1 em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .hero p {
+    font-size: 1.15rem;
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+    opacity: 0.88;
+    animation: fadeDown 0.7s 0.2s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeDown 0.7s 0.3s ease both;
+  }
+
+  .hero-stat {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 1rem 1.8rem;
+    text-align: center;
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .hero-stat small { font-size: 0.8rem; opacity: 0.8; }
+
+  .hero-cam-anim {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.12;
+    font-size: 14rem;
+    pointer-events: none;
+    animation: rotate 20s linear infinite;
+  }
+
+  /* ===== SECTION ===== */
+  section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-full {
+    max-width: 100%;
+    padding: 5rem 2rem;
+  }
+
+  .section-full > .inner { max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.6rem;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px;
+    height: 3px;
+    background: var(--accent2);
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    color: var(--dark);
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+    color: var(--mid);
+    max-width: 700px;
+    margin-bottom: 3rem;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.5rem; }
+
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid var(--border);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,71,171,0.16);
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-body { padding: 1.4rem; }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--light);
+    color: var(--primary);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.6rem;
+  }
+
+  /* ===== USE CASES GRID ===== */
+  .use-cases-bg {
+    background: linear-gradient(135deg, #F0F4FF 0%, #E8F4FD 100%);
+    border-radius: 0;
+    padding: 5rem 2rem;
+  }
+
+  .use-case-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .use-case-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(0,191,255,0.15);
+    transform: translateY(-3px);
+  }
+
+  .use-case-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== CAMERA TYPES ===== */
+  .cam-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s;
+  }
+
+  .cam-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0,71,171,0.18);
+  }
+
+  .cam-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .cam-card-body {
+    padding: 1.2rem;
+  }
+
+  .cam-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  .badge-ip { background: #DBEAFE; color: #1D4ED8; }
+  .badge-analog { background: #FEF3C7; color: #92400E; }
+  .badge-ptz { background: #D1FAE5; color: #065F46; }
+  .badge-thermal { background: #FEE2E2; color: #991B1B; }
+  .badge-wifi { background: #EDE9FE; color: #5B21B6; }
+  .badge-dome { background: #E0F2FE; color: #0369A1; }
+  .badge-bullet { background: #F0FDF4; color: #166534; }
+  .badge-fish { background: #FDF4FF; color: #7E22CE; }
+
+  /* ===== EQUIPMENT ===== */
+  .equip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .equip-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: all 0.25s;
+  }
+
+  .equip-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+  }
+
+  .equip-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+
+  /* ===== ARCHITECTURE ===== */
+  .arch-bg {
+    background: var(--dark);
+    color: white;
+    padding: 5rem 2rem;
+  }
+
+  .arch-bg h2 { color: white; }
+  .arch-bg .lead { color: rgba(255,255,255,0.7); }
+
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 2rem 0;
+  }
+
+  .arch-node {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    min-width: 100px;
+    transition: all 0.25s;
+  }
+
+  .arch-node:hover {
+    background: rgba(0,191,255,0.15);
+    border-color: var(--accent);
+  }
+
+  .arch-node .node-icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+  .arch-node .node-label { font-size: 0.78rem; font-weight: 600; }
+
+  .arch-arrow {
+    color: var(--accent);
+    font-size: 1.5rem;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  .arch-diagram {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-top: 2rem;
+  }
+
+  /* ===== SIMULATION ===== */
+  .sim-container {
+    background: #0D1B2A;
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,191,255,0.2);
+  }
+
+  .sim-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+  }
+
+  .sim-step {
+    background: rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0,191,255,0.2);
+    text-align: center;
+    color: white;
+    position: relative;
+  }
+
+  .sim-step .step-num {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: var(--dark);
+    font-weight: 800;
+    font-size: 0.8rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sim-step .step-icon { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+  .sim-step h4 { font-family: 'Syne', sans-serif; font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--accent); }
+  .sim-step p { font-size: 0.82rem; opacity: 0.75; }
+
+  /* Animation de détection */
+  @keyframes detect {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    50% { box-shadow: 0 0 0 12px rgba(239,68,68,0.3); }
+  }
+
+  .sim-step.detecting { animation: detect 2s ease-in-out infinite; border-color: #EF4444; }
+
+  @keyframes recording {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .sim-step.recording .step-icon { animation: recording 1s ease-in-out infinite; }
+
+  @keyframes notifying {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(-10deg); }
+    20% { transform: rotate(10deg); }
+    30% { transform: rotate(-8deg); }
+    40% { transform: rotate(8deg); }
+    50%, 100% { transform: rotate(0deg); }
+  }
+
+  .sim-step.notifying .step-icon { animation: notifying 2s ease-in-out infinite; }
+
+  @keyframes viewing {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+
+  .sim-step.viewing .step-icon { animation: viewing 2s ease-in-out infinite; }
+
+  /* ===== INTERFACE CONFIG ===== */
+  .interface-mockup {
+    background: #1E2D3D;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .interface-titlebar {
+    background: #0D1B2A;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .titlebar-dots span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  .dot-red { background: #EF4444; }
+  .dot-yellow { background: #F59E0B; }
+  .dot-green { background: #22C55E; }
+
+  .titlebar-title {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+    margin-left: 0.5rem;
+    font-weight: 500;
+  }
+
+  .interface-body {
+    display: flex;
+    min-height: 400px;
+  }
+
+  .interface-sidebar {
+    width: 180px;
+    background: #152232;
+    padding: 1rem 0;
+    flex-shrink: 0;
+  }
+
+  .sidebar-item {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.2s;
+  }
+
+  .sidebar-item:hover, .sidebar-item.active {
+    background: rgba(0,191,255,0.12);
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+  }
+
+  .interface-content {
+    flex: 1;
+    padding: 1.5rem;
+    overflow: hidden;
+  }
+
+  .config-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .config-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .config-field label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+  }
+
+  .config-field input,
+  .config-field select {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.8rem;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .config-field input:focus,
+  .config-field select:focus {
+    border-color: var(--accent);
+  }
+
+  .config-btn {
+    background: var(--accent);
+    color: var(--dark);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .config-btn:hover { background: #00AAEE; }
+
+  .status-bar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(34,197,94,0.12);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.72rem;
+    color: #22C55E;
+  }
+
+  .status-pill::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22C55E;
+    animation: blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ===== BEST PRACTICES ===== */
+  .practice-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    border-left: 4px solid var(--accent);
+    box-shadow: var(--card-shadow);
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    transition: transform 0.2s;
+  }
+
+  .practice-card:hover { transform: translateX(4px); }
+
+  .practice-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: var(--light);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===== INTEGRATION ===== */
+  .integration-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    text-align: center;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .integration-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+
+  .integration-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(0,71,171,0.14);
+  }
+
+  .integration-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  /* ===== INFO BOXES ===== */
+  .info-box {
+    background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+    border: 1px solid #BFDBFE;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin: 1.5rem 0;
+  }
+
+  .info-box-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+  .warning-box {
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+    border: 1px solid #FDE68A;
+  }
+
+  .success-box {
+    background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+    border: 1px solid #BBF7D0;
+  }
+
+  /* ===== CONCLUSION ===== */
+  .conclusion-bg {
+    background: linear-gradient(135deg, var(--dark) 0%, #0047AB 100%);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+  }
+
+  .conclusion-bg h2 { color: white; font-size: clamp(2rem, 4vw, 3rem); }
+
+  .conclusion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 3rem auto 0;
+  }
+
+  .conclusion-item {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 1.8rem 1.2rem;
+    transition: all 0.25s;
+  }
+
+  .conclusion-item:hover {
+    background: rgba(0,191,255,0.15);
+    border-color: var(--accent);
+  }
+
+  .conclusion-item .big-icon { font-size: 2.5rem; margin-bottom: 0.8rem; display: block; }
+  .conclusion-item p { font-size: 0.88rem; opacity: 0.8; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.85rem;
+  }
+
+  footer strong { color: rgba(255,255,255,0.8); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+  }
+
+  @keyframes rotate {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .fade-in { animation: fadeDown 0.6s ease both; }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ===== TABLE ===== */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+  }
+
+  .compare-table th {
+    background: var(--primary);
+    color: white;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .compare-table td {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: #F8FAFC; }
+  .compare-table .check { color: var(--success); font-weight: 700; }
+  .compare-table .cross { color: var(--red); font-weight: 700; }
+
+  /* ===== SECTION ALTERNATING ===== */
+  .section-alt { background: linear-gradient(135deg, #F0F4FF, #E8F4FD); }
+
+  /* ===== TAG ROW ===== */
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+
+  .tag {
+    background: var(--light);
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid #BFDBFE;
+  }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 16px rgba(0,71,171,0.3);
+    transition: all 0.2s;
+    z-index: 50;
+  }
+
+  .scroll-top:hover { background: var(--accent); transform: translateY(-2px); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-cam-anim { display: none; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .interface-body { flex-direction: column; }
+    .interface-sidebar { width: 100%; display: flex; overflow-x: auto; padding: 0.5rem; }
+    .sidebar-item { white-space: nowrap; }
+    .config-grid { grid-template-columns: 1fr; }
+    .arch-flow { gap: 0.3rem; }
+  }
+
+  /* Section number badges */
+  .section-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="nav-logo">📹 <span>CCTV</span>Guide</a>
+  <ul class="nav-links">
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#ou">Où ?</a></li>
+    <li><a href="#quand">Quand ?</a></li>
+    <li><a href="#types">Types</a></li>
+    <li><a href="#equipements">Équipements</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#interfaces">Interfaces</a></li>
+    <li><a href="#simulation">Simulation</a></li>
+    <li><a href="#pratiques">Bonnes pratiques</a></li>
+    <li><a href="#integration">Intégrations</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="service.html">Retour</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge"> Guide Technique </div>
+  <h1>La <em>Vidéosurveillance</em><br>de A à Z</h1>
+  <p>Guide professionnel complet pour comprendre, concevoir et déployer un système de vidéosurveillance CCTV & IP — pour étudiants, techniciens et entreprises.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <strong>12</strong>
+      <small>Sections détaillées</small>
+    </div>
+    <div class="hero-stat">
+      <strong>8+</strong>
+      <small>Types de caméras</small>
+    </div>
+    <div class="hero-stat">
+      <strong>100%</strong>
+      <small>Pratique & visuel</small>
+    </div>
+    <div class="hero-stat">
+      <strong>Pro</strong>
+      <small>Niveau technicien</small>
+    </div>
+  </div>
+  <div class="hero-cam-anim"></div>
+</div>
+
+<!-- =====================================================
+     SECTION 1 : INTRODUCTION
+     ===================================================== -->
+<section id="intro">
+  <div class="section-label">Section 01</div>
+  <h2>Introduction à la Vidéosurveillance</h2>
+  <p class="lead">Comprendre les bases, les enjeux et la valeur ajoutée des systèmes de vidéosurveillance modernes dans notre quotidien.</p>
+
+  <div class="grid-2">
+    <div>
+      <div class="info-box success-box">
+        <div class="info-box-icon"></div>
+        <div>
+          <strong>Définition</strong><br>
+          La vidéosurveillance (CCTV — Closed-Circuit Television) est un système de captation, transmission et enregistrement d'images vidéo en circuit fermé. Contrairement à la télévision diffusée, le signal est transmis à un réseau limité de moniteurs ou enregistreurs.
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top:1rem;">
+        <div class="info-box-icon"></div>
+        <div>
+          <strong>Évolution technologique</strong><br>
+          Des premières caméras analogiques aux systèmes IP ultra-HD d'aujourd'hui, la vidéosurveillance intègre désormais l'IA, la reconnaissance faciale et le cloud computing pour offrir une sécurité proactive et intelligente.
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:1rem;">
+      <div class="use-case-card">
+        <div class="use-case-icon"></div>
+        <h3>Entreprises</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Sécurité des locaux, contrôle des accès, prévention des fraudes internes, protection des actifs.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-icon"></div>
+        <h3>Résidences</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Surveillance domicile, alertes intrus, surveillance enfants, dissuasion cambriolage.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-icon"></div>
+        <h3>Banques</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Protection des coffres, surveillance des caisses, identification des fraudeurs, preuves légales.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-icon"></div>
+        <h3>Smart Cities</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Gestion du trafic, sécurité publique, centres de commandement, analyse comportementale.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =====================================================
+     SECTION 2 : OÙ UTILISE-T-ON LA VIDÉOSURVEILLANCE
+     ===================================================== -->
+<div class="use-cases-bg" id="ou">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+    <div class="section-label">Section 02</div>
+    <h2>Où Utilise-t-on la Vidéosurveillance ?</h2>
+    <p class="lead">De la maison individuelle aux métropoles intelligentes, la vidéosurveillance s'adapte à tous les environnements.</p>
+
+    <div class="grid-3">
+      <div class="card">
+        <img src="https://i.pinimg.com/736x/40/0d/39/400d391547442074bee28779a8c412e4.jpg" alt="Résidence sécurisée" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Résidentiel</span>
+          <h3>Maisons & Résidences</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Caméras extérieures aux entrées, garages, jardins. Systèmes WiFi faciles à installer. Accès depuis smartphone 24h/24.</p>
+          <div class="tag-row">
+            <span class="tag">Entrée principale</span>
+            <span class="tag">Garage</span>
+            <span class="tag">Jardin</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Bureau entreprise" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Professionnel</span>
+          <h3>Entreprises & Bureaux</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Couverture des zones sensibles : salle serveurs, coffre, réception, entrepôts. Intégration avec le contrôle d'accès.</p>
+          <div class="tag-row">
+            <span class="tag">Salle serveurs</span>
+            <span class="tag">Entrepôt</span>
+            <span class="tag">Accueil</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/1200x/f1/13/88/f113885e20a91df3927fa5609d6cefc3.jpg" alt="Banque" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Finance</span>
+          <h3>Banques & DAB</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Caméras haute définition aux guichets, aux DAB, coffres et salles de tri. Enregistrement longue durée obligatoire.</p>
+          <div class="tag-row">
+            <span class="tag">Guichet</span>
+            <span class="tag">DAB</span>
+            <span class="tag">Coffre</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=600&q=80" alt="Commerce" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Commerce</span>
+          <h3>Magasins & Centres Commerciaux</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Prévention vol, gestion des flux, analyse du comportement client, sécurité du personnel.</p>
+          <div class="tag-row">
+            <span class="tag">Anti-vol</span>
+            <span class="tag">Flux clients</span>
+            <span class="tag">Caisse</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=600&q=80" alt="Parking" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Transport</span>
+          <h3>Parkings</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Caméras basse lumière pour parkings couverts, lecture de plaques (ANPR), détection d'incidents, contrôle d'accès.</p>
+          <div class="tag-row">
+            <span class="tag">ANPR</span>
+            <span class="tag">Basse lumière</span>
+            <span class="tag">Incidents</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://i.pinimg.com/736x/db/c1/e4/dbc1e49eb7f9e9a57421a89731c8b2a4.jpg" alt="Aéroport" loading="lazy"/>
+        <div class="card-body">
+          <span class="card-tag"> Infrastructure</span>
+          <h3>Aéroports & Gares</h3>
+          <p style="font-size:0.88rem;color:var(--mid)">Systèmes masifs avec centaines de caméras IP, contrôle des flux, reconnaissance faciale, zones sécurisées.</p>
+          <div class="tag-row">
+            <span class="tag">Reconnaissance</span>
+            <span class="tag">Contrôle flux</span>
+            <span class="tag">Zone sécurisée</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     SECTION 3 : QUAND
+     ===================================================== -->
+<section id="quand">
+  <div class="section-label">Section 03</div>
+  <h2>Quand Utiliser la Vidéosurveillance ?</h2>
+  <p class="lead">Identifier les situations qui justifient et nécessitent la mise en place d'un système de vidéosurveillance.</p>
+
+  <div class="grid-3">
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Prévention des Intrusions</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Détection de mouvements en périphérie, alertes en temps réel, activation de sirènes. Idéal pour les périmètres étendus ou isolés.</p>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Surveillance du Personnel</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Contrôle des accès aux zones sensibles, vérification des procédures de sécurité, résolution des conflits. Cadre légal obligatoire.</p>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Sécurité des Biens</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Protection des stocks, équipements coûteux, véhicules, œuvres d'art. Systèmes à haute résolution pour identification.</p>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Contrôle des Accès</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Intégration avec badges RFID, biométrie, interphones IP. Enregistrement de toutes les entrées/sorties avec horodatage.</p>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Analyse des Incidents</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Consultation des enregistrements post-incident, export des preuves pour les autorités, analyse forensique vidéo.</p>
+      </div>
+    </div>
+
+    <div class="practice-card">
+      <div class="practice-icon"></div>
+      <div>
+        <h3>Analyse & Business Intelligence</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Comptage de personnes, analyse des flux, heatmaps de fréquentation, optimisation de l'agencement commercial.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =====================================================
+     SECTION 4 : POURQUOI
+     ===================================================== -->
+<section id="pourquoi" style="background:linear-gradient(135deg,#F0F4FF,#E8F4FD);">
+  <div class="section-label">Section 04</div>
+  <h2>Pourquoi la Vidéosurveillance est Essentielle</h2>
+  <p class="lead">Quatre piliers fondamentaux justifient l'investissement dans un système de vidéosurveillance moderne.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;">
+    <div style="background:var(--white);border-radius:var(--radius);padding:2rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid #EF4444;">
+      <div style="font-size:3rem;margin-bottom:1rem;"></div>
+      <h3 style="margin-bottom:0.5rem;">Dissuasion</h3>
+      <p style="font-size:0.88rem;color:var(--mid)">La simple présence de caméras visibles réduit les actes malveillants de <strong>60 à 80%</strong>. Effet préventif immédiat sans action nécessaire.</p>
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--radius);padding:2rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid #F59E0B;">
+      <div style="font-size:3rem;margin-bottom:1rem;">⚖️</div>
+      <h3 style="margin-bottom:0.5rem;">Collecte de Preuves</h3>
+      <p style="font-size:0.88rem;color:var(--mid)">Les enregistrements HD constituent des preuves légales irréfutables pour les enquêtes policières, assurances et procédures judiciaires.</p>
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--radius);padding:2rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid var(--accent);">
+      <div style="font-size:3rem;margin-bottom:1rem;"></div>
+      <h3 style="margin-bottom:0.5rem;">Surveillance à Distance</h3>
+      <p style="font-size:0.88rem;color:var(--mid)">Accès en temps réel depuis n'importe où dans le monde via application mobile ou navigateur web. Notifications push instantanées.</p>
+    </div>
+
+    <div style="background:var(--white);border-radius:var(--radius);padding:2rem;text-align:center;box-shadow:var(--card-shadow);border-top:4px solid var(--success);">
+      <div style="font-size:3rem;margin-bottom:1rem;"></div>
+      <h3 style="margin-bottom:0.5rem;">Sécurité Globale Améliorée</h3>
+      <p style="font-size:0.88rem;color:var(--mid)">Intégration avec alarmes, contrôle d'accès et systèmes incendie pour une réponse coordonnée et intelligente aux incidents.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     SECTION 5 : TYPES DE CAMÉRAS
+     ===================================================== -->
+<section id="types">
+  <div class="section-label">Section 05</div>
+  <h2>Types de Caméras de Vidéosurveillance</h2>
+  <p class="lead">Chaque type de caméra répond à des besoins spécifiques. Voici le guide complet pour choisir la bonne technologie.</p>
+
+  <div class="grid-4">
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/1200x/96/4f/55/964f553b81f078b751473fcadb076044.jpg" alt="Caméra IP" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-ip">IP / Réseau</span>
+        <h3>Caméra IP</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Transmission via réseau TCP/IP. Résolution jusqu'à 4K. Alimentation PoE. Accès distant natif. Standard actuel.</p>
+        <div class="tag-row"><span class="tag">PoE</span><span class="tag">4K</span><span class="tag">H.265</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/736x/18/65/43/186543112f85e8a69e4788f7f954d4fd.jpg" alt="Caméra analogique" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-analog">Analogique</span>
+        <h3>Caméra Analogique</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Signal coaxial vers DVR. Économique pour petits systèmes. Évolution : HD-TVI, AHD jusqu'à 8MP. Compatible câblage existant.</p>
+        <div class="tag-row"><span class="tag">DVR</span><span class="tag">Coaxial</span><span class="tag">HD-TVI</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/736x/0f/ef/b1/0fefb17e9b3bbee67956ca8bb4336f56.jpg" alt="Caméra PTZ" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-ptz">PTZ</span>
+        <h3>Caméra PTZ</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Pan-Tilt-Zoom motorisé. Rotation 360°. Zoom optique x30+. Suivi automatique des objets/personnes. Idéale grands espaces.</p>
+        <div class="tag-row"><span class="tag">360°</span><span class="tag">Auto-tracking</span><span class="tag">Zoom x30</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/1200x/50/b6/e9/50b6e93d9c7756adc680020d3597a967.jpg" alt="Caméra dôme" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-dome">Dôme</span>
+        <h3>Caméra Dôme</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Boîtier demi-sphère discret. Résistante au vandalisme (IK10). Angle de vue large. Idéale intérieur : couloirs, halls, boutiques.</p>
+        <div class="tag-row"><span class="tag">IK10</span><span class="tag">Discret</span><span class="tag">Intérieur</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/736x/0b/48/5f/0b485fd9727e487ba43337a40bd10d84.jpg" alt="Caméra bullet" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-bullet">Bullet</span>
+        <h3>Caméra Bullet</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Forme cylindrique très visible. Dissuasion maximale. Longue portée infrarouge (50-100m). Résistante aux intempéries IP67.</p>
+        <div class="tag-row"><span class="tag">IP67</span><span class="tag">IR longue portée</span><span class="tag">Extérieur</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://files.ekmcdn.com/dbaaa5/blogs/types_of_cctv_cameras.png" alt="Caméra thermique" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-thermal">Thermique</span>
+        <h3>Caméra Thermique</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Détecte chaleur corporelle. Fonctionne dans l'obscurité totale, brouillard et fumée. Périmètres critiques, industries.</p>
+        <div class="tag-row"><span class="tag">Nuit totale</span><span class="tag">Périmètre</span><span class="tag">Industriel</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/736x/b2/03/db/b203db16d884de222f26529d77e59206.jpg" alt="Caméra fisheye" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-fish">Fisheye</span>
+        <h3>Caméra Fisheye</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Objectif grand-angle 360°/180°. Une seule caméra couvre une pièce entière. Déwarping logiciel. Parfaite pour showrooms, musées.</p>
+        <div class="tag-row"><span class="tag">360°</span><span class="tag">Déwarping</span><span class="tag">Grande salle</span></div>
+      </div>
+    </div>
+
+    <div class="cam-card">
+      <img src="https://i.pinimg.com/1200x/4e/b8/3e/4eb83ee64f4d48d08b4d21b22a1cc3a0.jpg" alt="Caméra WiFi" loading="lazy"/>
+      <div class="cam-card-body">
+        <span class="cam-badge badge-wifi">WiFi</span>
+        <h3>Caméra WiFi</h3>
+        <p style="font-size:0.82rem;color:var(--mid)">Installation sans câble réseau. Idéale pour rénovations. Support cloud intégré. Version batterie solaire pour extérieur isolé.</p>
+        <div class="tag-row"><span class="tag">Sans câble</span><span class="tag">Cloud</span><span class="tag">Solaire</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;overflow-x:auto;">
+    <h3 style="margin-bottom:1.5rem;"> Tableau comparatif des technologies</h3>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Résolution max</th>
+          <th>Connectivité</th>
+          <th>Accès distant</th>
+          <th>IA intégrée</th>
+          <th>Coût relatif</th>
+          <th>Usage typique</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>IP</strong></td><td>4K / 8MP</td><td>RJ45 / PoE</td><td><span class="check">✓ Natif</span></td><td><span class="check">✓</span></td><td>Moyen</td><td>Universel</td></tr>
+        <tr><td><strong>Analogique HD</strong></td><td>2K / 4MP</td><td>Coaxial</td><td><span class="cross">Via DVR</span></td><td><span class="cross">✗</span></td><td>Bas</td><td>Rétrofit</td></tr>
+        <tr><td><strong>PTZ</strong></td><td>4K</td><td>RJ45 / PoE</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td>Élevé</td><td>Grands espaces</td></tr>
+        <tr><td><strong>Thermique</strong></td><td>640×480 IR</td><td>RJ45</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td>Très élevé</td><td>Périmètre critique</td></tr>
+        <tr><td><strong>Fisheye</strong></td><td>4K 360°</td><td>RJ45 / PoE</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td>Élevé</td><td>Grande salle</td></tr>
+        <tr><td><strong>WiFi</strong></td><td>2K</td><td>802.11ac</td><td><span class="check">✓</span></td><td>Partiel</td><td>Bas</td><td>Résidentiel</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =====================================================
+     SECTION 6 : ÉQUIPEMENTS
+     ===================================================== -->
+<section id="equipements" style="background:linear-gradient(135deg,#F8FAFC,#F0F4FF);">
+  <div class="section-label">Section 06</div>
+  <h2>Équipements d'un Système de Vidéosurveillance</h2>
+  <p class="lead">Chaque composant joue un rôle précis dans la chaîne de captation, transmission, enregistrement et visualisation.</p>
+
+  <div class="equip-grid">
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/fb/7f/eb/fb7feb7d345d6dd42adb782bc562bea0.jpg" alt="Caméra IP" loading="lazy"/>
+      <h3> Caméra IP</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Capteur CMOS, objectif vari-focal, IR intégré. Compression H.265+. Résolutions de 2MP à 12MP. Certifications IP66/IK10.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://www.cctv-outlet.com/wp-content/uploads/2021/11/nvr-poe-16ch.jpg" alt="NVR" loading="lazy"/>
+      <h3> NVR — Enregistreur IP</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Network Video Recorder. Gère de 4 à 128 caméras IP. Stockage sur disques durs SATA 1-4 To. Interface web/app mobile intégrée.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/95/36/fa/9536fadcee38c9937f001911b5e61df2.jpg" alt="DVR" loading="lazy"/>
+      <h3> DVR — Enregistreur Analogique</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Digital Video Recorder pour caméras analogiques et HD coaxiales. Entrées BNC, encodage H.264/H.265, stockage HDD.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/df/d0/e7/dfd0e7d6522eaca5ab07f2b51308d337.jpg" alt="Switch réseau" loading="lazy"/>
+      <h3> Switch Réseau</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Commutateur Gigabit gérable. VLAN dédié vidéosurveillance recommandé. QoS pour prioriser le flux vidéo. Rack ou DIN.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/1200x/a3/05/52/a30552a0ab16c3552722fc2577f24381.jpg" alt="PoE Switch" loading="lazy"/>
+      <h3> PoE Switch</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Power over Ethernet. Alimente caméras IP via câble réseau (standard 802.3af/at). Budget PoE 30W/port. Élimine câblage électrique.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/be/6c/f1/be6cf14f3c79fd210132f8886de3443a.jpg" alt="Disque dur" loading="lazy"/>
+      <h3> Disque Dur Surveillance</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">WD Purple, Seagate SkyHawk. Optimisés pour écriture continue 24h/24. Capacités 1 à 10 To. MTBF 1 000 000+ heures.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/f3/15/12/f3151293669b4f780edeba866707b0fe.jpg" alt="Câbles réseau" loading="lazy"/>
+      <h3>🔗 Câbles & Connectique</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Cat5e/Cat6 UTP pour câblage intérieur. Cat6 FTP blindé pour extérieur. Distance max 100m. Connecteurs RJ45 étanches IP67.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/1200x/ed/26/09/ed260989de4529ca4a5c7a2f4dfa223c.jpg" alt="Moniteur" loading="lazy"/>
+      <h3> Moniteur de Surveillance</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">Écrans 24-55". Résolution 4K. Fonctionnement 24h/24 (usage pro). HDMI/VGA/BNC. Mosaïque multi-caméras.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/736x/71/c6/18/71c618a145ee5c5854934b9b12dff891.jpg" alt="Routeur" loading="lazy"/>
+      <h3> Routeur & Accès Internet</h3>
+      <p style="font-size:0.88rem;color:var(--mid)">Routeur dédié avec NAT/PAT pour accès distant. VPN recommandé. IP fixe ou DDNS. Bande passante adaptée au nombre de caméras.</p>
+    </div>
+
+    <div class="equip-card">
+      <img src="https://i.pinimg.com/1200x/cc/b6/2a/ccb62ac7cce52a39cb573375d9ab1f7e.jpg" alt="Alimentation onduleur" loading="lazy"/>
+      <h3> Alimentation / Onduleur</h3>
+      <p style="font-size:0.82rem;color:var(--mid)">UPS (onduleur) protège l'enregistreur et les équipements réseau. Autonomie 30-120 min. Essentiel pour continuité de service.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     SECTION 7 : ARCHITECTURE
+     ===================================================== -->
+<div class="arch-bg" id="architecture">
+  <div style="max-width:1200px;margin:0 auto;padding:0 1rem;">
+    <div class="section-label" style="color:#00BFFF">Section 07</div>
+    <h2>Architecture d'un Système de Vidéosurveillance</h2>
+    <p class="lead">Comprendre le flux de données de la caméra jusqu'à votre smartphone, en passant par le réseau et le cloud.</p>
+
+    <!-- Architecture IP Standard -->
+    <div class="arch-diagram">
+      <h3 style="color:white;margin-bottom:1.5rem;font-size:1rem;">🏗️ Architecture IP Standard (NVR local)</h3>
+      <div class="arch-flow">
+        <div class="arch-node">
+          <span class="node-icon">📷</span>
+          <div class="node-label">Caméras IP<br><small style="color:rgba(255,255,255,0.4)">PoE</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">🔌</span>
+          <div class="node-label">PoE Switch<br><small style="color:rgba(255,255,255,0.4)">Gigabit</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">💾</span>
+          <div class="node-label">NVR<br><small style="color:rgba(255,255,255,0.4)">Enregistrement</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">🖥️</span>
+          <div class="node-label">Moniteur<br><small style="color:rgba(255,255,255,0.4)">Surveillance</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">🌐</span>
+          <div class="node-label">Routeur/Internet<br><small style="color:rgba(255,255,255,0.4)">Port forward</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">📱</span>
+          <div class="node-label">App Mobile<br><small style="color:rgba(255,255,255,0.4)">Accès distant</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture Cloud -->
+    <div class="arch-diagram" style="margin-top:1.5rem;">
+      <h3 style="color:white;margin-bottom:1.5rem;font-size:1rem;">☁️ Architecture Cloud (Stockage distant)</h3>
+      <div class="arch-flow">
+        <div class="arch-node">
+          <span class="node-icon">📷</span>
+          <div class="node-label">Caméra WiFi<br><small style="color:rgba(255,255,255,0.4)">IP Camera</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">📡</span>
+          <div class="node-label">Box Internet<br><small style="color:rgba(255,255,255,0.4)">WiFi/LAN</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">☁️</span>
+          <div class="node-label">Serveur Cloud<br><small style="color:rgba(255,255,255,0.4)">AWS / Azure</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">🔐</span>
+          <div class="node-label">Chiffrement<br><small style="color:rgba(255,255,255,0.4)">TLS 1.3</small></div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <span class="node-icon">📱</span>
+          <div class="node-label">Smartphone<br><small style="color:rgba(255,255,255,0.4)">Live + Replay</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plan réseau -->
+    <div style="margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:1.8rem;">
+        <h3 style="color:var(--accent);margin-bottom:1rem;font-size:1rem;">📋 Plan d'adressage type</h3>
+        <div style="font-family:monospace;font-size:0.82rem;line-height:1.8;">
+          <div style="color:rgba(255,255,255,0.7)">Réseau : <span style="color:#22C55E">192.168.1.0/24</span></div>
+          <div style="color:rgba(255,255,255,0.7)">NVR : <span style="color:var(--accent)">192.168.1.10</span></div>
+          <div style="color:rgba(255,255,255,0.7)">PoE Switch : <span style="color:var(--accent)">192.168.1.2</span></div>
+          <div style="color:rgba(255,255,255,0.7)">Cam 01 : <span style="color:#F59E0B">192.168.1.100</span></div>
+          <div style="color:rgba(255,255,255,0.7)">Cam 02 : <span style="color:#F59E0B">192.168.1.101</span></div>
+          <div style="color:rgba(255,255,255,0.7)">Cam 03 : <span style="color:#F59E0B">192.168.1.102</span></div>
+          <div style="color:rgba(255,255,255,0.7)">Routeur : <span style="color:#EF4444">192.168.1.1</span></div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:1.8rem;">
+        <h3 style="color:var(--accent);margin-bottom:1rem;font-size:1rem;">📡 Ports réseau à configurer</h3>
+        <div style="font-size:0.82rem;line-height:1.8;color:rgba(255,255,255,0.7)">
+          <div>🔒 <strong style="color:white">80 / 8080</strong> — Interface web HTTP</div>
+          <div>🔒 <strong style="color:white">443 / 8443</strong> — Interface HTTPS</div>
+          <div>🎥 <strong style="color:white">554</strong> — Flux vidéo RTSP</div>
+          <div>📡 <strong style="color:white">8000</strong> — Port SDK client</div>
+          <div>📲 <strong style="color:white">DDNS</strong> — hikconnect.com / P2P</div>
+          <div>🛡️ <strong style="color:white">VPN</strong> — Solution recommandée</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:1.8rem;">
+        <h3 style="color:var(--accent);margin-bottom:1rem;font-size:1rem;">💡 Calcul de bande passante</h3>
+        <div style="font-size:0.82rem;line-height:1.8;color:rgba(255,255,255,0.7)">
+          <div>📷 Caméra 2MP H.265 : <strong style="color:white">~1 Mbps</strong></div>
+          <div>📷 Caméra 4MP H.265 : <strong style="color:white">~2 Mbps</strong></div>
+          <div>📷 Caméra 8MP H.265 : <strong style="color:white">~4 Mbps</strong></div>
+          <div style="border-top:1px solid rgba(255,255,255,0.1);margin-top:0.5rem;padding-top:0.5rem;">
+          <strong style="color:#22C55E">8 cams × 2MP = ~8 Mbps réseau local</strong></div>
+          <div style="margin-top:0.3rem;color:#F59E0B;">⚠ Accès distant : prévoir upload 4+ Mbps</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     SECTION 8 : INTERFACES DE CONFIGURATION
+     ===================================================== -->
+<section id="interfaces">
+  <div class="section-label">Section 08</div>
+  <h2>Interfaces de Configuration</h2>
+  <p class="lead">Découvrez les interfaces professionnelles utilisées pour configurer caméras, NVR et accès distant — inspirées de Hikvision iVMS-4200 et Dahua SmartPSS.</p>
+
+  <!-- Interface NVR Web -->
+  <div class="interface-mockup" style="margin-bottom:2rem;">
+    <div class="interface-titlebar">
+      <div class="titlebar-dots">
+        <span class="dot-red"></span>
+        <span class="dot-yellow"></span>
+        <span class="dot-green"></span>
+      </div>
+      <span class="titlebar-title">🖥️ NVR Configuration — Hikvision DS-7616NI-K2 | 192.168.1.10</span>
+    </div>
+    <div class="interface-body">
+      <div class="interface-sidebar">
+        <div class="sidebar-item active">📋 Vue d'ensemble</div>
+        <div class="sidebar-item">📷 Gestion caméras</div>
+        <div class="sidebar-item">⏺️ Enregistrement</div>
+        <div class="sidebar-item">🚶 Détection mouvement</div>
+        <div class="sidebar-item">🔔 Alarmes</div>
+        <div class="sidebar-item">🌐 Réseau</div>
+        <div class="sidebar-item">🔑 Utilisateurs</div>
+        <div class="sidebar-item">💾 Stockage</div>
+        <div class="sidebar-item">📱 Accès distant</div>
+      </div>
+      <div class="interface-content">
+        <div class="status-bar">
+          <div class="status-pill">NVR en ligne</div>
+          <div class="status-pill">8/8 caméras actives</div>
+          <div class="status-pill">Enregistrement actif</div>
+        </div>
+        <div class="config-section-title">⚙️ Configuration Réseau NVR</div>
+        <div class="config-grid">
+          <div class="config-field">
+            <label>Adresse IP du NVR</label>
+            <input type="text" value="192.168.1.10" />
+          </div>
+          <div class="config-field">
+            <label>Masque de sous-réseau</label>
+            <input type="text" value="255.255.255.0" />
+          </div>
+          <div class="config-field">
+            <label>Passerelle par défaut</label>
+            <input type="text" value="192.168.1.1" />
+          </div>
+          <div class="config-field">
+            <label>Port HTTP</label>
+            <input type="text" value="80" />
+          </div>
+          <div class="config-field">
+            <label>Port RTSP</label>
+            <input type="text" value="554" />
+          </div>
+          <div class="config-field">
+            <label>Activation HTTPS</label>
+            <select><option>Activé</option><option>Désactivé</option></select>
+          </div>
+        </div>
+        <button class="config-btn">💾 Sauvegarder la configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interface Caméra IP -->
+  <div class="interface-mockup" style="margin-bottom:2rem;">
+    <div class="interface-titlebar">
+      <div class="titlebar-dots">
+        <span class="dot-red"></span>
+        <span class="dot-yellow"></span>
+        <span class="dot-green"></span>
+      </div>
+      <span class="titlebar-title">📷 Camera Configuration — DS-2CD2143G2-I | 192.168.1.101</span>
+    </div>
+    <div class="interface-body">
+      <div class="interface-sidebar">
+        <div class="sidebar-item">🔴 Live View</div>
+        <div class="sidebar-item active">⚙️ Configuration</div>
+        <div class="sidebar-item">🚶 Détection</div>
+        <div class="sidebar-item">🎞️ Encodage</div>
+        <div class="sidebar-item">🌡️ OSD</div>
+        <div class="sidebar-item">🔐 Sécurité</div>
+      </div>
+      <div class="interface-content">
+        <div class="config-section-title">🎥 Paramètres d'encodage vidéo</div>
+        <div class="config-grid">
+          <div class="config-field">
+            <label>Résolution principale</label>
+            <select><option>3840×2160 (4K)</option><option selected>2560×1440 (4MP)</option><option>1920×1080 (FHD)</option></select>
+          </div>
+          <div class="config-field">
+            <label>Codec vidéo</label>
+            <select><option selected>H.265+</option><option>H.265</option><option>H.264+</option></select>
+          </div>
+          <div class="config-field">
+            <label>Fréquence d'images (fps)</label>
+            <select><option selected>25 fps</option><option>15 fps</option><option>10 fps</option></select>
+          </div>
+          <div class="config-field">
+            <label>Débit binaire max (Kbps)</label>
+            <input type="text" value="2048" />
+          </div>
+          <div class="config-field">
+            <label>Compression IA</label>
+            <select><option selected>H.265+ (Smart)</option><option>Standard</option></select>
+          </div>
+          <div class="config-field">
+            <label>Flux secondaire</label>
+            <select><option selected>640×480 / H.264</option><option>352×288</option></select>
+          </div>
+        </div>
+        <button class="config-btn">✅ Appliquer les paramètres</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interface Détection de mouvement -->
+  <div class="interface-mockup">
+    <div class="interface-titlebar">
+      <div class="titlebar-dots">
+        <span class="dot-red"></span>
+        <span class="dot-yellow"></span>
+        <span class="dot-green"></span>
+      </div>
+      <span class="titlebar-title">🚶 Motion Detection & Alarm Configuration — NVR</span>
+    </div>
+    <div class="interface-body">
+      <div class="interface-sidebar">
+        <div class="sidebar-item">🚶 Mouvement</div>
+        <div class="sidebar-item">👤 Détection humaine</div>
+        <div class="sidebar-item active">🔔 Actions alarme</div>
+        <div class="sidebar-item">📅 Planning</div>
+        <div class="sidebar-item">📧 Email/Push</div>
+        <div class="sidebar-item">📸 Capture auto</div>
+      </div>
+      <div class="interface-content">
+        <div class="config-section-title">🔔 Configuration des Actions sur Alarme</div>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.8)">📱 Notification push mobile (iVMS)</span>
+            <div style="background:#22C55E;width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;">
+              <div style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:white;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.8)">📧 Envoi email automatique + capture</span>
+            <div style="background:#22C55E;width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;">
+              <div style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:white;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.8)">🔴 Démarrage enregistrement urgence</span>
+            <div style="background:#22C55E;width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;">
+              <div style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:white;"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.8)">🔊 Activation sirène / relais</span>
+            <div style="background:rgba(255,255,255,0.1);width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;">
+              <div style="position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,0.5);"></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;background:rgba(255,255,255,0.05);border-radius:8px;border:1px solid rgba(255,255,255,0.08);">
+            <span style="font-size:0.82rem;color:rgba(255,255,255,0.8)">☁️ Upload automatique vers FTP/Cloud</span>
+            <div style="background:#22C55E;width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;">
+              <div style="position:absolute;right:2px;top:2px;width:16px;height:16px;border-radius:50%;background:white;"></div>
+            </div>
+          </div>
+        </div>
+        <button class="config-btn" style="margin-top:1.2rem;">💾 Sauvegarder les actions</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =====================================================
+     SECTION 9 : SIMULATION
+     ===================================================== -->
+<section id="simulation" style="background:linear-gradient(135deg,#F0F4FF,#E8F4FD);">
+  <div class="section-label">Section 09</div>
+  <h2>Simulation du Fonctionnement</h2>
+  <p class="lead">Visualisez le cycle complet d'un événement de sécurité, de la détection jusqu'à la notification sur votre téléphone.</p>
+
+  <div class="sim-container">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div style="display:inline-block;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:999px;padding:0.4rem 1.2rem;font-size:0.8rem;color:#EF4444;font-weight:700;letter-spacing:0.05em;">
+        🔴 SIMULATION EN DIRECT — Événement Détecté
+      </div>
+    </div>
+
+    <div class="sim-steps">
+      <div class="sim-step detecting">
+        <div class="step-num">1</div>
+        <span class="step-icon">📷</span>
+        <h4>Détection Mouvement</h4>
+        <p>La caméra détecte une intrusion à 23h47. Algorithme IA identifie une silhouette humaine.</p>
+      </div>
+
+      <div class="sim-step recording">
+        <div class="step-num">2</div>
+        <span class="step-icon">⏺️</span>
+        <h4>Enregistrement NVR</h4>
+        <p>Le NVR démarre l'enregistrement haute qualité. Les 30 secondes avant l'événement sont conservées (pre-recording).</p>
+      </div>
+
+      <div class="sim-step notifying">
+        <div class="step-num">3</div>
+        <span class="step-icon">🔔</span>
+        <h4>Notification Push</h4>
+        <p>Alerte instantanée envoyée sur le smartphone du responsable avec capture de l'événement.</p>
+      </div>
+
+      <div class="sim-step viewing">
+        <div class="step-num">4</div>
+        <span class="step-icon">📱</span>
+        <h4>Visualisation Distante</h4>
+        <p>L'utilisateur se connecte en live depuis son téléphone et peut déclencher une sirène ou appeler les secours.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
+      <div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:10px;padding:1rem;text-align:center;">
+        <div style="font-size:1.5rem;margin-bottom:0.4rem;">⚡</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);">Temps de réaction</div>
+        <div style="font-size:1.4rem;font-weight:800;color:#22C55E;font-family:'Syne',sans-serif;">&lt; 2s</div>
+      </div>
+      <div style="background:rgba(0,191,255,0.1);border:1px solid rgba(0,191,255,0.3);border-radius:10px;padding:1rem;text-align:center;">
+        <div style="font-size:1.5rem;margin-bottom:0.4rem;">💾</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);">Stockage événement</div>
+        <div style="font-size:1.4rem;font-weight:800;color:var(--accent);font-family:'Syne',sans-serif;">H.265+</div>
+      </div>
+      <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:1rem;text-align:center;">
+        <div style="font-size:1.5rem;margin-bottom:0.4rem;">🌐</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);">Protocole</div>
+        <div style="font-size:1.4rem;font-weight:800;color:#F59E0B;font-family:'Syne',sans-serif;">P2P/TLS</div>
+      </div>
+      <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:10px;padding:1rem;text-align:center;">
+        <div style="font-size:1.5rem;margin-bottom:0.4rem;">📍</div>
+        <div style="font-size:0.75rem;color:rgba(255,255,255,0.7);">Rétention vidéo</div>
+        <div style="font-size:1.4rem;font-weight:800;color:#EF4444;font-family:'Syne',sans-serif;">30 jours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     SECTION 10 : BONNES PRATIQUES
+     ===================================================== -->
+<section id="pratiques">
+  <div class="section-label">Section 10</div>
+  <h2>Bonnes Pratiques d'Installation</h2>
+  <p class="lead">Le succès d'un système de vidéosurveillance repose autant sur la qualité des équipements que sur la rigueur de l'installation.</p>
+
+  <div style="display:flex;flex-direction:column;gap:1.2rem;">
+
+    <div class="practice-card" style="border-color:#3B82F6;">
+      <div class="practice-icon" style="background:#EFF6FF;"></div>
+      <div>
+        <h3>Hauteur d'installation optimale</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Installez les caméras à <strong>2,5 à 3,5 mètres</strong> de hauteur. Trop bas = risque de sabotage. Trop haut = angle défavorable pour l'identification. Angle d'inclinaison idéal : <strong>15 à 45°</strong> vers le bas pour capturer les visages.</p>
+      </div>
+    </div>
+
+    <div class="practice-card" style="border-color:#10B981;">
+      <div class="practice-icon" style="background:#F0FDF4;"></div>
+      <div>
+        <h3>Angle de vision et zones couvertes</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Évitez les zones d'ombre (angles morts). Utilisez des <strong>caméras grand-angle (90-120°)</strong> pour couvrir les entrées. Privilégiez les <strong>caméras à focale variable</strong> pour adapter le champ selon l'environnement. Testez le FOV avant fixation définitive.</p>
+      </div>
+    </div>
+
+    <div class="practice-card" style="border-color:#F59E0B;">
+      <div class="practice-icon" style="background:#FFFBEB;"></div>
+      <div>
+        <h3>Protection contre pluie, soleil et température</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Choisissez des caméras <strong>IP66/IP67</strong> pour l'extérieur. Évitez d'orienter les caméras vers des sources lumineuses directes. Utilisez des <strong>sun shields (pare-soleil)</strong>. En zones froides : optez pour des caméras avec chauffage intégré opérant jusqu'à <strong>-40°C</strong>.</p>
+      </div>
+    </div>
+
+    <div class="practice-card" style="border-color:#8B5CF6;">
+      <div class="practice-icon" style="background:#EDE9FE;"></div>
+      <div>
+        <h3>Qualité et infrastructure réseau</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Utilisez des câbles <strong>Cat6 FTP</strong> pour les installations longue distance. Limitez la longueur à <strong>100 mètres</strong> par segment (sinon utilisez des répéteurs). Créez un <strong>VLAN dédié</strong> à la vidéosurveillance. PoE switch dédié avec budget PoE calculé.</p>
+      </div>
+    </div>
+
+    <div class="practice-card" style="border-color:#EF4444;">
+      <div class="practice-icon" style="background:#FEF2F2;"></div>
+      <div>
+        <h3>Sécurité informatique (Cybersécurité)</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Changez <strong>TOUS les mots de passe par défaut</strong> immédiatement. Activez le chiffrement HTTPS. Mettez à jour régulièrement le firmware. Utilisez un <strong>VPN</strong> plutôt que l'ouverture directe des ports. Désactivez les services non utilisés (Telnet, UPnP). Séparez le réseau caméras du réseau bureautique.</p>
+      </div>
+    </div>
+
+    <div class="practice-card" style="border-color:#22C55E;">
+      <div class="practice-icon" style="background:#F0FDF4;"></div>
+      <div>
+        <h3>Calcul et gestion du stockage</h3>
+        <p style="font-size:0.88rem;color:var(--mid)">Calculez la capacité : <strong>Débit(Mbps) × 86400s × Jours / 8 = Go</strong>. Pour 8 caméras 2MP H.265+ à 1 Mbps sur 30 jours = <strong>~2,6 To</strong>. Activez l'enregistrement sur détection pour économiser 70% de l'espace. Prévoyez <strong>20% de marge</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box warning-box" style="margin-top:2rem;">
+    <div class="info-box-icon"></div>
+    <div>
+      <strong>Réglementation RGPD / Légale</strong><br>
+      En France et dans l'UE, l'installation de vidéosurveillance est encadrée par la loi. Obligation d'information des personnes filmées (panneaux), déclaration à la CNIL pour les lieux non-privés, durée de conservation limitée à 30 jours maximum dans les espaces publics. Pour les entreprises : information et consultation du CSE obligatoires.
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =====================================================
+     SECTION 11 : INTÉGRATIONS
+     ===================================================== -->
+<section id="integration" style="background:linear-gradient(135deg,#F0F4FF,#E8F4FD);">
+  <div class="section-label">Section 11</div>
+  <h2>Association avec d'Autres Systèmes de Sécurité</h2>
+  <p class="lead">La vidéosurveillance prend toute sa dimension lorsqu'elle est intégrée dans un écosystème de sécurité global et interconnecté.</p>
+
+  <div class="grid-3">
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>Contrôle d'Accès</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Synchronisation avec badges RFID, biométrie. Capture automatique lors des accès. Vérification visuelle des personnes autorisées.</p>
+      <div class="tag-row">
+        <span class="tag">RFID</span>
+        <span class="tag">Biométrie</span>
+        <span class="tag">OSDP</span>
+      </div>
+    </div>
+
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>Alarme Intrusion</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Déclenchement de la caméra PTZ vers la zone d'alarme. Enregistrement automatique. Vérification visuelle avant envoi des secours (anti-fausse alarme).</p>
+      <div class="tag-row">
+        <span class="tag">Centrale alarme</span>
+        <span class="tag">PIR</span>
+        <span class="tag">Anti-masquage</span>
+      </div>
+    </div>
+
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>Détection Incendie</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Caméras thermiques pour détection précoce chaleur et flamme. Intégration avec SIEM de sécurité. Guidage évacuation via écrans.</p>
+      <div class="tag-row">
+        <span class="tag">Thermique</span>
+        <span class="tag">Smoke AI</span>
+        <span class="tag">Évacuation</span>
+      </div>
+    </div>
+
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>Interphonie IP</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Visiophonie intégrée. Déverrouillage porte à distance. Enregistrement des interlocuteurs. Intégration SIP/VoIP.</p>
+      <div class="tag-row">
+        <span class="tag">SIP</span>
+        <span class="tag">VoIP</span>
+        <span class="tag">PoE</span>
+      </div>
+    </div>
+
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>Reconnaissance Faciale (IA)</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Identification des personnes dans les bases de données. Alertes sur personnes recherchées. Contrôle d'accès sans badge. Analyse des émotions.</p>
+      <div class="tag-row">
+        <span class="tag">Deep Learning</span>
+        <span class="tag">GPU</span>
+        <span class="tag">RGPD</span>
+      </div>
+    </div>
+
+    <div class="integration-card">
+      <span class="integration-icon"></span>
+      <h3>VMS — Video Management</h3>
+      <p style="font-size:0.88rem;color:var(--mid);margin:0.5rem 0;">Plateforme centralisée gérant des milliers de caméras. Milestone XProtect, Genetec, iVMS-4200. Cartographie interactive, dashboards, rapports.</p>
+      <div class="tag-row">
+        <span class="tag">Milestone</span>
+        <span class="tag">Genetec</span>
+        <span class="tag">Multi-sites</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box success-box" style="margin-top:2rem;">
+    <div class="info-box-icon"></div>
+    <div>
+      <strong>Tendance  : La convergence sécurité physique + cyber</strong><br>
+      Les systèmes modernes comme Genetec Security Center, Lenel OnGuard ou Milestone XProtect proposent une plateforme unifiée intégrant vidéosurveillance, contrôle d'accès, interphonie et analyse IA en une seule interface. Cette approche réduit les coûts, améliore la réactivité et facilite la conformité réglementaire.
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================
+     SECTION 12 : CONCLUSION
+     ===================================================== -->
+<div class="conclusion-bg" id="conclusion">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="section-label" style="color:#00BFFF;justify-content:center;">Section 12</div>
+    <h2>Conclusion</h2>
+    <p style="font-size:1.1rem;opacity:0.85;margin:1rem auto 0;max-width:650px;">
+      La vidéosurveillance moderne est bien plus qu'un simple enregistreur vidéo. C'est un système intelligent, connecté et proactif qui forme le cœur d'une stratégie de sécurité globale.
+    </p>
+
+    <div class="conclusion-grid">
+      <div class="conclusion-item">
+        <span class="big-icon"></span>
+        <h3 style="font-family:'Syne',sans-serif;color:white;margin-bottom:0.4rem;">Bien définir ses besoins</h3>
+        <p>Surface à couvrir, niveau de détail requis, budget, contraintes réseau.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="big-icon"></span>
+        <h3 style="font-family:'Syne',sans-serif;color:white;margin-bottom:0.4rem;">Concevoir l'architecture</h3>
+        <p>Plan réseau, choix NVR/DVR, calcul stockage, adressage IP.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="big-icon"></span>
+        <h3 style="font-family:'Syne',sans-serif;color:white;margin-bottom:0.4rem;">Installer avec rigueur</h3>
+        <p>Hauteurs, angles, câblage qualitatif, protection environnementale.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="big-icon"></span>
+        <h3 style="font-family:'Syne',sans-serif;color:white;margin-bottom:0.4rem;">Configurer et sécuriser</h3>
+        <p>Mots de passe, HTTPS, VPN, firmware, VLAN dédié.</p>
+      </div>
+      <div class="conclusion-item">
+        <span class="big-icon"></span>
+        <h3 style="font-family:'Syne',sans-serif;color:white;margin-bottom:0.4rem;">Maintenir et évoluer</h3>
+        <p>Mises à jour, tests réguliers, ajout de caméras IA, intégrations.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:2rem;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:0.8rem;"></div>
+      <h3 style="font-family:'Syne',sans-serif;color:var(--accent);font-size:1.3rem;margin-bottom:0.8rem;">Recommandations pour débutants</h3>
+      <p style="font-size:0.92rem;opacity:0.85;max-width:600px;margin:0 auto;">
+        Commencez par un kit <strong>4 caméras IP PoE + NVR Hikvision ou Dahua</strong>, installez sur un réseau dédié avec PoE switch gérable, configurez les alertes push via application officielle, et ajoutez progressivement des fonctionnalités IA au fur et à mesure de la montée en compétences.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>📹 <strong>Guide Complet Vidéosurveillance</strong> — Document pédagogique pour étudiants, techniciens et entreprises</p>
+  <p style="margin-top:0.5rem;font-size:0.78rem;">Couvre CCTV analogique, IP, PoE, NVR/DVR, configuration réseau, cybersécurité et bonnes pratiques d'installation</p>
+</footer>
+
+<a href="#" class="scroll-top" title="Retour en haut">↑</a>
+
+<script>
+// Smooth scroll and active nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// Show/hide scroll-to-top
+const scrollBtn = document.querySelector('.scroll-top');
+window.addEventListener('scroll', () => {
+  scrollBtn.style.opacity = window.scrollY > 400 ? '1' : '0';
+  scrollBtn.style.pointerEvents = window.scrollY > 400 ? 'auto' : 'none';
+});
+scrollBtn.style.opacity = '0';
+scrollBtn.style.transition = 'opacity 0.3s';
+
+// Interactive config toggle
+document.querySelectorAll('.interface-sidebar .sidebar-item').forEach(item => {
+  item.addEventListener('click', () => {
+    item.closest('.interface-sidebar').querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installation Vidéosurveillance & Contrôle d'Accès | SecureTech Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ========== CSS VARIABLES ========== */
+  :root {
+    --bg-primary: #080c14;
+    --bg-secondary: #0d1525;
+    --bg-card: #111827;
+    --bg-card-hover: #161f33;
+    --accent-blue: #0a84ff;
+    --accent-cyan: #00d4ff;
+    --accent-green: #00e676;
+    --accent-orange: #ff6b35;
+    --text-primary: #e8f0fe;
+    --text-secondary: #8899aa;
+    --text-muted: #556677;
+    --border: rgba(0, 212, 255, 0.15);
+    --border-active: rgba(0, 212, 255, 0.5);
+    --glow-blue: 0 0 20px rgba(10, 132, 255, 0.3);
+    --glow-cyan: 0 0 20px rgba(0, 212, 255, 0.4);
+    --glow-green: 0 0 15px rgba(0, 230, 118, 0.3);
+  }
+
+  /* ========== RESET & BASE ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ========== TYPOGRAPHY ========== */
+  h1, h2, h3, h4 { font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 0.03em; }
+  
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ========== LAYOUT ========== */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  section { padding: 5rem 0; position: relative; }
+
+  /* ========== SECTION LABELS ========== */
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: var(--accent-cyan);
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .section-title span { color: var(--accent-cyan); }
+
+  .section-desc {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 700px;
+    margin-bottom: 3rem;
+  }
+
+  /* ========== NAVIGATION ========== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(8, 12, 20, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-links a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent-cyan); }
+
+  /* ========== HERO SECTION ========== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,132,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,212,255,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 212, 255, 0.08);
+    border: 1px solid rgba(0, 212, 255, 0.25);
+    border-radius: 50px;
+    padding: 0.35rem 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-cyan);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-badge-dot {
+    width: 7px; height: 7px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .hero-title .highlight {
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ========== HERO ILLUSTRATION ========== */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-diagram {
+    position: relative;
+    width: 420px;
+    height: 420px;
+  }
+
+  /* Central NVR */
+  .diagram-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, rgba(10,132,255,0.3), rgba(0,212,255,0.2));
+    border: 2px solid var(--accent-cyan);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    box-shadow: var(--glow-cyan);
+  }
+
+  .diagram-center-icon { font-size: 1.8rem; }
+  .diagram-center-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-cyan);
+    margin-top: 2px;
+  }
+
+  /* Orbit ring */
+  .diagram-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px; height: 280px;
+    border: 1px dashed rgba(0,212,255,0.2);
+    border-radius: 50%;
+    animation: spin 30s linear infinite;
+  }
+
+  @keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Device nodes */
+  .diagram-node {
+    position: absolute;
+    width: 64px; height: 64px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: all 0.3s;
+  }
+
+  .diagram-node:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
+    transform: scale(1.1);
+  }
+
+  .diagram-node-icon { font-size: 1.3rem; }
+  .diagram-node-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.5rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Position nodes in a circle */
+  .node-cam1  { top: 10px;  left: 50%; transform: translateX(-50%); }
+  .node-cam2  { top: 50%;   right: 10px; transform: translateY(-50%); }
+  .node-cam3  { bottom: 10px; left: 50%; transform: translateX(-50%); }
+  .node-switch { top: 50%;  left: 10px; transform: translateY(-50%); }
+  .node-access { top: 18%;  right: 18%; }
+  .node-bio   { bottom: 18%; right: 18%; }
+  .node-door  { bottom: 18%; left: 18%; }
+  .node-server { top: 18%; left: 18%; }
+
+  /* Connection lines (SVG) */
+  .diagram-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* ========== DIVIDER ========== */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-active), transparent);
+    margin: 0;
+  }
+
+  /* ========== ARCHITECTURE SECTION ========== */
+  .arch-diagram {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-diagram::before {
+    content: 'ARCHITECTURE RÉSEAU';
+    position: absolute;
+    top: 1.2rem; right: 1.5rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+  }
+
+  .arch-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .arch-device {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: default;
+  }
+
+  .arch-device-box {
+    width: 80px; height: 70px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .arch-device-box:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
+    background: var(--bg-card-hover);
+  }
+
+  .arch-device-box .icon { font-size: 1.6rem; }
+
+  .arch-device-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 80px;
+  }
+
+  .arch-device-box.highlight-blue { border-color: rgba(10,132,255,0.5); }
+  .arch-device-box.highlight-green { border-color: rgba(0,230,118,0.4); }
+  .arch-device-box.highlight-orange { border-color: rgba(255,107,53,0.4); }
+
+  .arch-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .arch-arrow.down {
+    transform: rotate(90deg);
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .arch-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-cyan);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+    text-align: center;
+  }
+
+  .arch-divider-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--border-active), transparent);
+    margin: 1rem 0;
+    position: relative;
+  }
+
+  .arch-divider-line::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-secondary);
+    padding: 0 1rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  .arch-poe-note {
+    background: rgba(0,230,118,0.06);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-green);
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  /* ========== CABLE TABLE ========== */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-secondary);
+  }
+
+  thead tr {
+    background: linear-gradient(90deg, rgba(10,132,255,0.15), rgba(0,212,255,0.1));
+  }
+
+  th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-cyan);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .cable-badge {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 50px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+  .cable-badge.cat6    { background: rgba(10,132,255,0.15); color: var(--accent-blue); border: 1px solid rgba(10,132,255,0.3); }
+  .cable-badge.power   { background: rgba(255,107,53,0.1); color: var(--accent-orange); border: 1px solid rgba(255,107,53,0.3); }
+  .cable-badge.elec    { background: rgba(0,230,118,0.1); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.3); }
+  .cable-badge.rfid    { background: rgba(0,212,255,0.1); color: var(--accent-cyan); border: 1px solid rgba(0,212,255,0.3); }
+
+  .dist-bar {
+    display: inline-block;
+    height: 6px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    border-radius: 3px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ========== STEP CARDS ========== */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .step-card:hover {
+    border-color: var(--border-active);
+    box-shadow: var(--glow-blue);
+    transform: translateY(-4px);
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .step-card:hover::before { opacity: 1; }
+
+  .step-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 3rem;
+    font-weight: 700;
+    color: rgba(0,212,255,0.08);
+    position: absolute;
+    top: 0.5rem; right: 1rem;
+    line-height: 1;
+  }
+
+  .step-icon {
+    width: 48px; height: 48px;
+    background: rgba(10,132,255,0.12);
+    border: 1px solid rgba(10,132,255,0.3);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-title {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+  }
+
+  .step-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .step-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .step-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(0,212,255,0.07);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0,212,255,0.15);
+  }
+
+  /* ========== ACCESS CONTROL ========== */
+  .access-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .access-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .access-card:hover {
+    border-color: rgba(0,230,118,0.4);
+    box-shadow: var(--glow-green);
+  }
+
+  .access-card-icon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  .access-card-title {
+    font-size: 1rem;
+    color: var(--accent-green);
+    margin-bottom: 0.5rem;
+  }
+
+  .access-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  /* ========== HIKVISION CONTROLLER SIMULATOR ========== */
+  .controller-section {
+    background: var(--bg-secondary);
+  }
+
+  .controller-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  /* Controller Panel */
+  .controller-panel {
+    background: #0a1020;
+    border: 2px solid rgba(0,212,255,0.3);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 0 40px rgba(0,132,255,0.15), inset 0 0 30px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  .controller-panel::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 20%; right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  }
+
+  .controller-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .controller-brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    letter-spacing: 0.2em;
+  }
+
+  .controller-model {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+  }
+
+  .controller-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent-green);
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--accent-green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-green);
+    animation: pulse 1.5s infinite;
+  }
+
+  /* Terminal row */
+  .terminal-strip {
+    background: #060a12;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .terminal-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+  }
+
+  .terminals-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .terminal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+  }
+
+  .terminal-pin {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    border: 1px solid;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .terminal-pin::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    width: 3px; height: 8px;
+    background: currentColor;
+    opacity: 0.5;
+    border-radius: 0 0 2px 2px;
+  }
+
+  .terminal-pin:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 12px currentColor;
+  }
+
+  .terminal-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* Terminal color variants */
+  .t-power  { background: rgba(255,59,48,0.1);   color: #ff3b30; border-color: rgba(255,59,48,0.5); }
+  .t-gnd    { background: rgba(120,120,120,0.1); color: #888; border-color: rgba(120,120,120,0.4); }
+  .t-relay  { background: rgba(10,132,255,0.12); color: var(--accent-blue); border-color: rgba(10,132,255,0.4); }
+  .t-io     { background: rgba(0,230,118,0.1);  color: var(--accent-green); border-color: rgba(0,230,118,0.4); }
+  .t-bell   { background: rgba(255,159,10,0.1); color: #ff9f0a; border-color: rgba(255,159,10,0.4); }
+  .t-active { box-shadow: 0 0 14px currentColor; }
+
+  /* LED indicators */
+  .leds-row {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .led {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--text-muted);
+  }
+
+  .led-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .led-dot.green  { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); animation: pulse 2s infinite; }
+  .led-dot.blue   { background: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); animation: pulse 3s infinite 0.5s; }
+  .led-dot.orange { background: #ff9f0a; box-shadow: 0 0 6px #ff9f0a; animation: pulse 1s infinite; }
+
+  /* Wiring connections visual */
+  .wiring-diagram {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .wiring-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .wiring-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+  }
+
+  .wiring-row:last-child { border-bottom: none; }
+
+  .wire-terminal {
+    min-width: 60px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .wire-line {
+    flex: 1;
+    height: 2px;
+    position: relative;
+    border-radius: 1px;
+  }
+
+  .wire-line::after {
+    content: '▶';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+
+  .wire-device {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.8rem;
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+
+  .wire-device-icon { font-size: 1.1rem; }
+
+  .wire-device-info { }
+  .wire-device-name {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    display: block;
+  }
+  .wire-device-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+  }
+
+  .wire-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    max-width: 120px;
+  }
+
+  /* Colors for wires */
+  .w-red    { background: rgba(255,59,48,0.12); color: #ff3b30; border-color: rgba(255,59,48,0.3); }
+  .w-black  { background: rgba(150,150,150,0.08); color: #999; border-color: rgba(150,150,150,0.2); }
+  .w-blue   { background: rgba(10,132,255,0.12); color: var(--accent-blue); border-color: rgba(10,132,255,0.3); }
+  .w-green  { background: rgba(0,230,118,0.1); color: var(--accent-green); border-color: rgba(0,230,118,0.25); }
+  .w-yellow { background: rgba(255,204,0,0.1); color: #ffcc00; border-color: rgba(255,204,0,0.25); }
+  .w-orange { background: rgba(255,159,10,0.1); color: #ff9f0a; border-color: rgba(255,159,10,0.25); }
+
+  .wl-red    { background: rgba(255,59,48,0.6); }
+  .wl-black  { background: rgba(150,150,150,0.4); color: #999; }
+  .wl-black::after { color: #999; }
+  .wl-blue   { background: rgba(10,132,255,0.6); }
+  .wl-green  { background: rgba(0,230,118,0.5); }
+  .wl-yellow { background: rgba(255,204,0,0.6); }
+  .wl-orange { background: rgba(255,159,10,0.5); }
+
+  /* ========== TERMINAL EXPLAINER ========== */
+  .terminal-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .terminal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .terminal-card:hover {
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+  }
+
+  .tc-pin {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+  }
+
+  .tc-title {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+  }
+
+  .tc-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ========== SOFTWARE CONFIG ========== */
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .config-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .config-card-header {
+    background: linear-gradient(135deg, rgba(10,132,255,0.12), rgba(0,212,255,0.06));
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .config-card-icon { font-size: 1.4rem; }
+
+  .config-card-title {
+    font-size: 1rem;
+    color: var(--text-primary);
+  }
+
+  .config-steps {
+    padding: 1.2rem 1.5rem;
+    list-style: none;
+  }
+
+  .config-step {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .config-step:last-child { border-bottom: none; }
+
+  .config-step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* ========== SECURITY SECTION ========== */
+  .security-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .security-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  .security-card:hover {
+    border-color: rgba(0,230,118,0.3);
+    box-shadow: 0 0 20px rgba(0,230,118,0.08);
+  }
+
+  .security-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .security-title {
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin-bottom: 0.6rem;
+  }
+
+  .security-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .security-badge {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(0,230,118,0.08);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 4px;
+    padding: 0.25rem 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent-green);
+  }
+
+  /* ========== BEST PRACTICES ========== */
+  .practices-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .practice-item {
+    display: flex;
+    gap: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .practice-item:hover {
+    border-color: var(--border-active);
+  }
+
+  .practice-check {
+    width: 32px; height: 32px;
+    background: rgba(0,230,118,0.1);
+    border: 1px solid rgba(0,230,118,0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    color: var(--accent-green);
+  }
+
+  .practice-content {}
+  .practice-title {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 0.3rem;
+  }
+  .practice-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ========== FOOTER ========== */
+  .footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-logo span { color: var(--accent-cyan); }
+
+  .footer-desc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ========== TOOLTIP on terminal pins ========== */
+  .terminal[data-tip] {
+    position: relative;
+  }
+
+  .terminal[data-tip]:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111827;
+    border: 1px solid var(--border-active);
+    border-radius: 6px;
+    padding: 0.4rem 0.7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent-cyan);
+    white-space: nowrap;
+    z-index: 50;
+    pointer-events: none;
+    box-shadow: var(--glow-cyan);
+  }
+
+  /* ========== UTILITIES ========== */
+  .text-cyan   { color: var(--accent-cyan); }
+  .text-green  { color: var(--accent-green); }
+  .text-orange { color: var(--accent-orange); }
+  .text-blue   { color: var(--accent-blue); }
+
+  .bg-alt { background: var(--bg-secondary); }
+
+  /* ========== RESPONSIVE ========== */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .controller-wrapper { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 3rem 0; }
+    .container { padding: 0 1rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1rem; }
+  }
+   /* Reset simple */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Barre de navigation */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#0f172a;
+padding:15px 40px;
+}
+
+/* Menu */
+.nav-links{
+list-style:none;
+display:flex;
+gap:30px;
+}
+
+/* Liens */
+.nav-links li a{
+text-decoration:none;
+color:white;
+font-size:16px;
+font-weight:500;
+transition:0.3s;
+position:relative;
+}
+
+/* Effet hover */
+.nav-links li a:hover{
+color:#38bdf8;
+}
+
+/* Ligne animée sous les liens */
+.nav-links li a::after{
+content:"";
+position:absolute;
+width:0%;
+height:2px;
+background:#38bdf8;
+left:0;
+bottom:-5px;
+transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+width:100%;
+}
+
+/* lien actif */
+.nav-links a.active{
+color:#38bdf8;
+}
+
+/* Responsive mobile */
+@media (max-width:768px){
+
+.nav-links{
+flex-direction:column;
+background:#0f172a;
+position:absolute;
+top:60px;
+right:0;
+width:200px;
+display:none;
+padding:20px;
+}
+
+.nav-links.show{
+display:flex;
+}
+
+}
+</style>
+</head>
+<body>
+ <nav class="navbar">
+
+<ul class="nav-links" id="navLinks">
+<li><a href="ss.html">Accueil</a></li>
+<li><a href="service.html" >Services</a></li>
+<li><a href="#">À Propos</a></li>
+<li><a href="#projets" class="active">Projets</a></li>
+
+</ul>
+
+</nav>
+<!-- ========== NAVIGATION ========== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🛡️</div>
+      SecureTech<span style="color:var(--accent-cyan)">Pro</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#cablage">Câblage</a></li>
+      <li><a href="#videosurveillance">Vidéosurveillance</a></li>
+      <li><a href="#acces">Contrôle d'accès</a></li>
+      <li><a href="#hikvision">Hikvision</a></li>
+      <li><a href="#securite">Sécurité</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- ========== HERO SECTION ========== -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Text -->
+      <div>
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Expertise Technique • Installation Professionnelle
+        </div>
+        <h1 class="hero-title">
+          Installation et Configuration des<br>
+          <span class="highlight">Systèmes de Vidéosurveillance</span><br>
+          et Contrôle d'Accès
+        </h1>
+        <p class="hero-desc">
+          Solutions complètes d'intégration de systèmes de sécurité électronique : de l'étude de site à la mise en service, en passant par le câblage, la configuration réseau et la supervision logicielle.
+        </p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">500+</span>
+            <span class="hero-stat-label">Sites sécurisés</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">99.9%</span>
+            <span class="hero-stat-label">Disponibilité</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">24/7</span>
+            <span class="hero-stat-label">Support technique</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">ISO</span>
+            <span class="hero-stat-label">Certifié 27001</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual diagram -->
+      <div class="hero-visual">
+        <div class="hero-diagram">
+          <!-- SVG connection lines -->
+          <svg class="diagram-svg" viewBox="0 0 420 420">
+            <defs>
+              <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="rgba(0,212,255,0.4)"/>
+              </marker>
+            </defs>
+            <!-- Lines from center to nodes -->
+            <line x1="210" y1="210" x2="210" y2="75" stroke="rgba(0,212,255,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="210" y1="210" x2="345" y2="210" stroke="rgba(0,212,255,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="210" y1="210" x2="210" y2="345" stroke="rgba(0,212,255,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="210" y1="210" x2="75" y2="210" stroke="rgba(0,212,255,0.2)" stroke-width="1" stroke-dasharray="4,4"/>
+            <line x1="210" y1="210" x2="315" y2="105" stroke="rgba(0,230,118,0.2)" stroke-width="1" stroke-dasharray="3,5"/>
+            <line x1="210" y1="210" x2="315" y2="315" stroke="rgba(0,230,118,0.2)" stroke-width="1" stroke-dasharray="3,5"/>
+            <line x1="210" y1="210" x2="105" y2="315" stroke="rgba(255,107,53,0.2)" stroke-width="1" stroke-dasharray="3,5"/>
+            <line x1="210" y1="210" x2="105" y2="105" stroke="rgba(255,107,53,0.2)" stroke-width="1" stroke-dasharray="3,5"/>
+          </svg>
+
+          <!-- Orbit ring -->
+          <div class="diagram-ring"></div>
+
+          <!-- Center NVR -->
+          <div class="diagram-center">
+            <div class="diagram-center-icon">🖥️</div>
+            <div class="diagram-center-label">NVR / CORE</div>
+          </div>
+
+          <!-- Device nodes -->
+          <div class="diagram-node node-cam1" title="Caméra IP Dôme">
+            <div class="diagram-node-icon">📷</div>
+            <div class="diagram-node-label">CAM IP</div>
+          </div>
+          <div class="diagram-node node-cam2" title="Caméra Bullet">
+            <div class="diagram-node-icon">🎥</div>
+            <div class="diagram-node-label">BULLET</div>
+          </div>
+          <div class="diagram-node node-cam3" title="Caméra PTZ">
+            <div class="diagram-node-icon">📸</div>
+            <div class="diagram-node-label">PTZ CAM</div>
+          </div>
+          <div class="diagram-node node-switch" title="Switch PoE">
+            <div class="diagram-node-icon">🔀</div>
+            <div class="diagram-node-label">PoE SW</div>
+          </div>
+          <div class="diagram-node node-access" title="Contrôleur d'accès">
+            <div class="diagram-node-icon">🎛️</div>
+            <div class="diagram-node-label">ACCESS</div>
+          </div>
+          <div class="diagram-node node-bio" title="Lecteur biométrique">
+            <div class="diagram-node-icon">👆</div>
+            <div class="diagram-node-label">BIO</div>
+          </div>
+          <div class="diagram-node node-door" title="Serrure électrique">
+            <div class="diagram-node-icon">🔒</div>
+            <div class="diagram-node-label">LOCK</div>
+          </div>
+          <div class="diagram-node node-server" title="Serveur logiciel">
+            <div class="diagram-node-icon">🗄️</div>
+            <div class="diagram-node-label">SERVER</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== ARCHITECTURE SECTION ========== -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-label">01 — Architecture</div>
+    <h2 class="section-title">Architecture Globale du <span>Système</span></h2>
+    <p class="section-desc">Vue d'ensemble de l'architecture réseau intégrant vidéosurveillance IP, contrôle d'accès et supervision centralisée.</p>
+
+    <div class="arch-diagram">
+      <!-- Layer 1: Cameras -->
+      <div class="arch-row">
+        <div class="arch-device">
+          <div class="arch-device-box highlight-blue">
+            <div class="icon">📷</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">Dôme</div>
+          </div>
+          <div class="arch-device-name">Caméra IP<br>Dôme 4K</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-blue">
+            <div class="icon">🎥</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">Bullet</div>
+          </div>
+          <div class="arch-device-name">Caméra IP<br>Bullet HD</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-blue">
+            <div class="icon">📸</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">PTZ</div>
+          </div>
+          <div class="arch-device-name">Caméra<br>PTZ 360°</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-orange">
+            <div class="icon">👆</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">Bio</div>
+          </div>
+          <div class="arch-device-name">Lecteur<br>Biométrique</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-orange">
+            <div class="icon">💳</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">RFID</div>
+          </div>
+          <div class="arch-device-name">Lecteur<br>Badge RFID</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-orange">
+            <div class="icon">🔒</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">Lock</div>
+          </div>
+          <div class="arch-device-name">Serrure<br>Électromagn.</div>
+        </div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-orange">
+            <div class="icon">🔘</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">BTN</div>
+          </div>
+          <div class="arch-device-name">Bouton<br>de Sortie</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:0.2rem 0">
+        <span style="font-size:1.5rem;color:var(--text-muted)">↓</span>
+      </div>
+
+      <!-- Layer 2: Switch PoE + Controller -->
+      <div class="arch-divider-line" data-label="RÉSEAU LOCAL — SWITCH PoE + CONTRÔLEUR D'ACCÈS"></div>
+      <div class="arch-row" style="margin-top:1.2rem">
+        <div class="arch-device">
+          <div class="arch-device-box highlight-green" style="width:100px">
+            <div class="icon">🔀</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">24 ports</div>
+          </div>
+          <div class="arch-device-name">Switch PoE<br>24 ports</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-label">RJ45 Cat6<br>IEEE 802.3af/at</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-device">
+          <div class="arch-device-box highlight-orange" style="width:100px">
+            <div class="icon">🎛️</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">DS-K2600</div>
+          </div>
+          <div class="arch-device-name">Contrôleur<br>Hikvision</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:0.5rem 0">
+        <span style="font-size:1.5rem;color:var(--text-muted)">↓</span>
+      </div>
+
+      <!-- Layer 3: NVR + Server -->
+      <div class="arch-divider-line" data-label="COUCHE ENREGISTREMENT & SUPERVISION"></div>
+      <div class="arch-row" style="margin-top:1.2rem">
+        <div class="arch-device">
+          <div class="arch-device-box" style="width:100px">
+            <div class="icon">🖥️</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">16ch / 4K</div>
+          </div>
+          <div class="arch-device-name">NVR<br>Enregistreur</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-label">IP Network<br>VLAN Sécurisé</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-device">
+          <div class="arch-device-box" style="width:100px">
+            <div class="icon">🗄️</div>
+            <div style="font-size:0.55rem;color:var(--text-muted);font-family:monospace">iVMS-4200</div>
+          </div>
+          <div class="arch-device-name">Serveur<br>Logiciel VMS</div>
+        </div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-label">HTTPS / VPN<br>Accès distant</div>
+        <div class="arch-arrow">⟷</div>
+        <div class="arch-device">
+          <div class="arch-device-box" style="width:80px">
+            <div class="icon">📱</div>
+          </div>
+          <div class="arch-device-name">Supervision<br>Mobile / PC</div>
+        </div>
+      </div>
+
+      <div class="arch-poe-note">
+        ⚡ <strong>Power over Ethernet (PoE) :</strong> Le switch PoE alimente directement les caméras IP et lecteurs via le câble RJ45 Cat6 — éliminant le besoin de câbles d'alimentation séparés pour les équipements compatibles IEEE 802.3af/at.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== CABLAGE SECTION ========== -->
+<section id="cablage" class="bg-alt">
+  <div class="container">
+    <div class="section-label">02 — Câblage</div>
+    <h2 class="section-title">Câblage des <span>Équipements</span></h2>
+    <p class="section-desc">Choix des câbles, normes à respecter et distances maximales recommandées pour chaque type de connexion dans un système de sécurité électronique.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Type de Câble</th>
+            <th>Application / Utilisation</th>
+            <th>Distance Recommandée</th>
+            <th>Norme / Remarques</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cable-badge cat6">RJ45 Cat6</span> Paire torsadée blindée</td>
+            <td>Connexion caméras IP, NVR, switch PoE, contrôleur d'accès</td>
+            <td><div class="dist-bar" style="width:90px"></div> 100 m max</td>
+            <td>IEEE 802.3 — PoE compatible — 1 Gbps</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge cat6">Cat6A FTP</span> Câble blindé</td>
+            <td>Longue distance, environnements électromagnétiques perturbés</td>
+            <td><div class="dist-bar" style="width:90px"></div> 100 m max</td>
+            <td>10 Gbps — Meilleure protection EMI</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge power">2×1.5 mm²</span> Câble alimentation</td>
+            <td>Alimentation serrures électromagnétiques (12V/24V DC)</td>
+            <td><div class="dist-bar" style="width:50px"></div> 50 m max</td>
+            <td>Chute de tension à vérifier — max 5%</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge power">2×2.5 mm²</span> Câble secteur</td>
+            <td>Alimentation coffrets d'alimentation, NVR, serveurs</td>
+            <td><div class="dist-bar" style="width:30px"></div> 30 m max</td>
+            <td>220V AC — disjoncteur différentiel requis</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge elec">2×0.75 mm²</span> Câble tressé</td>
+            <td>Serrure électrique, bouton poussoir de sortie</td>
+            <td><div class="dist-bar" style="width:40px"></div> 30–50 m</td>
+            <td>Basse tension — protéger des chocs</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge rfid">4 fils blindés</span> Câble Wiegand</td>
+            <td>Connexion lecteur RFID/biométrique → contrôleur</td>
+            <td><div class="dist-bar" style="width:80px"></div> 150 m max</td>
+            <td>Protocole Wiegand 26/34 bits</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge rfid">RS-485</span> Câble données</td>
+            <td>Réseau de lecteurs multi-drop, bus de communication</td>
+            <td><div class="dist-bar" style="width:90px"></div> 1200 m max</td>
+            <td>Résistance de terminaison 120Ω requise</td>
+          </tr>
+          <tr>
+            <td><span class="cable-badge">Fibre optique</span> Monomode</td>
+            <td>Liens longue distance entre bâtiments, backbones réseau</td>
+            <td><div class="dist-bar" style="width:90px" style="background:linear-gradient(90deg,#0a84ff,#00d4ff)"></div> 40 km max</td>
+            <td>Immunité EMI totale — outdoor possible</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <div style="background:rgba(10,132,255,0.08);border:1px solid rgba(10,132,255,0.2);border-radius:8px;padding:0.8rem 1.2rem;font-size:0.82rem;color:var(--text-secondary);flex:1;min-width:250px">
+        <strong style="color:var(--accent-blue)">⚠️ Règle des 100m PoE :</strong> Au-delà de 100m en Cat6, installer un switch PoE intermédiaire ou utiliser un répéteur PoE. La chute de tension sur le câble dégrade les performances.
+      </div>
+      <div style="background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:0.8rem 1.2rem;font-size:0.82rem;color:var(--text-secondary);flex:1;min-width:250px">
+        <strong style="color:var(--accent-green)">✅ Chemins de câbles :</strong> Séparer les câbles courants forts (220V) et courants faibles (RJ45, Wiegand) d'au moins 30 cm pour éviter les interférences électromagnétiques.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== VIDEOSURVEILLANCE SECTION ========== -->
+<section id="videosurveillance">
+  <div class="container">
+    <div class="section-label">03 — Installation</div>
+    <h2 class="section-title">Mise en Place de la <span>Vidéosurveillance</span></h2>
+    <p class="section-desc">Les 5 étapes clés d'un déploiement professionnel d'un système de vidéosurveillance IP, de l'analyse initiale jusqu'à la validation finale.</p>
+
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <div class="step-icon">🔍</div>
+        <h3 class="step-title">Étude de Site</h3>
+        <p class="step-desc">Analyse complète des locaux : identification des zones à surveiller, évaluation des risques, recensement des contraintes architecturales, étude lumineuse et climatique. Rendu d'un rapport de préconisation.</p>
+        <div class="step-tags">
+          <span class="step-tag">Audit sécurité</span>
+          <span class="step-tag">Zones sensibles</span>
+          <span class="step-tag">Rapport technique</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <div class="step-icon">📐</div>
+        <h3 class="step-title">Plan de Positionnement</h3>
+        <p class="step-desc">Création du plan d'implantation des caméras sur plan 2D ou 3D. Calcul des angles de vue, des zones de couverture, des zones d'ombre. Sélection des modèles de caméras adaptés à chaque situation (dôme, bullet, PTZ, fisheye).</p>
+        <div class="step-tags">
+          <span class="step-tag">Plan 2D/3D</span>
+          <span class="step-tag">Angles de vue</span>
+          <span class="step-tag">BIM compatible</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <div class="step-icon">🖥️</div>
+        <h3 class="step-title">Installation du NVR</h3>
+        <p class="step-desc">Montage du NVR en baie 19" ou coffret mural. Installation des disques durs RAID pour la redondance. Connexion au switch PoE. Configuration des paramètres de base : date/heure, résolution, fréquence d'images, durée de rétention.</p>
+        <div class="step-tags">
+          <span class="step-tag">Rack 19"</span>
+          <span class="step-tag">RAID HDD</span>
+          <span class="step-tag">Rétention 30j</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <div class="step-icon">🌐</div>
+        <h3 class="step-title">Configuration Réseau</h3>
+        <p class="step-desc">Adressage IP statique des caméras. Création d'un VLAN dédié à la vidéosurveillance. Configuration du QoS pour prioriser le flux vidéo. Mise en place de règles firewall. Configuration de l'accès distant VPN sécurisé.</p>
+        <div class="step-tags">
+          <span class="step-tag">IP statique</span>
+          <span class="step-tag">VLAN 10</span>
+          <span class="step-tag">QoS / VPN</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">05</div>
+        <div class="step-icon">✅</div>
+        <h3 class="step-title">Tests & Validation</h3>
+        <p class="step-desc">Tests de couverture visuelle avec client. Vérification des enregistrements et de la qualité d'image (jour/nuit). Test des alertes de détection de mouvement. Validation des accès distants. Remise des documents de recette signés.</p>
+        <div class="step-tags">
+          <span class="step-tag">PV de recette</span>
+          <span class="step-tag">Nuit / Jour</span>
+          <span class="step-tag">Détection mvt</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== ACCESS CONTROL SECTION ========== -->
+<section id="acces" class="bg-alt">
+  <div class="container">
+    <div class="section-label">04 — Contrôle d'Accès</div>
+    <h2 class="section-title">Intégration du <span>Contrôle d'Accès</span></h2>
+    <p class="section-desc">L'intégration du contrôle d'accès avec la vidéosurveillance crée un système de sécurité unifié, permettant la corrélation événements/vidéo en temps réel.</p>
+
+    <div class="access-grid">
+      <div class="access-card">
+        <span class="access-card-icon">🎛️</span>
+        <h3 class="access-card-title">Contrôleur d'Accès</h3>
+        <p class="access-card-desc">Cerveau du système. Gère les autorisations, journalise les entrées/sorties, commande les serrures. Supporte plusieurs portes simultanément (2, 4, 8 portes selon modèle). Communication Ethernet TCP/IP avec le serveur central.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-card-icon">👆</span>
+        <h3 class="access-card-title">Lecteurs Biométriques</h3>
+        <p class="access-card-desc">Identification par empreinte digitale, reconnaissance faciale ou rétinienne. Taux de reconnaissance &gt;99.9%. Protocole Wiegand 26/34 bits. Résistant au vandalisme (IK08) et aux intempéries (IP65).</p>
+      </div>
+      <div class="access-card">
+        <span class="access-card-icon">💳</span>
+        <h3 class="access-card-title">Badges RFID</h3>
+        <p class="access-card-desc">Cartes Mifare 13.56 MHz, bracelets, porte-clés. Chiffrement AES-128 des données. Programmation et révocation instantanées via logiciel. Combinaison badge + code PIN pour les zones hautement sécurisées.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-card-icon">🔒</span>
+        <h3 class="access-card-title">Serrures Électromagnétiques</h3>
+        <p class="access-card-desc">Force de retenue 280 à 600 kg selon modèle. Fonctionnement fail-secure (reste verrouillée en cas de coupure) ou fail-safe (s'ouvre en cas de coupure pour l'évacuation). Installation sur dormant ou en applique.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-card-icon">🔗</span>
+        <h3 class="access-card-title">Interconnexion Vidéo</h3>
+        <p class="access-card-desc">Lors de chaque événement d'accès (badgeage, alarme), le système déclenche automatiquement l'enregistrement de la caméra associée et affiche une popup vidéo en temps réel à l'opérateur. Corrélation événement/image.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-card-icon">⚡</span>
+        <h3 class="access-card-title">Alimentation Secourue</h3>
+        <p class="access-card-desc">Coffret d'alimentation 12V/24V DC avec batterie de secours (autonomie 4–12h). Supervision de la batterie et alerte en cas de défaut. Protection contre les surtensions et courts-circuits. Indispensable pour la sécurité incendie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== HIKVISION CONTROLLER SIMULATION ========== -->
+<section id="hikvision" style="background:var(--bg-primary)">
+  <div class="container">
+    <div class="section-label">05 — Simulation Technique</div>
+    <h2 class="section-title">Contrôleur <span>Hikvision</span> — Bornes & Connexions</h2>
+    <p class="section-desc">Simulation interactive du panneau de connexion du contrôleur Hikvision DS-K2600. Survolez les bornes pour afficher leur rôle. Chaque borne est détaillée dans le guide ci-dessous.</p>
+
+    <div class="controller-wrapper">
+
+      <!-- Controller Panel -->
+      <div>
+        <div class="controller-panel">
+          <div class="controller-header">
+            <div>
+              <div class="controller-brand">HIKVISION</div>
+              <div class="controller-model">DS-K2600 Series — Access Controller</div>
+            </div>
+            <div class="controller-status">
+              <div class="status-dot"></div>
+              ONLINE
+            </div>
+          </div>
+
+          <!-- Power terminals -->
+          <div class="terminal-strip">
+            <div class="terminal-label">⚡ Alimentation</div>
+            <div class="terminals-row">
+              <div class="terminal" data-tip="12V DC — Entrée alimentation">
+                <div class="terminal-pin t-power">12V</div>
+                <div class="terminal-name">12V+</div>
+              </div>
+              <div class="terminal" data-tip="Masse commune — Référence 0V">
+                <div class="terminal-pin t-gnd">GND</div>
+                <div class="terminal-name">GND</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Relay terminals -->
+          <div class="terminal-strip">
+            <div class="terminal-label">🔌 Sortie Relais (Porte)</div>
+            <div class="terminals-row">
+              <div class="terminal" data-tip="COM — Commun du relais">
+                <div class="terminal-pin t-relay">COM</div>
+                <div class="terminal-name">COM</div>
+              </div>
+              <div class="terminal" data-tip="NO — Normally Open (repos ouvert)">
+                <div class="terminal-pin t-relay t-active">NO</div>
+                <div class="terminal-name">NO</div>
+              </div>
+              <div class="terminal" data-tip="NC — Normally Closed (repos fermé)">
+                <div class="terminal-pin t-relay">NC</div>
+                <div class="terminal-name">NC</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- IO Terminals -->
+          <div class="terminal-strip">
+            <div class="terminal-label">🎯 Entrées / Sorties</div>
+            <div class="terminals-row">
+              <div class="terminal" data-tip="BUTTON — Bouton de sortie d'urgence">
+                <div class="terminal-pin t-io">BTN</div>
+                <div class="terminal-name">BUTTON</div>
+              </div>
+              <div class="terminal" data-tip="SENSOR — Capteur d'état de porte (ouvert/fermé)">
+                <div class="terminal-pin t-io">SENS</div>
+                <div class="terminal-name">SENSOR</div>
+              </div>
+              <div class="terminal" data-tip="BELL — Sortie sonnette / alarme">
+                <div class="terminal-pin t-bell">BELL</div>
+                <div class="terminal-name">BELL</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reader terminals -->
+          <div class="terminal-strip">
+            <div class="terminal-label">💳 Lecteur de Carte / Biométrique</div>
+            <div class="terminals-row">
+              <div class="terminal" data-tip="D0 — Donnée Wiegand bit 0">
+                <div class="terminal-pin t-io">D0</div>
+                <div class="terminal-name">DATA0</div>
+              </div>
+              <div class="terminal" data-tip="D1 — Donnée Wiegand bit 1">
+                <div class="terminal-pin t-io">D1</div>
+                <div class="terminal-name">DATA1</div>
+              </div>
+              <div class="terminal" data-tip="LED — Contrôle LED lecteur">
+                <div class="terminal-pin t-relay">LED</div>
+                <div class="terminal-name">LED</div>
+              </div>
+              <div class="terminal" data-tip="BZR — Buzzer lecteur">
+                <div class="terminal-pin t-bell">BZR</div>
+                <div class="terminal-name">BUZZER</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LED status indicators -->
+          <div class="leds-row">
+            <div class="led"><div class="led-dot green"></div> PWR</div>
+            <div class="led"><div class="led-dot blue"></div> NET</div>
+            <div class="led"><div class="led-dot orange"></div> ALM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wiring diagram -->
+      <div>
+        <div class="wiring-diagram">
+          <div class="wiring-title">
+            📊 Schéma de Câblage Complet
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-red">12V</div>
+            <div class="wire-line wl-red" style="color:#ff3b30"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">⚡</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Alimentation 12V DC</span>
+                <span class="wire-device-sub">Coffret 12V / 5A min</span>
+              </div>
+            </div>
+            <div class="wire-note">Fil rouge — positif</div>
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-black">GND</div>
+            <div class="wire-line wl-black"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">⏚</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Masse commune</span>
+                <span class="wire-device-sub">Référence 0V du système</span>
+              </div>
+            </div>
+            <div class="wire-note">Fil noir — négatif</div>
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-blue">COM → NO</div>
+            <div class="wire-line wl-blue" style="color:var(--accent-blue)"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">🔒</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Serrure Électromagnétique</span>
+                <span class="wire-device-sub">280–600 kg / 12V DC</span>
+              </div>
+            </div>
+            <div class="wire-note">NO = ouverture sur accès autorisé</div>
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-green">BUTTON</div>
+            <div class="wire-line wl-green" style="color:var(--accent-green)"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">🔘</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Bouton de Sortie</span>
+                <span class="wire-device-sub">Contact NO — côté intérieur</span>
+              </div>
+            </div>
+            <div class="wire-note">Appui = ouverture immédiate</div>
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-yellow">SENSOR</div>
+            <div class="wire-line wl-yellow" style="color:#ffcc00"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">🚪</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Capteur Magnétique</span>
+                <span class="wire-device-sub">État porte ouvert/fermé</span>
+              </div>
+            </div>
+            <div class="wire-note">Alarme si porte forcée</div>
+          </div>
+
+          <div class="wiring-row">
+            <div class="wire-terminal w-orange">BELL</div>
+            <div class="wire-line wl-orange" style="color:#ff9f0a"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">🔔</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Sonnette / Sirène</span>
+                <span class="wire-device-sub">Signal sonore d'alarme</span>
+              </div>
+            </div>
+            <div class="wire-note">Déclenchement sur intrusion</div>
+          </div>
+
+          <div class="wiring-row" style="border-bottom:none">
+            <div class="wire-terminal w-blue">D0 + D1</div>
+            <div class="wire-line wl-blue" style="color:var(--accent-blue)"></div>
+            <div class="wire-device">
+              <div class="wire-device-icon">💳</div>
+              <div class="wire-device-info">
+                <span class="wire-device-name">Lecteur RFID/Bio</span>
+                <span class="wire-device-sub">Protocole Wiegand 26/34 bits</span>
+              </div>
+            </div>
+            <div class="wire-note">Max 150m — blindé requis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal explainer cards -->
+    <div class="terminal-cards">
+      <div class="terminal-card">
+        <div class="tc-pin t-power" style="background:rgba(255,59,48,0.1);color:#ff3b30;border:1px solid rgba(255,59,48,0.4);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">12V</div>
+        <h4 class="tc-title">Alimentation</h4>
+        <p class="tc-desc">Entrée 12V DC depuis le coffret d'alimentation. Utiliser un câble 2×1.5 mm² min. Toujours connecter un fusible de protection 2A sur ce circuit.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(120,120,120,0.1);color:#888;border:1px solid rgba(120,120,120,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">GND</div>
+        <h4 class="tc-title">Masse commune</h4>
+        <p class="tc-desc">Référence 0V du système. Tous les GND des équipements doivent être reliés pour éviter les différences de potentiel causant des dysfonctionnements.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(10,132,255,0.12);color:var(--accent-blue);border:1px solid rgba(10,132,255,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">COM</div>
+        <h4 class="tc-title">Commun Relais</h4>
+        <p class="tc-desc">Borne commune du relais interne. Toujours câbler depuis COM vers NO ou NC. Le courant transite par COM en permanence.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(10,132,255,0.12);color:var(--accent-blue);border:1px solid rgba(10,132,255,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">NO</div>
+        <h4 class="tc-title">Normally Open</h4>
+        <p class="tc-desc">Contact ouvert au repos, fermé lors de l'activation. Connexion préconisée pour serrures fail-secure. Le circuit se ferme = serrure s'ouvre.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(10,132,255,0.12);color:var(--accent-blue);border:1px solid rgba(10,132,255,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">NC</div>
+        <h4 class="tc-title">Normally Closed</h4>
+        <p class="tc-desc">Contact fermé au repos, ouvert lors de l'activation. Utilisé pour les zones à haute sécurité où la porte doit rester fermée en cas de panne d'alimentation.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(0,230,118,0.1);color:var(--accent-green);border:1px solid rgba(0,230,118,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">BUTTON</div>
+        <h4 class="tc-title">Bouton de Sortie</h4>
+        <p class="tc-desc">Entrée pour bouton poussoir de sortie intérieur. L'appui sur ce bouton déclenche l'ouverture de la serrure sans nécessiter d'authentification.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(0,230,118,0.1);color:var(--accent-green);border:1px solid rgba(0,230,118,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">SENSOR</div>
+        <h4 class="tc-title">Capteur de Porte</h4>
+        <p class="tc-desc">Entrée pour contact magnétique indiquant l'état ouvert/fermé de la porte. Génère une alarme si la porte reste ouverte trop longtemps ou est forcée.</p>
+      </div>
+      <div class="terminal-card">
+        <div class="tc-pin" style="background:rgba(255,159,10,0.1);color:#ff9f0a;border:1px solid rgba(255,159,10,0.3);border-radius:5px;padding:0.25rem 0.7rem;display:inline-block;font-family:monospace;font-size:0.75rem;font-weight:700;margin-bottom:0.7rem">BELL</div>
+        <h4 class="tc-title">Sonnette / Alarme</h4>
+        <p class="tc-desc">Sortie de commande pour sonnerie de porte ou sirène d'alarme. Activée en cas de tentative d'intrusion, porte forcée ou accès non autorisé répété.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== SOFTWARE CONFIG ========== -->
+<section id="configuration" class="bg-alt">
+  <div class="container">
+    <div class="section-label">06 — Configuration Logicielle</div>
+    <h2 class="section-title">Configuration <span>Logicielle</span></h2>
+    <p class="section-desc">Paramétrage complet du système via le logiciel de gestion centralisé iVMS-4200 et les interfaces web des équipements.</p>
+
+    <div class="config-grid">
+      <div class="config-card">
+        <div class="config-card-header">
+          <span class="config-card-icon">📷</span>
+          <h3 class="config-card-title">Configuration Caméras IP</h3>
+        </div>
+        <ul class="config-steps">
+          <li class="config-step"><span class="config-step-num">01</span> Accéder à l'interface web via IP statique (défaut: 192.168.1.64)</li>
+          <li class="config-step"><span class="config-step-num">02</span> Changer le mot de passe admin par défaut (minimum 8 caractères, mixte)</li>
+          <li class="config-step"><span class="config-step-num">03</span> Configurer la résolution (2MP/4MP/8MP) et le codec H.265+</li>
+          <li class="config-step"><span class="config-step-num">04</span> Activer la détection de mouvement et définir les zones d'alerte</li>
+          <li class="config-step"><span class="config-step-num">05</span> Configurer ONVIF pour la compatibilité multi-NVR</li>
+          <li class="config-step"><span class="config-step-num">06</span> Tester le flux RTSP et valider la qualité d'image</li>
+        </ul>
+      </div>
+
+      <div class="config-card">
+        <div class="config-card-header">
+          <span class="config-card-icon">🖥️</span>
+          <h3 class="config-card-title">Configuration NVR</h3>
+        </div>
+        <ul class="config-steps">
+          <li class="config-step"><span class="config-step-num">01</span> Initialiser le système et formater les disques en RAID 5</li>
+          <li class="config-step"><span class="config-step-num">02</span> Ajouter les caméras (auto-découverte réseau ou IP manuelle)</li>
+          <li class="config-step"><span class="config-step-num">03</span> Configurer le planning d'enregistrement (continu/détection/alarme)</li>
+          <li class="config-step"><span class="config-step-num">04</span> Définir la durée de rétention (30/60/90 jours selon espace disque)</li>
+          <li class="config-step"><span class="config-step-num">05</span> Activer les notifications email et push sur alarme</li>
+          <li class="config-step"><span class="config-step-num">06</span> Configurer l'accès distant Hik-Connect / DDNS</li>
+        </ul>
+      </div>
+
+      <div class="config-card">
+        <div class="config-card-header">
+          <span class="config-card-icon">🎛️</span>
+          <h3 class="config-card-title">Contrôleur d'Accès</h3>
+        </div>
+        <ul class="config-steps">
+          <li class="config-step"><span class="config-step-num">01</span> Déclarer le contrôleur dans iVMS-4200 (IP + numéro de série)</li>
+          <li class="config-step"><span class="config-step-num">02</span> Créer les départements et groupes d'utilisateurs</li>
+          <li class="config-step"><span class="config-step-num">03</span> Enregistrer les badges RFID et empreintes biométriques</li>
+          <li class="config-step"><span class="config-step-num">04</span> Définir les plages horaires d'accès par groupe</li>
+          <li class="config-step"><span class="config-step-num">05</span> Configurer les règles anti-passback (une seule entrée/sortie)</li>
+          <li class="config-step"><span class="config-step-num">06</span> Associer chaque porte à la caméra correspondante</li>
+        </ul>
+      </div>
+
+      <div class="config-card">
+        <div class="config-card-header">
+          <span class="config-card-icon">👥</span>
+          <h3 class="config-card-title">Gestion Utilisateurs</h3>
+        </div>
+        <ul class="config-steps">
+          <li class="config-step"><span class="config-step-num">01</span> Créer les profils utilisateurs (Admin / Opérateur / Visiteur)</li>
+          <li class="config-step"><span class="config-step-num">02</span> Attribuer les droits de visionnage par caméra et par zone</li>
+          <li class="config-step"><span class="config-step-num">03</span> Configurer la double authentification pour les admins</li>
+          <li class="config-step"><span class="config-step-num">04</span> Activer le journal d'audit des actions opérateurs</li>
+          <li class="config-step"><span class="config-step-num">05</span> Programmer l'expiration automatique des badges temporaires</li>
+          <li class="config-step"><span class="config-step-num">06</span> Tester les accès de chaque profil utilisateur</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== SECURITY SECTION ========== -->
+<section id="securite">
+  <div class="container">
+    <div class="section-label">07 — Cybersécurité</div>
+    <h2 class="section-title">Sécurité du <span>Système</span></h2>
+    <p class="section-desc">Un système de vidéosurveillance connecté est une cible potentielle. Ces mesures garantissent l'intégrité, la confidentialité et la disponibilité du dispositif.</p>
+
+    <div class="security-grid">
+      <div class="security-card">
+        <span class="security-icon">🌐</span>
+        <h3 class="security-title">VLAN Dédié Vidéosurveillance</h3>
+        <p class="security-desc">Isoler les caméras et le NVR dans un VLAN séparé (ex: VLAN 10) pour éviter que le trafic vidéo ne circule sur le réseau bureautique. Configurer les ACL pour bloquer l'accès direct depuis les postes utilisateurs.</p>
+        <div class="security-badge">✓ VLAN 10 — Isolé</div>
+      </div>
+
+      <div class="security-card">
+        <span class="security-icon">🔒</span>
+        <h3 class="security-title">Mots de Passe Robustes</h3>
+        <p class="security-desc">Ne jamais laisser les mots de passe par défaut des caméras, NVR et contrôleurs. Utiliser des mots de passe de minimum 12 caractères avec majuscules, chiffres et caractères spéciaux. Changer tous les 6 mois.</p>
+        <div class="security-badge">✓ Policy 12 chars min</div>
+      </div>
+
+      <div class="security-card">
+        <span class="security-icon">💾</span>
+        <h3 class="security-title">Sauvegarde des Enregistrements</h3>
+        <p class="security-desc">Configurer une sauvegarde automatique des enregistrements critiques vers un NAS distant ou stockage cloud chiffré. RAID 5 sur le NVR local + copie hors site pour la conformité légale (30 jours minimum selon réglementation).</p>
+        <div class="security-badge">✓ RAID 5 + Backup offsite</div>
+      </div>
+
+      <div class="security-card">
+        <span class="security-icon">🔐</span>
+        <h3 class="security-title">Accès Distant Sécurisé</h3>
+        <p class="security-desc">Utiliser un VPN IPSec/OpenVPN pour l'accès distant plutôt que d'exposer les ports directement sur Internet. Désactiver UPnP sur le routeur. Activer le chiffrement HTTPS/TLS sur toutes les interfaces web des équipements.</p>
+        <div class="security-badge">✓ VPN + HTTPS obligatoire</div>
+      </div>
+
+      <div class="security-card">
+        <span class="security-icon">🛡️</span>
+        <h3 class="security-title">Segmentation Réseau</h3>
+        <p class="security-desc">Séparer physiquement ou logiquement les réseaux : vidéosurveillance, contrôle d'accès, bureautique et IoT. Installer un pare-feu entre chaque segment. Règle de moindre privilège sur chaque interface réseau.</p>
+        <div class="security-badge">✓ Zero-Trust Architecture</div>
+      </div>
+
+      <div class="security-card">
+        <span class="security-icon">📋</span>
+        <h3 class="security-title">Audit & Conformité</h3>
+        <p class="security-desc">Activer les logs d'accès sur tous les équipements. Exporter vers un SIEM pour corrélation. Vérifier la conformité RGPD (panneau d'affichage obligatoire, durée de conservation, accès aux données). Audit sécurité annuel.</p>
+        <div class="security-badge">✓ RGPD Conforme</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== BEST PRACTICES SECTION ========== -->
+<section id="bonnes-pratiques" class="bg-alt">
+  <div class="container">
+    <div class="section-label">08 — Bonnes Pratiques</div>
+    <h2 class="section-title">Bonnes Pratiques <span>Professionnelles</span></h2>
+    <p class="section-desc">Les recommandations issues de l'expérience terrain pour garantir la fiabilité et la longévité d'un système de sécurité électronique.</p>
+
+    <div class="practices-list">
+      <div class="practice-item">
+        <div class="practice-check">👁️</div>
+        <div class="practice-content">
+          <div class="practice-title">Positionnement Optimal des Caméras</div>
+          <p class="practice-desc">Installer à 2,5–3m de hauteur avec un angle de 15–30°. Éviter les contre-jours et sources lumineuses directes. Utiliser des dômes à l'intérieur, des bullets à l'extérieur. Couvrir les points d'entrée à 100%.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">🛡️</div>
+        <div class="practice-content">
+          <div class="practice-title">Protection des Câbles</div>
+          <p class="practice-desc">Gainer les câbles en chemin de câble métallique ou IRO sous dalle. En extérieur, utiliser des câbles armés sous fourreau enterré à 60cm minimum. Étiqueter chaque câble avec numéro de repère.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">⚡</div>
+        <div class="practice-content">
+          <div class="practice-title">Alimentation Stable et Protégée</div>
+          <p class="practice-desc">Installer un onduleur (UPS) pour le NVR et le serveur. Utiliser un coffret d'alimentation supervisé pour les serrures. Séparer les circuits d'alimentation des équipements de sécurité du réseau électrique général.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">🔧</div>
+        <div class="practice-content">
+          <div class="practice-title">Maintenance Régulière</div>
+          <p class="practice-desc">Nettoyage trimestriel des dômes et objectifs. Vérification mensuelle des enregistrements et espace disque. Test semestriel du basculement sur batterie. Mise à jour firmware annuelle des équipements.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">📋</div>
+        <div class="practice-content">
+          <div class="practice-title">Documentation Complète</div>
+          <p class="practice-desc">Maintenir à jour le plan d'implantation, le tableau d'adressage IP, le registre des badges et les schémas de câblage. Remettre au client un dossier technique complet à la livraison.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">🌡️</div>
+        <div class="practice-content">
+          <div class="practice-title">Environnement des Équipements</div>
+          <p class="practice-desc">Installer les baies réseau et NVR dans des locaux ventilés (max 35°C). Ne pas exposer les équipements à l'humidité. Utiliser des caméras certifiées IP66/IP67 en extérieur. Indice IK10 pour les zones vandalisables.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">🔐</div>
+        <div class="practice-content">
+          <div class="practice-title">Sécurité Physique des Équipements</div>
+          <p class="practice-desc">Installer le NVR et le contrôleur dans une armoire verrouillée inaccessible au public. Protéger les câbles d'alimentation des équipements de sécurité contre la coupure intentionnelle.</p>
+        </div>
+      </div>
+      <div class="practice-item">
+        <div class="practice-check">📱</div>
+        <div class="practice-content">
+          <div class="practice-title">Formation des Utilisateurs</div>
+          <p class="practice-desc">Former les opérateurs à la consultation des images, à la gestion des alarmes et aux procédures d'urgence. Remettre un guide utilisateur simplifié. Prévoir une session de formation annuelle de recyclage.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-logo">SecureTech<span>Pro</span></div>
+    <div class="footer-desc">Expert en Vidéosurveillance IP • Contrôle d'Accès • Réseaux Informatiques • Sécurité Électronique</div>
+    <div style="margin-top:1.5rem;display:flex;justify-content:center;gap:2rem;flex-wrap:wrap">
+      <span style="font-family:monospace;font-size:0.65rem;color:var(--text-muted)">📞 +XX XX XX XX XX</span>
+      <span style="font-family:monospace;font-size:0.65rem;color:var(--text-muted)">✉️ contact@securetechpro.com</span>
+      <span style="font-family:monospace;font-size:0.65rem;color:var(--text-muted)">🌐 www.securetechpro.com</span>
+    </div>
+    <div style="margin-top:1rem;font-family:monospace;font-size:0.62rem;color:var(--text-muted)">© 2025 SecureTech Pro — Tous droits réservés</div>
+  </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.style.color = '';
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.style.color = 'var(--accent-cyan)';
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(section => observer.observe(section));
+
+  // Animate terminal pins on hover (toggle active class)
+  document.querySelectorAll('.terminal-pin').forEach(pin => {
+    pin.addEventListener('mouseenter', function() {
+      this.classList.add('t-active');
+    });
+    pin.addEventListener('mouseleave', function() {
+      this.classList.remove('t-active');
+    });
+  });
+
+  // Fade in sections on scroll
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.step-card, .access-card, .security-card, .practice-item, .config-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    fadeObserver.observe(el);
+  });
+</script>
+</body>
+</html>
