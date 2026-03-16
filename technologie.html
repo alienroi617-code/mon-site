@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechLearn — Cours Technologies & Réseaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── BACKGROUND GRID ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER / HERO ─── */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -120px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,212,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    background: var(--surface);
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .breadcrumb span { color: var(--accent); }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 32px;
+    font-size: 1rem;
+  }
+
+  /* ─── MODULE PILL TAGS ─── */
+  .module-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .tag:hover { transform: translateY(-2px); filter: brightness(1.15); }
+  .tag-wifi   { background: rgba(0,212,255,0.12); color: var(--accent);  border: 1px solid rgba(0,212,255,0.3);  }
+  .tag-cam    { background: rgba(124,58,237,0.12); color: #a78bfa;       border: 1px solid rgba(124,58,237,0.3); }
+  .tag-voip   { background: rgba(16,185,129,0.12); color: var(--accent3);border: 1px solid rgba(16,185,129,0.3); }
+  .tag-telco  { background: rgba(245,158,11,0.12); color: var(--accent4);border: 1px solid rgba(245,158,11,0.3); }
+  .tag-solar  { background: rgba(239,68,68,0.12);  color: #fca5a5;       border: 1px solid rgba(239,68,68,0.3);  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 3px;
+    background: var(--border);
+  }
+  .progress-bar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.1s;
+    id: progress-fill;
+  }
+
+  /* ─── LAYOUT ─── */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 0;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── SIDEBAR NAV ─── */
+  .sidebar {
+    position: sticky;
+    top: 3px;
+    height: calc(100vh - 3px);
+    overflow-y: auto;
+    padding: 32px 20px;
+    border-right: 1px solid var(--border);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .sidebar-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .nav-module {
+    margin-bottom: 4px;
+  }
+
+  .nav-module-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+  }
+
+  .nav-module-link:hover,
+  .nav-module-link.active {
+    color: var(--white);
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+
+  .nav-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .nav-sub {
+    padding-left: 30px;
+    margin-top: 2px;
+    display: none;
+  }
+
+  .nav-module:hover .nav-sub,
+  .nav-module.open .nav-sub { display: block; }
+
+  .nav-sub a {
+    display: block;
+    padding: 5px 0;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-sub a:hover { color: var(--text); }
+
+  /* ─── MAIN CONTENT ─── */
+  main {
+    padding: 48px 56px;
+    min-height: 100vh;
+  }
+
+  /* ─── MODULE SECTION ─── */
+  .module {
+    margin-bottom: 80px;
+    scroll-margin-top: 20px;
+  }
+
+  .module-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .module-icon {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+
+  .module-meta { flex: 1; }
+
+  .module-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .module h2 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .module-desc {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* ─── INTRO BOX ─── */
+  .intro-box {
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    border-left: 3px solid;
+    background: var(--surface);
+    font-size: 14px;
+  }
+
+  .intro-box p { margin: 0; }
+
+  /* ─── SECTION ─── */
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .section h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section h3::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 18px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .section p { color: var(--text); margin-bottom: 12px; }
+
+  /* ─── KEY POINTS ─── */
+  .key-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .key-point {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+
+  .key-point strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── DIAGRAM ─── */
+  .diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    margin: 20px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+  }
+
+  .diagram-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .diagram svg {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  /* ─── EXAMPLE BOX ─── */
+  .example {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin: 16px 0;
+    font-size: 13.5px;
+  }
+
+  .example-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ─── CODE BLOCK ─── */
+  .code-block {
+    background: #070c14;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #a5f3fc;
+    overflow-x: auto;
+    margin: 12px 0;
+    line-height: 1.8;
+  }
+
+  .code-block .comment { color: var(--muted); }
+  .code-block .keyword { color: #c084fc; }
+  .code-block .value   { color: #86efac; }
+
+  /* ─── VIDEO SECTION ─── */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .video-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .video-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,212,255,0.08);
+  }
+
+  .video-thumb {
+    width: 48px; height: 48px;
+    border-radius: 8px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .video-info { flex: 1; }
+
+  .video-info strong {
+    display: block;
+    font-size: 13px;
+    color: var(--white);
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .video-info span {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ─── TABLE ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0;
+  }
+
+  th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    color: var(--text);
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ─── STEP LIST ─── */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    margin: 16px 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ─── ALERT ─── */
+  .alert {
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    margin: 16px 0;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert-info  { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); }
+  .alert-warn  { background: rgba(245,158,11,0.06); border: 1px solid rgba(245,158,11,0.2); }
+  .alert-tip   { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); }
+
+  /* ─── DIVIDER ─── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ─── COLOUR THEME PER MODULE ─── */
+  .m-wifi   { --mc: var(--accent);  --mc-bg: rgba(0,212,255,0.08); }
+  .m-cam    { --mc: #a78bfa;        --mc-bg: rgba(124,58,237,0.08); }
+  .m-voip   { --mc: var(--accent3); --mc-bg: rgba(16,185,129,0.08); }
+  .m-telco  { --mc: var(--accent4); --mc-bg: rgba(245,158,11,0.08); }
+  .m-solar  { --mc: #fca5a5;        --mc-bg: rgba(239,68,68,0.08); }
+
+  .module .module-icon     { background: var(--mc-bg); }
+  .module .module-label    { color: var(--mc); }
+  .module .intro-box       { border-color: var(--mc); }
+  .module .section h3::before { background: var(--mc); }
+  .module .example-label   { color: var(--mc); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    main { padding: 28px 20px; }
+    .hero { padding: 50px 20px 40px; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .module {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .module:nth-child(1) { animation-delay: 0.05s; }
+  .module:nth-child(2) { animation-delay: 0.1s;  }
+  .module:nth-child(3) { animation-delay: 0.15s; }
+  .module:nth-child(4) { animation-delay: 0.2s;  }
+  .module:nth-child(5) { animation-delay: 0.25s; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+  /* Reset simple */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Barre de navigation */
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#0f172a;
+padding:15px 40px;
+}
+
+/* Menu */
+.nav-links{
+list-style:none;
+display:flex;
+gap:30px;
+}
+
+/* Liens */
+.nav-links li a{
+text-decoration:none;
+color:white;
+font-size:16px;
+font-weight:500;
+transition:0.3s;
+position:relative;
+}
+
+/* Effet hover */
+.nav-links li a:hover{
+color:#38bdf8;
+}
+
+/* Ligne animée sous les liens */
+.nav-links li a::after{
+content:"";
+position:absolute;
+width:0%;
+height:2px;
+background:#38bdf8;
+left:0;
+bottom:-5px;
+transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+width:100%;
+}
+
+/* lien actif */
+.nav-links a.active{
+color:#38bdf8;
+}
+
+/* Responsive mobile */
+@media (max-width:768px){
+
+.nav-links{
+flex-direction:column;
+background:#0f172a;
+position:absolute;
+top:60px;
+right:0;
+width:200px;
+display:none;
+padding:20px;
+}
+
+.nav-links.show{
+display:flex;
+}
+
+}
+</style>
+</head>
+<body>
+  <nav class="navbar">
+
+<ul class="nav-links" id="navLinks">
+<li><a href="ss.html">Accueil</a></li>
+<li><a href="service.html" >Services</a></li>
+
+<li><a href="#projets" class="active">Projets</a></li>
+
+</ul>
+
+</nav>
+
+
+<!-- PROGRESS -->
+<div class="progress-bar" id="progress-bar"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="breadcrumb">TechLearn <span>/</span> Cours <span>/</span> Technologies & Réseaux</div>
+  <h1>Technologies &amp; Réseaux<br>Guide Complet</h1>
+  <p>Cours structurés et accessibles pour maîtriser les infrastructures numériques modernes — du Wi-Fi à l'énergie solaire.</p>
+  <div class="module-tags">
+    <a href="#wifi"  class="tag tag-wifi">📡 Réseaux Sans Fil</a>
+    <a href="#cam"   class="tag tag-cam">📷 Vidéosurveillance IP</a>
+    <a href="#voip"  class="tag tag-voip">☎️ Téléphonie d'Entreprise</a>
+    <a href="#telco" class="tag tag-telco">🌐 Télécommunications</a>
+    <a href="#solar" class="tag tag-solar">☀️ Panneaux Solaires</a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">Navigation des cours</div>
+
+    <div class="nav-module open">
+      <a href="#wifi" class="nav-module-link">
+        <span class="nav-dot" style="background:#00d4ff"></span> Réseaux Sans Fil
+      </a>
+      <div class="nav-sub">
+        <a href="#wifi-intro">Introduction</a>
+        <a href="#wifi-types">Types de réseaux</a>
+        <a href="#wifi-proto">Protocoles</a>
+        <a href="#wifi-sec">Sécurité</a>
+      </div>
+    </div>
+
+    <div class="nav-module">
+      <a href="#cam" class="nav-module-link">
+        <span class="nav-dot" style="background:#a78bfa"></span> Vidéosurveillance IP
+      </a>
+      <div class="nav-sub">
+        <a href="#cam-intro">Introduction</a>
+        <a href="#cam-install">Installation</a>
+        <a href="#cam-config">Configuration</a>
+        <a href="#cam-remote">Surveillance à distance</a>
+      </div>
+    </div>
+
+    <div class="nav-module">
+      <a href="#voip" class="nav-module-link">
+        <span class="nav-dot" style="background:#10b981"></span> Téléphonie d'Entreprise
+      </a>
+      <div class="nav-sub">
+        <a href="#voip-intro">Introduction VoIP</a>
+        <a href="#voip-pbx">Systèmes PBX</a>
+        <a href="#voip-net">Intégration réseau</a>
+      </div>
+    </div>
+
+    <div class="nav-module">
+      <a href="#telco" class="nav-module-link">
+        <span class="nav-dot" style="background:#f59e0b"></span> Télécommunications
+      </a>
+      <div class="nav-sub">
+        <a href="#telco-fibre">Fibre optique</a>
+        <a href="#telco-vsat">VSAT</a>
+        <a href="#telco-5g">GSM &amp; 5G</a>
+      </div>
+    </div>
+
+    <div class="nav-module">
+      <a href="#solar" class="nav-module-link">
+        <span class="nav-dot" style="background:#fca5a5"></span> Panneaux Solaires
+      </a>
+      <div class="nav-sub">
+        <a href="#solar-fonc">Fonctionnement</a>
+        <a href="#solar-grid">Connexion réseau</a>
+        <a href="#solar-best">Bonnes pratiques</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 1 — RÉSEAUX SANS FIL
+    ══════════════════════════════════════════ -->
+    <section class="module m-wifi" id="wifi">
+      <div class="module-header">
+        <div class="module-icon">📡</div>
+        <div class="module-meta">
+          <div class="module-label">Module 01</div>
+          <h2>Réseaux Sans Fil</h2>
+          <p class="module-desc">Wi-Fi, LAN, WAN, protocoles et sécurité des infrastructures sans fil</p>
+        </div>
+      </div>
+
+      <!-- INTRO -->
+      <div id="wifi-intro" class="intro-box">
+        <p>Un <strong>réseau sans fil</strong> permet à des appareils de communiquer entre eux via des ondes radio, sans câble physique. Que ce soit dans une maison, un bureau ou à l'échelle d'une ville, ces technologies sont omniprésentes et constituent la colonne vertébrale des communications modernes.</p>
+      </div>
+
+      <!-- TYPES DE RÉSEAUX -->
+      <div class="section" id="wifi-types">
+        <h3>Types de Réseaux</h3>
+        <p>Il existe plusieurs catégories de réseaux, classifiées selon leur portée géographique :</p>
+
+        <div class="key-points">
+          <div class="key-point">
+            <strong>PAN — Personnel</strong>
+            Portée ~10 m. Ex : Bluetooth, appareils connectés à votre smartphone.
+          </div>
+          <div class="key-point">
+            <strong>LAN — Local Area Network</strong>
+            Réseau local couvrant un bâtiment ou campus. Ex : réseau d'entreprise, box internet.
+          </div>
+          <div class="key-point">
+            <strong>MAN — Metropolitan</strong>
+            Réseau couvrant une ville entière. Ex : réseau municipal Wi-Fi.
+          </div>
+          <div class="key-point">
+            <strong>WAN — Wide Area Network</strong>
+            Portée mondiale. Internet est le plus grand WAN existant.
+          </div>
+        </div>
+
+        <!-- DIAGRAM: Topologie réseau -->
+        <div class="diagram">
+          <div class="diagram-title">▸ Schéma — Topologie réseau d'entreprise</div>
+          <svg viewBox="0 0 600 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L8,3 Z" fill="#00d4ff" opacity="0.6"/>
+              </marker>
+            </defs>
+            <!-- Internet cloud -->
+            <ellipse cx="300" cy="40" rx="70" ry="28" fill="none" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.5"/>
+            <text x="300" y="44" text-anchor="middle" fill="#00d4ff" font-size="13" font-family="Space Mono,monospace">INTERNET</text>
+            <!-- Router/Firewall -->
+            <rect x="255" y="90" width="90" height="32" rx="6" fill="#1a2235" stroke="#7c3aed" stroke-width="1.5"/>
+            <text x="300" y="111" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="Space Mono,monospace">ROUTEUR / FW</text>
+            <!-- Switch core -->
+            <rect x="255" y="155" width="90" height="30" rx="6" fill="#1a2235" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="300" y="174" text-anchor="middle" fill="#00d4ff" font-size="11" font-family="Space Mono,monospace">SWITCH CORE</text>
+            <!-- Access Points -->
+            <rect x="80" y="215" width="80" height="28" rx="6" fill="#1a2235" stroke="#10b981" stroke-width="1"/>
+            <text x="120" y="233" text-anchor="middle" fill="#10b981" font-size="10" font-family="Space Mono,monospace">AP Wi-Fi 1</text>
+            <rect x="190" y="215" width="80" height="28" rx="6" fill="#1a2235" stroke="#10b981" stroke-width="1"/>
+            <text x="230" y="233" text-anchor="middle" fill="#10b981" font-size="10" font-family="Space Mono,monospace">AP Wi-Fi 2</text>
+            <!-- Servers -->
+            <rect x="330" y="215" width="80" height="28" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1"/>
+            <text x="370" y="233" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">SERVEURS</text>
+            <rect x="440" y="215" width="80" height="28" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1"/>
+            <text x="480" y="233" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">STOCKAGE</text>
+            <!-- Lines -->
+            <line x1="300" y1="68" x2="300" y2="90" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="300" y1="122" x2="300" y2="155" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="260" y1="185" x2="120" y2="215" stroke="#64748b" stroke-width="1" marker-end="url(#arrow)"/>
+            <line x1="280" y1="185" x2="230" y2="215" stroke="#64748b" stroke-width="1" marker-end="url(#arrow)"/>
+            <line x1="320" y1="185" x2="370" y2="215" stroke="#64748b" stroke-width="1" marker-end="url(#arrow)"/>
+            <line x1="340" y1="185" x2="480" y2="215" stroke="#64748b" stroke-width="1" marker-end="url(#arrow)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- PROTOCOLES -->
+      <div class="section" id="wifi-proto">
+        <h3>Protocoles Wi-Fi (IEEE 802.11)</h3>
+        <p>Les standards Wi-Fi définissent la vitesse, la fréquence et la portée de la connexion :</p>
+        <table>
+          <thead>
+            <tr><th>Standard</th><th>Nom commercial</th><th>Fréquence</th><th>Débit max</th><th>Usage typique</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 / 5 GHz</td><td>600 Mbps</td><td>Usage courant</td></tr>
+            <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>3.5 Gbps</td><td>Streaming HD</td></tr>
+            <tr><td>802.11ax</td><td>Wi-Fi 6</td><td>2.4 / 5 / 6 GHz</td><td>9.6 Gbps</td><td>Entreprises, IoT</td></tr>
+            <tr><td>802.11be</td><td>Wi-Fi 7</td><td>2.4 / 5 / 6 GHz</td><td>46 Gbps</td><td>Futur proche</td></tr>
+          </tbody>
+        </table>
+        <div class="alert alert-info">
+          <span class="alert-icon">💡</span>
+          <div><strong>À retenir :</strong> La bande 2,4 GHz offre une meilleure portée mais est plus sujette aux interférences. La bande 5 GHz offre de meilleures performances sur courtes distances.</div>
+        </div>
+      </div>
+
+      <!-- SÉCURITÉ -->
+      <div class="section" id="wifi-sec">
+        <h3>Sécurité des Réseaux Sans Fil</h3>
+        <p>La sécurisation d'un réseau Wi-Fi est essentielle pour éviter les accès non autorisés. Voici les principaux protocoles de chiffrement :</p>
+        <div class="key-points">
+          <div class="key-point"><strong>WEP (obsolète)</strong>Très vulnérable. Ne jamais utiliser. Cassable en quelques minutes.</div>
+          <div class="key-point"><strong>WPA / WPA2</strong>Standard pendant 15 ans. WPA2-AES reste acceptable pour usage personnel.</div>
+          <div class="key-point"><strong>WPA3</strong>Standard actuel recommandé. Résistant aux attaques par dictionnaire.</div>
+          <div class="key-point"><strong>802.1X + RADIUS</strong>Authentification entreprise. Chaque utilisateur a ses propres identifiants.</div>
+        </div>
+
+        <div class="example">
+          <div class="example-label">🔧 Exemple pratique</div>
+          <strong>Configuration d'un point d'accès sécurisé :</strong>
+          <ol class="steps" style="margin-top:10px">
+            <li>Accéder à l'interface d'administration du routeur (192.168.1.1 ou 192.168.0.1)</li>
+            <li>Choisir WPA3 ou WPA2-AES comme méthode de chiffrement</li>
+            <li>Définir un mot de passe fort (12+ caractères, mélange lettres/chiffres/symboles)</li>
+            <li>Désactiver le WPS (vulnérable aux attaques par force brute)</li>
+            <li>Activer le filtrage MAC pour les appareils critiques</li>
+            <li>Créer un réseau invité isolé pour les visiteurs</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- VIDÉOS -->
+      <div class="section">
+        <h3>Ressources Vidéo Recommandées</h3>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Comment fonctionne le Wi-Fi ?</strong>
+              <span>YouTube · Kurzgesagt (FR sous-titres) · ~8 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Réseaux LAN/WAN expliqués</strong>
+              <span>YouTube · NetworkChuck · ~15 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Sécurité Wi-Fi — WPA3 en détail</strong>
+              <span>YouTube · David Bombal · ~22 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 2 — VIDÉOSURVEILLANCE IP
+    ══════════════════════════════════════════ -->
+    <section class="module m-cam" id="cam">
+      <div class="module-header">
+        <div class="module-icon">📷</div>
+        <div class="module-meta">
+          <div class="module-label">Module 02</div>
+          <h2>Vidéosurveillance IP</h2>
+          <p class="module-desc">Installation, configuration et surveillance à distance via réseau IP</p>
+        </div>
+      </div>
+
+      <div id="cam-intro" class="intro-box">
+        <p>La <strong>vidéosurveillance IP</strong> utilise le réseau internet ou intranet pour transmettre les flux vidéo. Contrairement aux systèmes analogiques, les caméras IP possèdent leur propre adresse réseau, permettant une surveillance depuis n'importe quel endroit du monde via un navigateur ou application mobile.</p>
+      </div>
+
+      <div class="section" id="cam-install">
+        <h3>Architecture d'un Système CCTV-IP</h3>
+
+        <div class="diagram">
+          <div class="diagram-title">▸ Schéma — Infrastructure vidéosurveillance IP</div>
+          <svg viewBox="0 0 620 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- Cameras -->
+            <rect x="20" y="60" width="70" height="30" rx="5" fill="#1a2235" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="55" y="79" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Space Mono,monospace">CAM IP 1</text>
+            <rect x="20" y="110" width="70" height="30" rx="5" fill="#1a2235" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="55" y="129" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Space Mono,monospace">CAM IP 2</text>
+            <rect x="20" y="160" width="70" height="30" rx="5" fill="#1a2235" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="55" y="179" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Space Mono,monospace">CAM IP 3</text>
+            <!-- PoE Switch -->
+            <rect x="150" y="100" width="90" height="40" rx="6" fill="#1a2235" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="195" y="118" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="Space Mono,monospace">PoE SWITCH</text>
+            <text x="195" y="132" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">alimentation</text>
+            <!-- NVR -->
+            <rect x="300" y="90" width="90" height="50" rx="6" fill="#1a2235" stroke="#10b981" stroke-width="1.5"/>
+            <text x="345" y="113" text-anchor="middle" fill="#10b981" font-size="10" font-family="Space Mono,monospace">NVR</text>
+            <text x="345" y="128" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">enregistrement</text>
+            <!-- Router -->
+            <rect x="450" y="90" width="80" height="50" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="490" y="119" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">ROUTEUR</text>
+            <!-- Cloud/Mobile -->
+            <rect x="560" y="75" width="50" height="28" rx="5" fill="#1a2235" stroke="#64748b" stroke-width="1"/>
+            <text x="585" y="93" text-anchor="middle" fill="#e2e8f0" font-size="9" font-family="Space Mono,monospace">CLOUD</text>
+            <rect x="560" y="120" width="50" height="28" rx="5" fill="#1a2235" stroke="#64748b" stroke-width="1"/>
+            <text x="585" y="138" text-anchor="middle" fill="#e2e8f0" font-size="9" font-family="Space Mono,monospace">MOBILE</text>
+            <!-- Connectors -->
+            <line x1="90" y1="75" x2="150" y2="115" stroke="#64748b" stroke-width="1"/>
+            <line x1="90" y1="125" x2="150" y2="125" stroke="#64748b" stroke-width="1"/>
+            <line x1="90" y1="175" x2="150" y2="135" stroke="#64748b" stroke-width="1"/>
+            <line x1="240" y1="120" x2="300" y2="115" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="390" y1="115" x2="450" y2="115" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="530" y1="100" x2="560" y2="89" stroke="#64748b" stroke-width="1"/>
+            <line x1="530" y1="130" x2="560" y2="134" stroke="#64748b" stroke-width="1"/>
+          </svg>
+        </div>
+
+        <p>Les composants clés d'un système de vidéosurveillance IP sont :</p>
+        <div class="key-points">
+          <div class="key-point"><strong>Caméra IP</strong>Capture et encode le flux vidéo en H.264/H.265. Possède une IP propre.</div>
+          <div class="key-point"><strong>Switch PoE</strong>Power over Ethernet : alimente les caméras via le câble réseau. Simplifie le câblage.</div>
+          <div class="key-point"><strong>NVR</strong>Network Video Recorder : enregistre et gère les flux de toutes les caméras.</div>
+          <div class="key-point"><strong>VMS</strong>Video Management Software : interface de gestion et de visualisation des caméras.</div>
+        </div>
+      </div>
+
+      <div class="section" id="cam-config">
+        <h3>Configuration d'une Caméra IP</h3>
+        <ol class="steps">
+          <li>Connecter la caméra au switch PoE via câble Cat5e/Cat6</li>
+          <li>Identifier l'adresse IP attribuée (via DHCP ou scanner réseau comme <em>Advanced IP Scanner</em>)</li>
+          <li>Accéder à l'interface web de la caméra dans un navigateur (ex: <code>http://192.168.1.64</code>)</li>
+          <li>Modifier le mot de passe par défaut (impératif pour la sécurité)</li>
+          <li>Configurer la résolution, FPS, et la compression vidéo (H.265 recommandé)</li>
+          <li>Ajouter la caméra au NVR en renseignant son IP et ses identifiants</li>
+        </ol>
+
+        <div class="example">
+          <div class="example-label">🔧 Exemple de configuration ONVIF</div>
+          <p>Le protocole <strong>ONVIF</strong> (Open Network Video Interface Forum) permet l'interopérabilité entre caméras et NVR de marques différentes. Lors de l'ajout d'une caméra dans votre NVR :</p>
+          <div class="code-block">
+<span class="comment">// Paramètres typiques d'ajout de caméra ONVIF</span>
+Protocole  : <span class="value">ONVIF</span>
+IP Caméra  : <span class="value">192.168.1.64</span>
+Port       : <span class="value">80</span> (ou <span class="value">8000</span> selon marque)
+Utilisateur: <span class="value">admin</span>
+Mot de passe: <span class="value">●●●●●●●●</span>
+Flux principal : <span class="value">rtsp://192.168.1.64/stream1</span>
+Flux secondaire: <span class="value">rtsp://192.168.1.64/stream2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" id="cam-remote">
+        <h3>Surveillance à Distance</h3>
+        <p>Pour accéder à vos caméras depuis l'extérieur du réseau local, plusieurs méthodes existent :</p>
+
+        <div class="key-points">
+          <div class="key-point"><strong>Port Forwarding</strong>Rediriger les ports du routeur vers le NVR. Simple mais expose directement l'équipement.</div>
+          <div class="key-point"><strong>VPN</strong>Connexion sécurisée entre votre appareil et le réseau local. Méthode la plus sûre.</div>
+          <div class="key-point"><strong>P2P Cloud</strong>Solution propriétaire (Hikvision Hik-Connect, Dahua DMSS). Rapide mais dépendant d'un tiers.</div>
+          <div class="key-point"><strong>DDNS</strong>Associe un nom de domaine fixe à une IP dynamique pour un accès facilité.</div>
+        </div>
+
+        <div class="alert alert-warn">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>Sécurité :</strong> Ne jamais laisser les ports 80, 8000, 554 (RTSP) ouverts sans restriction sur Internet. Utiliser un VPN ou changer les ports par défaut et activer un pare-feu applicatif.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Ressources Vidéo Recommandées</h3>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Installation caméra IP complète (Hikvision)</strong>
+              <span>YouTube · CCTV Camera World · ~25 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Configurer un NVR Dahua pas à pas</strong>
+              <span>YouTube · Dahua Tech · ~18 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Accès à distance VPN + CCTV</strong>
+              <span>YouTube · Crosstalk Solutions · ~20 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 3 — TÉLÉPHONIE D'ENTREPRISE
+    ══════════════════════════════════════════ -->
+    <section class="module m-voip" id="voip">
+      <div class="module-header">
+        <div class="module-icon">☎️</div>
+        <div class="module-meta">
+          <div class="module-label">Module 03</div>
+          <h2>Téléphonie d'Entreprise</h2>
+          <p class="module-desc">VoIP, systèmes PBX et intégration au réseau d'entreprise</p>
+        </div>
+      </div>
+
+      <div id="voip-intro" class="intro-box">
+        <p>La <strong>VoIP (Voice over IP)</strong> transforme la voix en paquets de données transmis via le réseau IP. C'est la technologie qui a révolutionné la téléphonie d'entreprise, remplaçant progressivement les lignes analogiques traditionnelles (PSTN) par des solutions plus flexibles et économiques.</p>
+      </div>
+
+      <div class="section">
+        <h3>Comment fonctionne la VoIP ?</h3>
+
+        <div class="diagram">
+          <div class="diagram-title">▸ Schéma — Flux d'un appel VoIP</div>
+          <svg viewBox="0 0 600 130" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="45" width="80" height="40" rx="6" fill="#1a2235" stroke="#10b981" stroke-width="1.5"/>
+            <text x="50" y="63" text-anchor="middle" fill="#10b981" font-size="10" font-family="Space Mono,monospace">TÉLÉPHONE</text>
+            <text x="50" y="76" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">IP / SIP</text>
+
+            <rect x="145" y="45" width="80" height="40" rx="6" fill="#1a2235" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="185" y="63" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="Space Mono,monospace">CODEC</text>
+            <text x="185" y="76" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">G.711/G.729</text>
+
+            <rect x="280" y="45" width="80" height="40" rx="6" fill="#1a2235" stroke="#a78bfa" stroke-width="1.5"/>
+            <text x="320" y="63" text-anchor="middle" fill="#a78bfa" font-size="10" font-family="Space Mono,monospace">PBX / IPBX</text>
+            <text x="320" y="76" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">Asterisk/3CX</text>
+
+            <rect x="415" y="45" width="80" height="40" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="455" y="63" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">RÉSEAU IP</text>
+            <text x="455" y="76" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">Internet/LAN</text>
+
+            <rect x="520" y="45" width="65" height="40" rx="6" fill="#1a2235" stroke="#10b981" stroke-width="1.5"/>
+            <text x="552" y="63" text-anchor="middle" fill="#10b981" font-size="10" font-family="Space Mono,monospace">DEST.</text>
+            <text x="552" y="76" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">IP / PSTN</text>
+
+            <!-- Arrows -->
+            <line x1="90" y1="65" x2="145" y2="65" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="225" y1="65" x2="280" y2="65" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="360" y1="65" x2="415" y2="65" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+            <line x1="495" y1="65" x2="520" y2="65" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+            <text x="300" y="20" text-anchor="middle" fill="#64748b" font-size="10" font-family="Space Mono,monospace">Protocole SIP / RTP</text>
+            <text x="300" y="115" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">La voix est numérisée, compressée et envoyée en paquets UDP via le réseau</text>
+          </svg>
+        </div>
+
+        <div class="key-points">
+          <div class="key-point"><strong>SIP</strong>Session Initiation Protocol. Gère l'établissement, la modification et la clôture des appels.</div>
+          <div class="key-point"><strong>RTP</strong>Real-time Transport Protocol. Transporte le flux audio/vidéo en temps réel.</div>
+          <div class="key-point"><strong>Codecs G.711</strong>Haute qualité, largeur de bande élevée (~64 Kbps). Idéal sur LAN.</div>
+          <div class="key-point"><strong>Codec G.729</strong>Qualité réduite, faible bande (~8 Kbps). Idéal sur liaisons lentes (WAN, 4G).</div>
+        </div>
+      </div>
+
+      <div class="section" id="voip-pbx">
+        <h3>Systèmes PBX et IPBX</h3>
+        <p>Un <strong>PBX (Private Branch eXchange)</strong> est le central téléphonique interne d'une entreprise. Il gère la distribution des appels entre employés et vers l'extérieur.</p>
+
+        <table>
+          <thead>
+            <tr><th>Solution</th><th>Type</th><th>Avantages</th><th>Usage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Asterisk</td><td>Open Source</td><td>Gratuit, très flexible</td><td>PME tech, personnalisation</td></tr>
+            <tr><td>FreePBX</td><td>Open Source (GUI)</td><td>Interface graphique simple</td><td>PME sans équipe IT spécialisée</td></tr>
+            <tr><td>3CX</td><td>Commercial</td><td>Facile à déployer, cloud</td><td>Entreprises 10–500 utilisateurs</td></tr>
+            <tr><td>Cisco UCM</td><td>Commercial</td><td>Robustesse entreprise</td><td>Grandes entreprises</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section" id="voip-net">
+        <h3>Intégration Réseau et Qualité de Service (QoS)</h3>
+        <p>La VoIP est sensible à la latence, la gigue et la perte de paquets. Une configuration réseau adéquate est indispensable :</p>
+
+        <div class="example">
+          <div class="example-label">📋 Bonnes pratiques réseau pour VoIP</div>
+          <ol class="steps">
+            <li>Créer un <strong>VLAN dédié</strong> à la voix (ex: VLAN 20) pour l'isoler du trafic données</li>
+            <li>Configurer le <strong>QoS (DSCP)</strong> pour prioriser les paquets voix (marquage EF — Expedited Forwarding)</li>
+            <li>S'assurer que la latence reste <strong>inférieure à 150 ms</strong> et la gigue <strong>sous 30 ms</strong></li>
+            <li>Vérifier la bande passante : prévoir <strong>100 Kbps par appel simultané</strong> minimum (G.711)</li>
+            <li>Activer le <strong>STUN/TURN</strong> pour traversée NAT si déployé sur Internet</li>
+          </ol>
+        </div>
+
+        <div class="alert alert-tip">
+          <span class="alert-icon">✅</span>
+          <div><strong>Outil de test :</strong> Utilisez <em>PingPlotter</em> ou <em>VoIP Monitor</em> pour mesurer la qualité de votre lien avant déploiement VoIP.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Ressources Vidéo Recommandées</h3>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>VoIP expliquée en 10 minutes</strong>
+              <span>YouTube · Eye on Tech · ~10 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Installer FreePBX / Asterisk</strong>
+              <span>YouTube · Crosstalk Solutions · ~35 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>QoS pour VoIP — Configuration</strong>
+              <span>YouTube · NetworkChuck · ~18 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 4 — TÉLÉCOMMUNICATIONS
+    ══════════════════════════════════════════ -->
+    <section class="module m-telco" id="telco">
+      <div class="module-header">
+        <div class="module-icon">🌐</div>
+        <div class="module-meta">
+          <div class="module-label">Module 04</div>
+          <h2>Télécommunications</h2>
+          <p class="module-desc">Fibre optique, VSAT, GSM, 5G et concepts fondamentaux</p>
+        </div>
+      </div>
+
+      <div class="intro-box">
+        <p>Les <strong>télécommunications</strong> regroupent l'ensemble des technologies permettant la transmission d'informations à distance. De la fibre optique qui traverse les océans aux satellites qui couvrent les zones reculées, ces infrastructures forment l'épine dorsale de la connectivité mondiale.</p>
+      </div>
+
+      <div class="section" id="telco-fibre">
+        <h3>Fibre Optique</h3>
+        <p>La fibre optique transmet des données sous forme d'impulsions lumineuses à travers un fil de verre ou de plastique ultra-fin. C'est aujourd'hui la technologie la plus rapide et la plus fiable pour le transport de données.</p>
+
+        <div class="key-points">
+          <div class="key-point"><strong>Monomode (SMF)</strong>Un seul rayon lumineux. Longues distances (jusqu'à 100 km). Couleur jaune.</div>
+          <div class="key-point"><strong>Multimode (MMF)</strong>Plusieurs rayons. Courtes distances (max 2 km). Couleur orange/aqua.</div>
+          <div class="key-point"><strong>FTTH</strong>Fiber to the Home : fibre jusqu'au domicile. Débits 100 Mbps à 10 Gbps.</div>
+          <div class="key-point"><strong>DWDM</strong>Dense Wavelength Division Multiplexing : multiplexe jusqu'à 80 longueurs d'onde sur un seul brin.</div>
+        </div>
+
+        <div class="example">
+          <div class="example-label">🔧 Connecteurs fibre courants</div>
+          <table>
+            <thead><tr><th>Connecteur</th><th>Usage</th><th>Caractéristique</th></tr></thead>
+            <tbody>
+              <tr><td>LC</td><td>Datacenter, équipements actifs</td><td>Petit format, très répandu</td></tr>
+              <tr><td>SC</td><td>Télécoms, FTTH</td><td>Format carré, robuste</td></tr>
+              <tr><td>FC</td><td>Instrumentation, militaire</td><td>Vissé, très stable</td></tr>
+              <tr><td>MPO/MTP</td><td>Haute densité datacenter</td><td>12 ou 24 fibres en un connecteur</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section" id="telco-vsat">
+        <h3>VSAT — Internet par Satellite</h3>
+        <p>Le <strong>VSAT (Very Small Aperture Terminal)</strong> permet une connexion internet via satellite, idéal pour les zones sans infrastructure terrestre (zones rurales, sites pétroliers, bateaux).</p>
+
+        <div class="diagram">
+          <div class="diagram-title">▸ Schéma — Architecture VSAT</div>
+          <svg viewBox="0 0 560 180" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- Satellite -->
+            <ellipse cx="280" cy="30" rx="30" ry="14" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+            <line x1="250" y1="30" x2="220" y2="30" stroke="#f59e0b" stroke-width="2"/>
+            <line x1="310" y1="30" x2="340" y2="30" stroke="#f59e0b" stroke-width="2"/>
+            <text x="280" y="34" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">SAT</text>
+            <!-- Hub -->
+            <rect x="60" y="110" width="90" height="38" rx="6" fill="#1a2235" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="105" y="128" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="Space Mono,monospace">HUB VSAT</text>
+            <text x="105" y="141" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">Internet Core</text>
+            <!-- Remote site -->
+            <rect x="390" y="110" width="90" height="38" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="435" y="128" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">TERMINAL</text>
+            <text x="435" y="141" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">Site distant</text>
+            <!-- Beams -->
+            <line x1="255" y1="40" x2="130" y2="110" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="305" y1="40" x2="410" y2="110" stroke="#64748b" stroke-width="1" stroke-dasharray="4,3"/>
+            <text x="180" y="80" fill="#64748b" font-size="9" font-family="Space Mono,monospace" transform="rotate(-28,180,80)">Uplink/Downlink</text>
+            <text x="380" y="80" fill="#64748b" font-size="9" font-family="Space Mono,monospace" transform="rotate(28,370,80)">Ku/Ka Band</text>
+            <!-- Latency note -->
+            <text x="280" y="170" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">Latence GEO: ~600ms | Latence LEO (Starlink): ~20–40ms</text>
+          </svg>
+        </div>
+
+        <div class="key-points">
+          <div class="key-point"><strong>Orbite GEO</strong>36 000 km d'altitude. Latence ~600 ms. Couverture large. Ex : Intelsat, Eutelsat.</div>
+          <div class="key-point"><strong>Orbite LEO</strong>500-1200 km. Latence ~20-40 ms. Ex : Starlink (SpaceX), OneWeb.</div>
+          <div class="key-point"><strong>Bande Ku</strong>12–18 GHz. Usage commercial standard. Sensible à la pluie.</div>
+          <div class="key-point"><strong>Bande Ka</strong>26–40 GHz. Haut débit. Plus sensible aux intempéries.</div>
+        </div>
+      </div>
+
+      <div class="section" id="telco-5g">
+        <h3>Évolution GSM → 5G</h3>
+        <table>
+          <thead>
+            <tr><th>Génération</th><th>Années</th><th>Débit</th><th>Technologie clé</th><th>Usage</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1G</td><td>1980s</td><td>~2,4 Kbps</td><td>AMPS, analogique</td><td>Voix uniquement</td></tr>
+            <tr><td>2G — GSM</td><td>1990s</td><td>~9,6–114 Kbps</td><td>TDMA, GPRS, EDGE</td><td>Voix + SMS + MMS</td></tr>
+            <tr><td>3G — UMTS</td><td>2000s</td><td>~384 Kbps–42 Mbps</td><td>WCDMA, HSPA+</td><td>Internet mobile</td></tr>
+            <tr><td>4G — LTE</td><td>2010s</td><td>~100 Mbps–1 Gbps</td><td>OFDMA, MIMO</td><td>Streaming, applis</td></tr>
+            <tr><td>5G</td><td>2020s</td><td>~1–20 Gbps</td><td>mmWave, Massive MIMO</td><td>IoT, véhicules autonomes</td></tr>
+          </tbody>
+        </table>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">💡</span>
+          <div><strong>La 5G en pratique :</strong> La 5G utilise trois bandes de fréquences. La bande mmWave (millimétrique, 24–100 GHz) offre des débits extrêmes mais une portée très courte (~100 m). La bande mid-band (1–6 GHz) offre le meilleur compromis portée/débit. La bande sub-1 GHz assure la couverture rurale.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Ressources Vidéo Recommandées</h3>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>La fibre optique expliquée simplement</strong>
+              <span>YouTube · Arjen Lucassen · ~12 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Comment fonctionne Starlink ?</strong>
+              <span>YouTube · Real Engineering · ~14 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>5G — Tout comprendre en 15 min</strong>
+              <span>YouTube · Undecided with Matt Ferrell · ~15 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════════════════════════════
+         MODULE 5 — PANNEAUX SOLAIRES
+    ══════════════════════════════════════════ -->
+    <section class="module m-solar" id="solar">
+      <div class="module-header">
+        <div class="module-icon">☀️</div>
+        <div class="module-meta">
+          <div class="module-label">Module 05</div>
+          <h2>Installations Solaires Photovoltaïques</h2>
+          <p class="module-desc">Fonctionnement, connexion au réseau et bonnes pratiques d'installation</p>
+        </div>
+      </div>
+
+      <div id="solar-fonc" class="intro-box">
+        <p>Un <strong>panneau solaire photovoltaïque (PV)</strong> convertit la lumière du soleil en électricité grâce à l'effet photoélectrique. Les cellules en silicium absorbent les photons et libèrent des électrons, créant un courant continu (DC). Ce courant est ensuite converti en courant alternatif (AC) utilisable par les équipements standards.</p>
+      </div>
+
+      <div class="section">
+        <h3>Composants d'une Installation Solaire</h3>
+
+        <div class="diagram">
+          <div class="diagram-title">▸ Schéma — Système solaire connecté au réseau (On-Grid)</div>
+          <svg viewBox="0 0 620 170" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <!-- Sun -->
+            <circle cx="50" cy="50" r="22" fill="none" stroke="#f59e0b" stroke-width="2"/>
+            <text x="50" y="54" text-anchor="middle" fill="#f59e0b" font-size="18">☀</text>
+            <!-- Panels -->
+            <rect x="110" y="30" width="80" height="50" rx="4" fill="#1a2235" stroke="#fca5a5" stroke-width="1.5"/>
+            <line x1="110" y1="55" x2="190" y2="55" stroke="#fca5a5" stroke-width="0.8" opacity="0.5"/>
+            <line x1="110" y1="42" x2="190" y2="42" stroke="#fca5a5" stroke-width="0.8" opacity="0.5"/>
+            <line x1="110" y1="68" x2="190" y2="68" stroke="#fca5a5" stroke-width="0.8" opacity="0.5"/>
+            <line x1="150" y1="30" x2="150" y2="80" stroke="#fca5a5" stroke-width="0.8" opacity="0.5"/>
+            <text x="150" y="96" text-anchor="middle" fill="#fca5a5" font-size="9" font-family="Space Mono,monospace">PANNEAUX PV</text>
+            <text x="150" y="107" text-anchor="middle" fill="#64748b" font-size="8" font-family="Space Mono,monospace">DC 24–48V</text>
+            <!-- Combiner -->
+            <rect x="240" y="42" width="60" height="36" rx="4" fill="#1a2235" stroke="#64748b" stroke-width="1"/>
+            <text x="270" y="63" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">BOITE</text>
+            <text x="270" y="73" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">JONCT.</text>
+            <!-- Inverter -->
+            <rect x="355" y="35" width="80" height="50" rx="6" fill="#1a2235" stroke="#f59e0b" stroke-width="1.5"/>
+            <text x="395" y="58" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="Space Mono,monospace">ONDULEUR</text>
+            <text x="395" y="71" text-anchor="middle" fill="#64748b" font-size="9" font-family="Space Mono,monospace">DC → AC</text>
+            <!-- Meter -->
+            <rect x="490" y="42" width="60" height="36" rx="4" fill="#1a2235" stroke="#10b981" stroke-width="1.5"/>
+            <text x="520" y="63" text-anchor="middle" fill="#10b981" font-size="9" font-family="Space Mono,monospace">COMPTEUR</text>
+            <!-- Grid -->
+            <rect x="560" y="42" width="50" height="36" rx="4" fill="#1a2235" stroke="#00d4ff" stroke-width="1.5"/>
+            <text x="585" y="63" text-anchor="middle" fill="#00d4ff" font-size="9" font-family="Space Mono,monospace">RÉSEAU</text>
+            <!-- Battery option -->
+            <rect x="355" y="110" width="80" height="36" rx="6" fill="#1a2235" stroke="#a78bfa" stroke-width="1" stroke-dasharray="4,2"/>
+            <text x="395" y="131" text-anchor="middle" fill="#a78bfa" font-size="9" font-family="Space Mono,monospace">BATTERIE</text>
+            <text x="395" y="142" text-anchor="middle" fill="#64748b" font-size="8" font-family="Space Mono,monospace">(optionnel)</text>
+            <!-- Lines -->
+            <line x1="72" y1="55" x2="110" y2="55" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="190" y1="55" x2="240" y2="60" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="300" y1="60" x2="355" y2="60" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="435" y1="60" x2="490" y2="60" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="550" y1="60" x2="560" y2="60" stroke="#64748b" stroke-width="1.5"/>
+            <line x1="395" y1="85" x2="395" y2="110" stroke="#64748b" stroke-width="1" stroke-dasharray="3,2"/>
+          </svg>
+        </div>
+
+        <div class="key-points">
+          <div class="key-point"><strong>Panneaux PV</strong>Convertissent l'énergie solaire en courant continu (DC). Puissance exprimée en Wc (watts-crête).</div>
+          <div class="key-point"><strong>Onduleur</strong>Convertit le DC en AC 220V. Peut être string, micro-onduleur, ou hybride (avec batterie).</div>
+          <div class="key-point"><strong>MPPT</strong>Maximum Power Point Tracker : optimise en permanence l'extraction d'énergie des panneaux.</div>
+          <div class="key-point"><strong>Batterie</strong>Stocke l'énergie pour usage nocturne ou pendant les coupures (systèmes hybrides/off-grid).</div>
+          <div class="key-point"><strong>Protection DC/AC</strong>Parafoudre, fusibles, disjoncteurs pour protéger l'installation et les personnes.</div>
+          <div class="key-point"><strong>Compteur bi-directionnel</strong>Mesure l'énergie consommée et injectée sur le réseau (revente surplus).</div>
+        </div>
+      </div>
+
+      <div class="section" id="solar-grid">
+        <h3>Types de Systèmes Solaires</h3>
+        <table>
+          <thead>
+            <tr><th>Système</th><th>Connexion</th><th>Batterie</th><th>Avantage</th><th>Usage idéal</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>On-Grid</td><td>Réseau public</td><td>Non</td><td>ROI rapide, simplicité</td><td>Zones urbanisées avec réseau stable</td></tr>
+            <tr><td>Off-Grid</td><td>Aucune</td><td>Oui (obligatoire)</td><td>Autonomie totale</td><td>Sites isolés, villages ruraux</td></tr>
+            <tr><td>Hybride</td><td>Réseau + îlotage</td><td>Oui</td><td>Résilience maximale</td><td>Entreprises, hôpitaux, télécom</td></tr>
+            <tr><td>Pompage solaire</td><td>Direct DC ou AC</td><td>Non</td><td>Irrigation, eau potable</td><td>Agriculture, puits</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section" id="solar-best">
+        <h3>Bonnes Pratiques d'Installation</h3>
+
+        <div class="example">
+          <div class="example-label">📋 Étapes d'une installation professionnelle</div>
+          <ol class="steps">
+            <li><strong>Audit et dimensionnement :</strong> Analyser la consommation (kWh/jour), l'ensoleillement local (kWh/m²/jour), et définir la puissance PV et capacité batterie nécessaires.</li>
+            <li><strong>Orientation et inclinaison :</strong> Orienter les panneaux plein sud (hémisphère nord) ou plein nord (hémisphère sud). Angle d'inclinaison ≈ latitude du site ± 10°.</li>
+            <li><strong>Câblage DC :</strong> Utiliser des câbles solaires certifiés (section 4–6 mm²). Respecter la polarité. Protéger avec des fusibles DC par string.</li>
+            <li><strong>Mise à la terre :</strong> Relier la structure métallique et le négatif (selon norme) à la terre. Indispensable pour la sécurité contre la foudre.</li>
+            <li><strong>Installation de l'onduleur :</strong> Monter dans un endroit ventilé, à l'ombre. Connecter DC puis AC. Respecter les plages de tension MPPT de l'onduleur.</li>
+            <li><strong>Contrôle et mise en service :</strong> Vérifier la tension de chaque string, tester la production, configurer la supervision (Wi-Fi ou RS485 Modbus).</li>
+          </ol>
+        </div>
+
+        <div class="alert alert-warn">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>Sécurité électrique :</strong> Ne jamais travailler sur une installation PV sans équipements de protection (gants isolants 1000V, lunettes). Les panneaux génèrent du courant dès qu'ils sont exposés à la lumière, même diffuse.</div>
+        </div>
+
+        <div class="alert alert-tip">
+          <span class="alert-icon">✅</span>
+          <div><strong>Dimensionnement rapide :</strong> Consommation journalière (Wh) ÷ Ensoleillement moyen (h/jour) × 1,25 (pertes) = Puissance crête PV nécessaire (Wc).</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Ressources Vidéo Recommandées</h3>
+        <div class="video-grid">
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Installer des panneaux solaires — Guide complet</strong>
+              <span>YouTube · HespériaN Solar · ~30 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Dimensionner un système Off-Grid</strong>
+              <span>YouTube · DIY Solar Power · ~25 min</span>
+            </div>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">🎬</div>
+            <div class="video-info">
+              <strong>Onduleurs hybrides — Comparatif</strong>
+              <span>YouTube · Will Prowse · ~20 min</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER NOTE -->
+    <div style="margin-top:60px; padding:24px; background:var(--surface); border-radius:10px; border:1px solid var(--border); text-align:center;">
+      <p style="color:var(--muted); font-size:13px;">© TechLearn — Contenu pédagogique libre d'utilisation à des fins éducatives. <br>Mise à jour recommandée tous les 6 mois pour les modules 5G et panneaux solaires (évolutions rapides).</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const bar = document.getElementById('progress-bar');
+    const scrolled = window.scrollY;
+    const total = document.body.scrollHeight - window.innerHeight;
+    const pct = Math.min(100, (scrolled / total) * 100);
+    bar.style.background = `linear-gradient(90deg, #00d4ff ${pct}%, #1e2d45 ${pct}%)`;
+  });
+
+  // Sidebar active states
+  const sections = document.querySelectorAll('.module');
+  const navLinks = document.querySelectorAll('.nav-module-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const link = document.querySelector(`.nav-module-link[href="#${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

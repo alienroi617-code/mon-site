@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Technique Fibre Optique & Réseaux FTTH</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --ink-light: #3d4052;
+    --ink-muted: #6b7080;
+    --paper: #fafaf8;
+    --paper-warm: #f4f2ee;
+    --rule: #e2dfd8;
+    --accent: #c8440a;
+    --accent-light: #f5efe9;
+    --accent-mid: #e07a40;
+    --blue: #1a4d8a;
+    --blue-light: #e8eef6;
+    --green: #1a6644;
+    --green-light: #e8f4ee;
+    --border-radius: 3px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Source Serif 4', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  /* ─── HEADER ─── */
+  .site-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .header-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+  }
+  .header-logo span { color: var(--accent-mid); }
+  .header-nav { display: flex; gap: 28px; list-style: none; }
+  .header-nav a {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .header-nav a:hover { color: var(--accent-mid); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--ink);
+    padding: 90px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(200,68,10,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-mid);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent-mid);
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 6vw, 72px);
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 28px;
+    letter-spacing: -0.02em;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent-mid);
+  }
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.55);
+    max-width: 620px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+  }
+  .hero-stat-num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    color: #fff;
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  /* ─── TOC ─── */
+  .toc-section {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--rule);
+    padding: 50px 40px;
+  }
+  .toc-inner { max-width: 1200px; margin: 0 auto; }
+  .toc-title {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 28px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 4px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.18s;
+    border-radius: var(--border-radius);
+  }
+  .toc-item:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: translateX(3px);
+  }
+  .toc-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--accent);
+    min-width: 24px;
+  }
+  .toc-label {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  /* ─── CHAPTER SECTION ─── */
+  .chapter {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chapter:last-child { border-bottom: none; }
+
+  .chapter-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 48px;
+  }
+  .chapter-num-block {
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 28px;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+  }
+  .chapter-title-block h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 1.1;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .chapter-intro {
+    font-size: 15px;
+    color: var(--ink-muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ─── TEXT CONTENT ─── */
+  .prose h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--ink);
+    margin: 40px 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .prose h3::before {
+    content: '▸ ';
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .prose p {
+    margin-bottom: 18px;
+    color: var(--ink-light);
+    font-size: 16.5px;
+  }
+  .prose ul, .prose ol {
+    padding-left: 22px;
+    margin-bottom: 18px;
+  }
+  .prose li {
+    margin-bottom: 7px;
+    color: var(--ink-light);
+    font-size: 16px;
+  }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  .prose code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-block {
+    background: #1a1d23;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 24px 0;
+    border: 1px solid #2e3138;
+  }
+  .code-header {
+    background: #252830;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #2e3138;
+  }
+  .code-lang {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent-mid);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .code-body {
+    padding: 20px 22px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c9d1d9;
+    overflow-x: auto;
+    white-space: pre;
+  }
+  .code-body .kw { color: #ff7b72; }
+  .code-body .str { color: #a5d6ff; }
+  .code-body .cm { color: #6e7681; }
+  .code-body .num { color: #79c0ff; }
+  .code-body .fn { color: #d2a8ff; }
+
+  /* ─── IMAGE GRID ─── */
+  .img-grid {
+    display: grid;
+    gap: 20px;
+    margin: 32px 0;
+  }
+  .img-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .img-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .img-grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+  .img-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .img-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+  .img-card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    display: block;
+  }
+  .img-caption {
+    padding: 12px 16px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper-warm);
+  }
+  .img-caption-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .img-caption-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .img-full { margin: 32px 0; }
+  .img-full img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+    display: block;
+  }
+  .img-full .img-caption {
+    border-top: none;
+    border: 1px solid var(--rule);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background: var(--paper-warm);
+  }
+
+  /* ─── INFO BOXES ─── */
+  .infobox {
+    border-left: 3px solid;
+    padding: 18px 22px;
+    margin: 28px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .infobox-info { border-color: var(--blue); background: var(--blue-light); }
+  .infobox-tip { border-color: var(--green); background: var(--green-light); }
+  .infobox-warn { border-color: var(--accent); background: var(--accent-light); }
+  .infobox-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .infobox-info .infobox-label { color: var(--blue); }
+  .infobox-tip .infobox-label { color: var(--green); }
+  .infobox-warn .infobox-label { color: var(--accent); }
+  .infobox p { color: var(--ink-light); font-size: 15px; margin: 0; }
+
+  /* ─── COMPARISON TABLE ─── */
+  .table-wrapper { overflow-x: auto; margin: 28px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14.5px;
+  }
+  thead {
+    background: var(--ink);
+    color: #fff;
+  }
+  thead th {
+    padding: 13px 18px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+  }
+  tbody tr { border-bottom: 1px solid var(--rule); }
+  tbody tr:nth-child(even) { background: var(--paper-warm); }
+  tbody tr:hover { background: var(--accent-light); }
+  tbody td {
+    padding: 12px 18px;
+    color: var(--ink-light);
+    vertical-align: top;
+  }
+  tbody td:first-child {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 13px;
+  }
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .badge-sm { background: #e8eef6; color: var(--blue); }
+  .badge-mm { background: #fdeee6; color: var(--accent); }
+  .badge-os { background: var(--green-light); color: var(--green); }
+
+  /* ─── ARCHITECTURE DIAGRAM ─── */
+  .arch-diagram {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 36px;
+    margin: 32px 0;
+  }
+  .arch-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+  .arch-node {
+    background: var(--ink);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 4px;
+    min-width: 120px;
+    text-align: center;
+  }
+  .arch-node-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .arch-node-sub {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+  .arch-node.accent { background: var(--accent); }
+  .arch-node.blue { background: var(--blue); }
+  .arch-node.green { background: var(--green); }
+  .arch-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--ink-muted);
+  }
+  .arch-arrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--rule);
+    position: relative;
+  }
+  .arch-arrow-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--ink-muted);
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  /* ─── STEP PROCESS ─── */
+  .steps { margin: 28px 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+  }
+  .step-content h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .step-content p {
+    font-size: 15px;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  /* ─── EQUIPMENT CARDS ─── */
+  .equip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 28px 0;
+  }
+  .equip-card {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .equip-card:hover {
+    box-shadow: 0 8px 28px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+  .equip-card img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+  }
+  .equip-body { padding: 18px; }
+  .equip-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .equip-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .equip-desc {
+    font-size: 13.5px;
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    padding: 40px;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    margin-top: 60px;
+  }
+  footer strong { color: rgba(255,255,255,0.7); }
+
+  @media (max-width: 768px) {
+    .img-grid-2, .img-grid-3, .img-grid-4 { grid-template-columns: 1fr; }
+    .header-nav { display: none; }
+    .hero h1 { font-size: 38px; }
+    .main-content { padding: 0 20px 60px; }
+    .arch-flow { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="header-logo" href="#">RÉSEAU <span>FIBRE</span> — GUIDE TECHNIQUE</a>
+    <nav>
+      <ul class="header-nav">
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#principe">Principe</a></li>
+        <li><a href="#types">Types</a></li>
+        <li><a href="#equipements">Équipements</a></li>
+        <li><a href="#config">Configuration</a></li>
+        <li><a href="#ftth">FTTH</a></li>
+        <li><a href="service.html">Retour</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Documentation Technique Professionnelle</div>
+    <h1>Fibre Optique &<br>Réseaux <em>FTTH</em></h1>
+    <p class="hero-sub">Guide complet sur l'infrastructure fibre optique, les architectures FTTH, la configuration des équipements et le déploiement de réseaux haut débit.</p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-num">10</div>
+        <div class="hero-stat-label">Chapitres</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">299 800</div>
+        <div class="hero-stat-label">km/s vitesse lumière fibre</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100 Tb/s</div>
+        <div class="hero-stat-label">Capacité théorique max</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">0.2 dB/km</div>
+        <div class="hero-stat-label">Atténuation OS2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABLE OF CONTENTS -->
+<section class="toc-section">
+  <div class="toc-inner">
+    <div class="toc-title">Sommaire</div>
+    <div class="toc-grid">
+      <a class="toc-item" href="#intro"><span class="toc-num">01</span><span class="toc-label">Introduction à la fibre optique</span></a>
+      <a class="toc-item" href="#principe"><span class="toc-num">02</span><span class="toc-label">Principe de fonctionnement</span></a>
+      <a class="toc-item" href="#types"><span class="toc-num">03</span><span class="toc-label">Types de fibre optique</span></a>
+      <a class="toc-item" href="#equipements"><span class="toc-num">04</span><span class="toc-label">Équipements réseau fibre</span></a>
+      <a class="toc-item" href="#connecteurs"><span class="toc-num">05</span><span class="toc-label">Connecteurs & accessoires</span></a>
+      <a class="toc-item" href="#installation"><span class="toc-num">06</span><span class="toc-label">Installation & déploiement</span></a>
+      <a class="toc-item" href="#mesure"><span class="toc-num">07</span><span class="toc-label">Outils de mesure & maintenance</span></a>
+      <a class="toc-item" href="#config"><span class="toc-num">08</span><span class="toc-label">Configuration des équipements</span></a>
+      <a class="toc-item" href="#ftth"><span class="toc-num">09</span><span class="toc-label">Architecture réseau FTTH</span></a>
+      <a class="toc-item" href="#supervision"><span class="toc-num">10</span><span class="toc-label">Supervision & monitoring</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+
+  <!-- ══════════════════════ CHAPITRE 1 ══════════════════════ -->
+  <section class="chapter" id="intro">
+    <div class="chapter-header">
+      <div class="chapter-num-block">01</div>
+      <div class="chapter-title-block">
+        <h2>Introduction à la fibre optique</h2>
+        <p class="chapter-intro">Technologies, avantages, et domaines d'application dans les réseaux modernes.</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>La fibre optique est un guide d'onde constitué d'un filament de verre ou de plastique ultra-pur, capable de transporter de la lumière sur de très longues distances avec une atténuation minimale. Contrairement aux câbles en cuivre qui transmettent des signaux électriques, la fibre utilise des photons — des particules de lumière — pour véhiculer l'information binaire.</p>
+
+      <p>Ce principe fondamental lui confère des propriétés remarquables : immunité totale aux perturbations électromagnétiques, bande passante quasi illimitée, faible atténuation sur de longues distances et légèreté des câbles. Ces caractéristiques en font le support de prédilection pour les infrastructures télécoms modernes, qu'il s'agisse du backbone des opérateurs, des réseaux FTTH ou des interconnexions en datacenter.</p>
+    </div>
+
+    <div class="img-full">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80" alt="Câbles fibre optique dans un datacenter">
+      <div class="img-caption">
+        <div class="img-caption-title">Infrastructure fibre optique — Datacenter</div>
+        <div class="img-caption-desc">Câbles fibre optique multibrin dans un rack de datacenter. La densité et l'organisation des câbles reflètent la complexité des interconnexions modernes.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Avantages par rapport au cuivre</h3>
+      <ul>
+        <li><strong>Très haut débit :</strong> La fibre supporte des débits allant de quelques Gbps jusqu'à plusieurs Tbps sur une seule fibre grâce au multiplexage en longueur d'onde (WDM/DWDM).</li>
+        <li><strong>Longues distances :</strong> Une fibre OS2 standard présente une atténuation de seulement 0,2 dB/km, permettant des liaisons sans amplification jusqu'à 80–100 km.</li>
+        <li><strong>Immunité EMI :</strong> Le verre ne conduit pas l'électricité. La fibre est totalement insensible aux parasites électromagnétiques, aux foudroiements et aux perturbations industrielles.</li>
+        <li><strong>Stabilité thermique :</strong> Les performances restent constantes sur une large plage de températures, contrairement au cuivre dont la résistance varie avec la température.</li>
+        <li><strong>Sécurité :</strong> Il est très difficile d'intercepter un signal optique sans créer une coupure détectable, ce qui renforce la sécurité des communications.</li>
+        <li><strong>Légèreté et encombrement :</strong> Un câble fibre à 144 brins est bien plus léger et fin qu'un câble cuivre de capacité équivalente.</li>
+      </ul>
+
+      <h3>Domaines d'utilisation</h3>
+      <ul>
+        <li><strong>FTTH (Fiber To The Home) :</strong> Raccordement des abonnés résidentiels à très haut débit (1 Gbps et plus).</li>
+        <li><strong>Réseaux d'entreprise :</strong> Interconnexion de bâtiments, liaisons inter-sites, backbone intra-campus.</li>
+        <li><strong>Datacenters :</strong> Interconnexions à haute densité entre serveurs, baies et équipements d'agrégation.</li>
+        <li><strong>Backbone opérateurs :</strong> Transport longue distance entre nœuds de réseau, centrales téléphoniques, points d'échange Internet (IXP).</li>
+        <li><strong>Milieux industriels :</strong> Réseaux de contrôle-commande dans les usines, environnements à fortes perturbations EM.</li>
+      </ul>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.pinimg.com/736x/4d/dc/01/4ddc012db7b9d06f4c10b6336a3e984b.jpg" alt="Câble fibre optique multibrin">
+        <div class="img-caption">
+          <div class="img-caption-title">Câble fibre optique multibrin</div>
+          <div class="img-caption-desc">Câble à 48 brins pour déploiement en infrastructure. Gaine LSOH (Low Smoke Zero Halogen) pour installation en milieu confiné.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.imgur.com/zapynfl.jpeg" alt="Backbone réseau opérateur">
+        <div class="img-caption">
+          <div class="img-caption-title">Backbone réseau — Nœud opérateur</div>
+          <div class="img-caption-desc">Équipements d'un Point de Présence (POP) opérateur avec baies de brassage fibre et routeurs DWDM de transport longue distance.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 2 ══════════════════════ -->
+  <section class="chapter" id="principe">
+    <div class="chapter-header">
+      <div class="chapter-num-block">02</div>
+      <div class="chapter-title-block">
+        <h2>Principe de fonctionnement</h2>
+        <p class="chapter-intro">Propagation de la lumière, structure interne de la fibre et conversion optoélectronique.</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>Le fonctionnement de la fibre optique repose sur le phénomène de <strong>réflexion totale interne</strong>. Lorsqu'un rayon lumineux frappe l'interface entre deux milieux d'indices de réfraction différents avec un angle supérieur à l'angle critique, il est totalement réfléchi sans perte d'énergie vers le milieu extérieur. C'est ce principe qui "emprisonne" la lumière dans le cœur de la fibre.</p>
+
+      <h3>Structure interne de la fibre</h3>
+      <p>Une fibre optique standard est constituée de trois couches concentriques :</p>
+      <ul>
+        <li><strong>Le cœur (Core) :</strong> Filament de silice dopée (germanium) de haute pureté, diamètre 8–9 µm (monomode) ou 50–62,5 µm (multimode). C'est ici que la lumière se propage.</li>
+        <li><strong>La gaine optique (Cladding) :</strong> Couche de silice d'indice de réfraction légèrement inférieur (différence de 1%). Elle crée l'interface de réflexion. Diamètre standard : 125 µm.</li>
+        <li><strong>Le revêtement de protection (Coating) :</strong> Couche de résine acrylate protégeant mécaniquement la fibre. Diamètre 250 µm, parfois 900 µm (tight buffer).</li>
+      </ul>
+
+      <h3>Conversion signal électrique ↔ optique</h3>
+      <p>À l'émission, une <strong>diode laser (LD) ou LED</strong> convertit le signal électrique numérique en impulsions lumineuses modulées. En réception, une <strong>photodiode PIN ou avalanche (APD)</strong> convertit ces impulsions lumineuses en courant électrique amplifié, puis numérisé.</p>
+      <p>Les longueurs d'onde utilisées en télécommunications sont dans l'infrarouge proche : <strong>850 nm</strong> (multimode courte distance), <strong>1310 nm</strong> (monomode standard) et <strong>1550 nm</strong> (longue distance, DWDM). Ces fenêtres correspondent aux minima d'atténuation de la silice.</p>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.imgur.com/Zaydsmb.jpeg" alt="Structure interne fibre optique">
+        <div class="img-caption">
+          <div class="img-caption-title">Structure transversale d'une fibre optique</div>
+          <div class="img-caption-desc">Coupe schématique montrant cœur (core), gaine (cladding) et revêtement de protection (coating). Le gradient d'indice crée la réflexion totale interne.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.imgur.com/DDtvpOQ.jpeg" alt="Module émetteur récepteur optique">
+        <div class="img-caption">
+          <div class="img-caption-title">Module émetteur-récepteur optique (transceiver)</div>
+          <div class="img-caption-desc">Composants optoélectroniques intégrés dans un module SFP. La diode laser (TX) et la photodiode (RX) assurent la conversion E/O et O/E.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="infobox infobox-info">
+      <div class="infobox-label">Note technique — Réflexion totale interne</div>
+      <p>La loi de Snell-Descartes définit l'angle critique θc = arcsin(n2/n1). Pour la silice standard (n1 ≈ 1.468, n2 ≈ 1.455), cet angle est d'environ 82.5°. Tout rayon incident avec un angle supérieur est totalement réfléchi, assurant une propagation sans perte par réfraction vers la gaine.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 3 ══════════════════════ -->
+  <section class="chapter" id="types">
+    <div class="chapter-header">
+      <div class="chapter-num-block">03</div>
+      <div class="chapter-title-block">
+        <h2>Types de fibre optique</h2>
+        <p class="chapter-intro">Monomode, multimode — caractéristiques, standards et applications.</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Fibre monomode (SMF — Single Mode Fiber)</h3>
+      <p>La fibre monomode possède un cœur très étroit (8–9 µm) qui ne laisse se propager qu'un seul mode optique. La dispersion modale est nulle, ce qui permet des débits très élevés sur de très longues distances. Elle nécessite des sources laser coûteuses mais offre des performances inégalées.</p>
+      <ul>
+        <li><strong>OS1 :</strong> Indoor tight-buffered, pertes ≤ 1.0 dB/km à 1310 nm. Longueur max : 10 km.</li>
+        <li><strong>OS2 :</strong> Outdoor loose-tube, pertes ≤ 0.4 dB/km à 1310 nm. Standard pour FTTH et backbone. Peut aller jusqu'à 200 km avec amplification EDFA.</li>
+      </ul>
+
+      <h3>Fibre multimode (MMF — Multi Mode Fiber)</h3>
+      <p>Le cœur large (50 ou 62,5 µm) permet la propagation de plusieurs modes simultanément. Moins coûteuse en terminaison (sources LED ou VCSEL), elle est limitée en distance à cause de la dispersion modale. Utilisée principalement dans les datacenters et réseaux locaux.</p>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.imgur.com/F00EicE.jpeg" alt="Câbles fibre optique multicolores">
+        <div class="img-caption">
+          <div class="img-caption-title">Câbles fibre optique — Codes couleurs normatifs</div>
+          <div class="img-caption-desc">Les gaines colorées identifient le type de fibre : jaune = monomode OS1/OS2, orange = multimode OM1/OM2, aqua = OM3, violet = OM4/OM5.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.imgur.com/i70jbVm.png" alt="Comparaison fibre monomode multimode">
+        <div class="img-caption">
+          <div class="img-caption-title">Comparaison des profils d'indice</div>
+          <div class="img-caption-desc">À gauche : fibre monomode (cœur 9 µm, un seul mode). À droite : fibre multimode à gradient d'indice (cœur 50 µm, modes multiples).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Standard</th>
+            <th>Type</th>
+            <th>Diamètre cœur</th>
+            <th>Longueur d'onde</th>
+            <th>Débit max</th>
+            <th>Distance max</th>
+            <th>Application</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OM1</td>
+            <td><span class="badge badge-mm">Multimode</span></td>
+            <td>62,5 µm</td>
+            <td>850 / 1300 nm</td>
+            <td>1 Gbps</td>
+            <td>550 m</td>
+            <td>LAN legacy</td>
+          </tr>
+          <tr>
+            <td>OM2</td>
+            <td><span class="badge badge-mm">Multimode</span></td>
+            <td>50 µm</td>
+            <td>850 / 1300 nm</td>
+            <td>10 Gbps</td>
+            <td>550 m</td>
+            <td>LAN, datacenter</td>
+          </tr>
+          <tr>
+            <td>OM3</td>
+            <td><span class="badge badge-mm">Multimode</span></td>
+            <td>50 µm</td>
+            <td>850 nm (laser)</td>
+            <td>100 Gbps</td>
+            <td>300 m</td>
+            <td>Datacenter 10–100G</td>
+          </tr>
+          <tr>
+            <td>OM4</td>
+            <td><span class="badge badge-mm">Multimode</span></td>
+            <td>50 µm</td>
+            <td>850 nm (laser)</td>
+            <td>400 Gbps</td>
+            <td>550 m</td>
+            <td>Datacenter 40–400G</td>
+          </tr>
+          <tr>
+            <td>OM5</td>
+            <td><span class="badge badge-mm">Multimode</span></td>
+            <td>50 µm</td>
+            <td>850–953 nm (SWDM)</td>
+            <td>400 Gbps</td>
+            <td>550 m</td>
+            <td>Datacenter SWDM4</td>
+          </tr>
+          <tr>
+            <td>OS1</td>
+            <td><span class="badge badge-os">Monomode</span></td>
+            <td>8–9 µm</td>
+            <td>1310 / 1550 nm</td>
+            <td>&gt; 100 Gbps</td>
+            <td>10 km</td>
+            <td>Intra-bâtiment, indoor</td>
+          </tr>
+          <tr>
+            <td>OS2</td>
+            <td><span class="badge badge-os">Monomode</span></td>
+            <td>8–9 µm</td>
+            <td>1310 / 1550 nm</td>
+            <td>&gt; 100 Gbps</td>
+            <td>200 km</td>
+            <td>FTTH, backbone, outdoor</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 4 ══════════════════════ -->
+  <section class="chapter" id="equipements">
+    <div class="chapter-header">
+      <div class="chapter-num-block">04</div>
+      <div class="chapter-title-block">
+        <h2>Équipements réseau fibre</h2>
+        <p class="chapter-intro">OLT, ONT, tiroirs optiques, modules SFP — rôle et positionnement dans l'architecture.</p>
+      </div>
+    </div>
+
+    <div class="equip-grid">
+      <div class="equip-card">
+        <img src="https://i.pinimg.com/1200x/29/00/70/290070ed3dc379a243e7f1bba5c9dd2b.jpg" alt="OLT Optical Line Terminal">
+        <div class="equip-body">
+          <div class="equip-tag">Cœur réseau</div>
+          <div class="equip-name">OLT — Optical Line Terminal</div>
+          <div class="equip-desc">Équipement central de l'opérateur. Gère jusqu'à 128 ONT par port PON (GPON) ou 512 (XGS-PON). Installé en central office ou NRO.</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <img src="https://i.pinimg.com/1200x/20/e8/46/20e8469bfb7fac7db3c31bbe5eca8972.jpg" alt="ONT ONU Fibre">
+        <div class="equip-body">
+          <div class="equip-tag">Côté abonné</div>
+          <div class="equip-name">ONT / ONU — Optical Network Terminal</div>
+          <div class="equip-desc">Boîtier installé chez l'abonné. Convertit le signal optique PON en Ethernet. Fournit les ports LAN, WiFi et téléphonie VoIP.</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <img src="https://i.imgur.com/z2AV0Od.png" alt="Switch fibre SFP">
+        <div class="equip-body">
+          <div class="equip-tag">Commutation</div>
+          <div class="equip-name">Switch avec ports SFP/SFP+</div>
+          <div class="equip-desc">Commutateur réseau avec emplacements pour modules transceiver. SFP = 1 Gbps, SFP+ = 10 Gbps, QSFP28 = 100 Gbps.</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <img src="https://i.pinimg.com/736x/18/a7/85/18a78581fe03779ffd6fb8039c70b260.jpg" alt="Tiroir optique">
+        <div class="equip-body">
+          <div class="equip-tag">Distribution</div>
+          <div class="equip-name">Tiroir optique (LGX)</div>
+          <div class="equip-desc">Cassette de brassage fibre en rack 19". Accueille les adaptateurs SC/LC, regroupe les épissures et permet le brassage des jarretières.</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <img src="https://i.pinimg.com/1200x/f3/74/55/f374557e0bdf710d23c3854248f98134.jpg" alt="Modules SFP transceiver">
+        <div class="equip-body">
+          <div class="equip-tag">Transceiver</div>
+          <div class="equip-name">Modules SFP / SFP+ / QSFP</div>
+          <div class="equip-desc">Modules enfichables Hot-Plug intégrant la source laser et la photodiode. Permettent d'adapter le switch au type de fibre et à la distance.</div>
+        </div>
+      </div>
+      <div class="equip-card">
+        <img src="https://i.pinimg.com/1200x/6f/a4/c9/6fa4c995df27f12e71b19846b573bde9.jpg" alt="Splitter optique passif">
+        <div class="equip-body">
+          <div class="equip-tag">Distribution PON</div>
+          <div class="equip-name">Splitter optique passif (PLC)</div>
+          <div class="equip-desc">Diviseur optique passif (sans alimentation). Ratios 1:2, 1:4, 1:8, 1:16, 1:32, 1:64. Cœur du déploiement FTTH en topologie point-multipoint.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Modules SFP — Nomenclature et compatibilité</h3>
+      <p>Les modules SFP (Small Form-factor Pluggable) sont des transceivers standardisés par le Multi-Source Agreement (MSA). Ils définissent les connecteurs électriques et mécaniques mais laissent libres les fabricants pour l'implémentation optique. Chaque module embarque une ROM <strong>EEPROM (adresse 0x50/0x51)</strong> décrivant ses caractéristiques selon la norme SFF-8472/SFF-8636.</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Format</th><th>Débit</th><th>Interface</th><th>Distance typique</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SFP</td><td>1.25 Gbps</td><td>LC Duplex</td><td>550 m – 80 km</td><td>GigabitEthernet, SONET OC-48</td></tr>
+          <tr><td>SFP+</td><td>10 Gbps</td><td>LC Duplex</td><td>300 m – 80 km</td><td>10GbE, FC 10G, SONET OC-192</td></tr>
+          <tr><td>SFP28</td><td>25 Gbps</td><td>LC Duplex</td><td>100 m – 30 km</td><td>25GbE datacenter</td></tr>
+          <tr><td>QSFP+</td><td>40 Gbps</td><td>MPO-12</td><td>100 m – 10 km</td><td>40GbE, 8×FC</td></tr>
+          <tr><td>QSFP28</td><td>100 Gbps</td><td>MPO-12</td><td>100 m – 40 km</td><td>100GbE datacenter</td></tr>
+          <tr><td>QSFP-DD</td><td>400 Gbps</td><td>MPO-16</td><td>100 m – 10 km</td><td>400GbE hyperscale</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 5 ══════════════════════ -->
+  <section class="chapter" id="connecteurs">
+    <div class="chapter-header">
+      <div class="chapter-num-block">05</div>
+      <div class="chapter-title-block">
+        <h2>Connecteurs & accessoires fibre</h2>
+        <p class="chapter-intro">SC, LC, ST, FC, MPO/MTP — caractéristiques et domaines d'utilisation.</p>
+      </div>
+    </div>
+
+    <div class="img-full">
+      <img src="https://i.pinimg.com/736x/13/4c/4c/134c4cf2d9926f2cd9a9259a67049362.jpg" alt="Différents types de connecteurs fibre optique">
+      <div class="img-caption">
+        <div class="img-caption-title">Gamme de connecteurs fibre optique — Vue d'ensemble</div>
+        <div class="img-caption-desc">De gauche à droite : connecteur SC (push-pull), LC (Small Form Factor), ST (baïonnette), FC (vissé), MPO/MTP (multi-fibres). Chaque type répond à des contraintes d'installation et de densité spécifiques.</div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Connecteur</th><th>Mécanisme</th><th>Diamètre ferrule</th><th>Pertes typ.</th><th>Application</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SC</td><td>Push-pull</td><td>2.5 mm</td><td>0.2–0.3 dB</td><td>FTTH, brassage opérateur, simplex/duplex</td></tr>
+          <tr><td>LC</td><td>Push-pull (verrou)</td><td>1.25 mm</td><td>0.1–0.2 dB</td><td>SFP modules, haute densité datacenter</td></tr>
+          <tr><td>ST</td><td>Baïonnette (BNC)</td><td>2.5 mm</td><td>0.2–0.5 dB</td><td>Legacy LAN, installations industrielles</td></tr>
+          <tr><td>FC</td><td>Vissé (filetage)</td><td>2.5 mm</td><td>0.1–0.2 dB</td><td>OTDR, instrumentation, environnements vibrants</td></tr>
+          <tr><td>MPO / MTP</td><td>Push-pull (guide pins)</td><td>Multi-fibres (12, 24)</td><td>0.35–0.5 dB</td><td>40G/100G/400G QSFP, backbone datacenter</td></tr>
+          <tr><td>E2000</td><td>Push-pull + obturateur</td><td>2.5 mm</td><td>0.1 dB</td><td>Télécom haute exigence, single-mode</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <h3>Polissage des ferrules</h3>
+      <p>La qualité de l'interface de connexion dépend du polissage de la ferrule :</p>
+      <ul>
+        <li><strong>PC (Physical Contact) :</strong> Surface légèrement convexe. Pertes de retour (RL) : -40 dB. Usage courant.</li>
+        <li><strong>UPC (Ultra Physical Contact) :</strong> Surface polie laser. RL : -55 dB. Télécom, CATV.</li>
+        <li><strong>APC (Angled Physical Contact) :</strong> Ferrule inclinée à 8°. RL : -65 dB. FTTH, PON, CATV — connexion verte pour identification.</li>
+      </ul>
+
+      <h3>Pigtails et jarretières</h3>
+      <p>Un <strong>pigtail</strong> est une courte fibre avec un connecteur d'un côté, terminée libre de l'autre (épissée en cassette). Une <strong>jarretière optique</strong> (patch cord) possède des connecteurs aux deux extrémités. Elle sert à relier deux équipements ou à brasser des panneaux.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 6 ══════════════════════ -->
+  <section class="chapter" id="installation">
+    <div class="chapter-header">
+      <div class="chapter-num-block">06</div>
+      <div class="chapter-title-block">
+        <h2>Installation & déploiement</h2>
+        <p class="chapter-intro">Étapes complètes d'un déploiement fibre : de l'étude technique à la mise en service.</p>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Étude technique et relevé de site</h4>
+          <p>Relevé des distances, identification des cheminements câbles (fourreaux existants, chemins de câble, goulotte), analyse du spectre de bande passante requis, définition de l'architecture (point-à-point, PON, anneau). Établissement des schémas de câblage.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Planification et commande des matériaux</h4>
+          <p>Calcul du budget optique (bilan de liaison), sélection du type de câble (armé, ADSS, micro-câble), choix des connecteurs, commande des équipements actifs (OLT, switches). Dimensionnement des armoires et tiroirs.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Pose et tirage du câble</h4>
+          <p>Tirage manuel ou soufflage pneumatique (micro-câble dans microtubes). Respect des rayons de courbure minimaux (typiquement 20× le diamètre du câble). Installation des boîtiers d'épissure intermédiaires sur les parcours longs.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Soudure et épissurage</h4>
+          <p>Dénudage, nettoyage, clivage de la fibre à 90° ± 0.5°. Soudure par arc électrique (perte typique : 0.02–0.05 dB). Protection de l'épissure par gaine thermorétractable SMOUV. Organisation dans la cassette d'épissure.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Raccordement dans les tiroirs optiques</h4>
+          <p>Installation des pigtails pré-épissés ou terminaison directe. Brassage dans les panneaux de distribution. Identification et étiquetage de chaque brin selon la nomenclature du schéma de câblage.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>Mesures et recette optique</h4>
+          <p>Mesures OTDR sur chaque brin (courbe, événements, atténuation totale). Mesures de puissance optique avec source + photomètre. Vérification du budget optique. Documentation des mesures dans le DOE (Dossier d'Ouvrage Exécuté).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h4>Mise en service des équipements actifs</h4>
+          <p>Installation des modules SFP, connexion des jarretières, configuration des switches et OLT, tests de connectivité end-to-end. Mise en service progressive avec monitoring de la puissance optique reçue.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.pinimg.com/736x/ae/54/71/ae5471cc55743e0aa4779fb6b0f55784.jpg" alt="Technicien pose câble fibre">
+        <div class="img-caption">
+          <div class="img-caption-title">Pose de câble fibre en fourreau</div>
+          <div class="img-caption-desc">Technicien procédant au soufflage pneumatique d'un micro-câble fibre dans un microtube HDPE. Le soufflage permet d'installer jusqu'à 2 km sans raccord intermédiaire.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.pinimg.com/736x/4b/65/b0/4b65b0ebc59ae09af1e03ebdae9b6520.jpg" alt="Soudure fibre optique">
+        <div class="img-caption">
+          <div class="img-caption-title">Soudure par fusion à l'arc électrique</div>
+          <div class="img-caption-desc">Machine à souder alignant automatiquement les cœurs par analyse d'image (vision par profil ou PAS). Perte d'insertion typique après soudure : 0.02 à 0.05 dB.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 7 ══════════════════════ -->
+  <section class="chapter" id="mesure">
+    <div class="chapter-header">
+      <div class="chapter-num-block">07</div>
+      <div class="chapter-title-block">
+        <h2>Outils de mesure & maintenance</h2>
+        <p class="chapter-intro">OTDR, photomètre, microscope de fibre — utilisation et interprétation des mesures.</p>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.pinimg.com/1200x/88/b4/3a/88b43aa791e8b36fac667d30e78c859d.jpg" alt="OTDR réflectomètre optique">
+        <div class="img-caption">
+          <div class="img-caption-title">OTDR — Optical Time Domain Reflectometer</div>
+          <div class="img-caption-desc">Instrument de mesure envoyant des impulsions lumineuses et analysant la rétrodiffusion Rayleigh. Permet de localiser les défauts (cassures, soudures, connecteurs) avec une précision de ±1 mètre.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.pinimg.com/1200x/61/b7/67/61b767014cae87326e32bddb57667d5d.jpg" alt="Soudeuse fibre optique">
+        <div class="img-caption">
+          <div class="img-caption-title">Soudeuse à fusion — Fujikura / Sumitomo</div>
+          <div class="img-caption-desc">Cliveuse intégrée et arc électrique haute tension. Alignement automatique des cœurs par caméra CCD et analyse d'image. Durée de cycle : 7 à 9 secondes par épissure.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>OTDR — Interprétation des traces</h3>
+      <p>Une trace OTDR représente la puissance rétrodiffusée en fonction de la distance. Chaque événement crée une signature caractéristique :</p>
+      <ul>
+        <li><strong>Pic réflectif :</strong> Connecteur, extrémité de fibre ou cassure avec gap d'air. Visible comme une bosse vers le haut.</li>
+        <li><strong>Événement non réflectif :</strong> Soudure, macrocourbure, microfissure. Visible comme une marche vers le bas.</li>
+        <li><strong>Pente de la trace :</strong> Représente le coefficient d'atténuation de la fibre en dB/km.</li>
+        <li><strong>Bruit de fond :</strong> Limite de sensibilité de l'instrument. La dynamique utile est typiquement 30–45 dB selon le modèle.</li>
+      </ul>
+
+      <h3>Photomètre et source lumineuse</h3>
+      <p>La mesure de puissance optique (en dBm) par injection/réception directe est la méthode de référence pour valider le bilan de liaison. On injecte une puissance connue (ex : -3 dBm à 1310 nm) en tête de liaison et on mesure la puissance reçue en bout. La différence donne l'atténuation totale du lien, à comparer au budget optique calculé.</p>
+
+      <h3>Microscope de fibre</h3>
+      <p>L'inspection visuelle des ferrules (grossissement 200× à 400×) est indispensable avant toute connexion. Une contamination (poussière, huile, résidu alcool) crée des pertes importantes et peut endommager irrémédiablement d'autres connecteurs par transfert de contaminant.</p>
+    </div>
+
+    <div class="infobox infobox-warn">
+      <div class="infobox-label">Avertissement sécurité laser</div>
+      <p>Ne jamais regarder directement dans une fibre optique connectée à un équipement actif. Les longueurs d'onde 1310 nm et 1550 nm sont invisibles à l'œil mais peuvent causer des dommages irréversibles à la rétine. Utiliser toujours un visualiseur de fibre avec filtre optique approprié.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 8 ══════════════════════ -->
+  <section class="chapter" id="config">
+    <div class="chapter-header">
+      <div class="chapter-num-block">08</div>
+      <div class="chapter-title-block">
+        <h2>Configuration des équipements</h2>
+        <p class="chapter-intro">Switch SFP, OLT, ONT, modules transceiver — commandes et interfaces de configuration.</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Configuration d'un switch fibre — Ports SFP et VLAN</h3>
+      <p>La configuration d'un switch Cisco IOS avec ports SFP suit la même logique qu'un port Ethernet classique. Les modules SFP sont détectés automatiquement au démarrage ou à chaud (Hot-Plug). La commande <code>show interfaces GigabitEthernet 0/X transceiver</code> affiche les paramètres optiques en temps réel.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Cisco IOS — Switch Fibre / VLAN / Trunk</span></div>
+      <div class="code-body"><span class="cm">! Vérification du module SFP inséré</span>
+Switch# <span class="kw">show interfaces</span> GigabitEthernet <span class="num">0/1</span> transceiver
+  Transceiver is internally calibrated.
+  mA: milliamps, dBm: decibels (milliwatts), NA: not applicable.
+  TxBias Current: <span class="num">10.8</span> mA, RxPower: <span class="num">-3.4</span> dBm, TxPower: <span class="num">-2.8</span> dBm
+
+<span class="cm">! Configuration port Access (VLAN utilisateur)</span>
+Switch(config)# <span class="kw">interface</span> GigabitEthernet <span class="num">0/1</span>
+Switch(config-if)#  <span class="kw">description</span> <span class="str">Connexion_ONT_Abonne_42</span>
+Switch(config-if)#  <span class="kw">switchport mode</span> access
+Switch(config-if)#  <span class="kw">switchport access vlan</span> <span class="num">100</span>
+Switch(config-if)#  <span class="kw">spanning-tree portfast</span>
+Switch(config-if)#  <span class="kw">no shutdown</span>
+
+<span class="cm">! Configuration port Trunk (liaison vers OLT/routeur)</span>
+Switch(config)# <span class="kw">interface</span> GigabitEthernet <span class="num">0/24</span>
+Switch(config-if)#  <span class="kw">description</span> <span class="str">Trunk_vers_OLT_Uplink</span>
+Switch(config-if)#  <span class="kw">switchport mode</span> trunk
+Switch(config-if)#  <span class="kw">switchport trunk encapsulation</span> dot1q
+Switch(config-if)#  <span class="kw">switchport trunk allowed vlan</span> <span class="num">100,200,300,999</span>
+Switch(config-if)#  <span class="kw">no shutdown</span>
+
+<span class="cm">! Agrégation LACP (Link Aggregation — 802.3ad)</span>
+Switch(config)# <span class="kw">interface range</span> GigabitEthernet <span class="num">0/23 - 24</span>
+Switch(config-if-range)#  <span class="kw">channel-group</span> <span class="num">1</span> mode active
+Switch(config-if-range)#  <span class="kw">channel-protocol</span> lacp
+Switch(config)# <span class="kw">interface</span> Port-channel <span class="num">1</span>
+Switch(config-if)#  <span class="kw">switchport mode</span> trunk
+Switch(config-if)#  <span class="kw">switchport trunk allowed vlan</span> all</div>
+    </div>
+
+    <div class="prose">
+      <h3>Configuration QoS sur switch fibre</h3>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Cisco IOS — QoS DSCP / 802.1p Marking</span></div>
+      <div class="code-body"><span class="cm">! Classification et marquage QoS</span>
+Switch(config)# <span class="kw">class-map</span> match-all <span class="fn">VOICE_TRAFFIC</span>
+Switch(config-cmap)#  <span class="kw">match</span> ip dscp ef
+Switch(config)# <span class="kw">class-map</span> match-all <span class="fn">VIDEO_TRAFFIC</span>
+Switch(config-cmap)#  <span class="kw">match</span> ip dscp af41 af42
+
+Switch(config)# <span class="kw">policy-map</span> <span class="fn">QOS_FIBER_POLICY</span>
+Switch(config-pmap)#  <span class="kw">class</span> <span class="fn">VOICE_TRAFFIC</span>
+Switch(config-pmap-c)#   <span class="kw">priority</span> <span class="num">10000</span>
+Switch(config-pmap-c)#   <span class="kw">set cos</span> <span class="num">5</span>
+Switch(config-pmap)#  <span class="kw">class</span> <span class="fn">VIDEO_TRAFFIC</span>
+Switch(config-pmap-c)#   <span class="kw">bandwidth</span> <span class="num">50000</span>
+Switch(config-pmap-c)#   <span class="kw">set cos</span> <span class="num">4</span>
+Switch(config-pmap)#  <span class="kw">class</span> class-default
+Switch(config-pmap-c)#   <span class="kw">fair-queue</span>
+
+Switch(config)# <span class="kw">interface</span> GigabitEthernet <span class="num">0/24</span>
+Switch(config-if)#  <span class="kw">service-policy output</span> <span class="fn">QOS_FIBER_POLICY</span></div>
+    </div>
+
+    <div class="prose">
+      <h3>Configuration OLT GPON — Huawei MA5800</h3>
+      <p>L'OLT est le cœur du réseau FTTH. Sa configuration implique la création des interfaces PON, la définition des profils DBA (Dynamic Bandwidth Allocation), la gestion des ONT et l'attribution des VLAN de service.</p>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Huawei MA5800 — Configuration OLT GPON</span></div>
+      <div class="code-body"><span class="cm">! Entrée en mode configuration OLT</span>
+MA5800(config)# <span class="kw">interface</span> gpon <span class="num">0/1</span>
+
+<span class="cm">! Activation port PON et confirmation ONT</span>
+MA5800(config-if-gpon-0/1)# <span class="kw">port</span> <span class="num">0</span> ont-auto-find <span class="kw">enable</span>
+MA5800(config-if-gpon-0/1)# <span class="kw">display ont autofind all</span>
+
+<span class="cm">! Ajout d'un ONT avec authentification SN (numéro de série)</span>
+MA5800(config-if-gpon-0/1)# <span class="kw">ont add</span> <span class="num">0</span> sn-auth <span class="str">HWTC1A2B3C4D</span> omci <span class="kw">ont-lineprofile-id</span> <span class="num">10</span> <span class="kw">ont-srvprofile-id</span> <span class="num">10</span> <span class="kw">desc</span> <span class="str">"Abonne_42_Rue_Victor_Hugo"</span>
+
+<span class="cm">! Configuration service VLAN Internet sur ONT</span>
+MA5800(config-if-gpon-0/1)# <span class="kw">ont port native-vlan</span> <span class="num">0</span> ont-id <span class="num">1</span> eth <span class="num">1</span> vlan <span class="num">100</span>
+MA5800(config-if-gpon-0/1)# <span class="kw">service-port vlan</span> <span class="num">100</span> gpon <span class="num">0/1/0</span> ont <span class="num">1</span> gemport <span class="num">1</span> multi-service <span class="kw">user-vlan</span> <span class="num">100</span>
+
+<span class="cm">! Limitation de bande passante (DBA profile)</span>
+MA5800(config)# <span class="kw">dba-profile add profile-id</span> <span class="num">20</span> profile-name <span class="str">"BW_1Gbps"</span> type3 assure <span class="num">102400</span> max <span class="num">1024000</span>
+
+<span class="cm">! Monitoring ONT : puissance optique reçue (Rx)</span>
+MA5800# <span class="kw">display ont optical-info</span> <span class="num">0 1 0 1</span>
+  Rx optical power(dBm) : <span class="num">-19.23</span>
+  Tx optical power(dBm) : <span class="num">2.48</span>
+  OLT rx optical power  : <span class="num">-20.14</span></div>
+    </div>
+
+    <div class="prose">
+      <h3>Configuration ONT/ONU — Interface web et CLI</h3>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">ONT Huawei HG8245 — Configuration VLAN & IP</span></div>
+      <div class="code-body"><span class="cm">## Accès interface web ONT</span>
+<span class="cm">## Adresse par défaut : http://192.168.100.1</span>
+<span class="cm">## Login : telecomadmin / admintelecom</span>
+
+<span class="cm">! Via CLI (Telnet/SSH interne)</span>
+WAP> <span class="kw">enable</span>
+WAP# <span class="kw">config</span>
+WAP(config)# <span class="kw">wan-connection add</span> <span class="str">WAN_INTERNET</span>
+WAP(config-wan)#  <span class="kw">connection-type</span> <span class="num">2</span>     <span class="cm">! 2 = IPoE</span>
+WAP(config-wan)#  <span class="kw">vlan-id</span> <span class="num">100</span>
+WAP(config-wan)#  <span class="kw">ipv6-enable</span> <span class="num">1</span>
+WAP(config-wan)#  <span class="kw">nat-enable</span> <span class="num">1</span>
+WAP(config-wan)#  <span class="kw">commit</span>
+
+<span class="cm">! Vérification connectivité PON</span>
+WAP# <span class="kw">show pon-onu-mng olt</span>
+  OLT distance   : <span class="num">1.234</span> km
+  PON state      : <span class="str">O5 - Operation</span>
+  RxPower        : <span class="num">-19.2</span> dBm
+  TxPower        : <span class="num">+2.5</span> dBm</div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://i.pinimg.com/736x/d6/6e/ea/d66eeaf6317890424833dc09cad5bbfb.jpg" alt="Interface de gestion OLT">
+        <div class="img-caption">
+          <div class="img-caption-title">Interface NMS — Gestion réseau OLT</div>
+          <div class="img-caption-desc">Tableau de bord du système de gestion réseau (NMS) affichant l'état des ports PON, la liste des ONT actifs, les alarmes et les métriques de puissance optique en temps réel.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.pinimg.com/1200x/2f/ab/10/2fab10c26918e15746fd4f6557ecffe4.jpg" alt="Monitoring trafic réseau">
+        <div class="img-caption">
+          <div class="img-caption-title">Dashboard de supervision — Monitoring trafic fibre</div>
+          <div class="img-caption-desc">Interface de supervision affichant les courbes de trafic, les alertes SNMP et l'état des liens fibre en temps réel. Intégration avec Zabbix / Grafana / Cacti.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Supervision SNMP des équipements fibre</h3>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">SNMP — Monitoring puissance optique SFP</span></div>
+      <div class="code-body"><span class="cm">! Configuration SNMP v3 sur switch Cisco</span>
+Switch(config)# <span class="kw">snmp-server group</span> <span class="fn">MONITORING_GRP</span> v3 priv
+Switch(config)# <span class="kw">snmp-server user</span> <span class="fn">nmsuser</span> <span class="fn">MONITORING_GRP</span> v3 <span class="kw">auth sha</span> <span class="str">AuthPass123!</span> <span class="kw">priv aes 128</span> <span class="str">PrivPass456!</span>
+Switch(config)# <span class="kw">snmp-server host</span> <span class="num">10.0.0.50</span> version 3 priv <span class="fn">nmsuser</span>
+Switch(config)# <span class="kw">snmp-server enable traps</span> envmon temperature
+Switch(config)# <span class="kw">snmp-server enable traps</span> entity
+
+<span class="cm">## OID MIB pour puissance optique SFP (CISCO-ENTITY-SENSOR-MIB)</span>
+<span class="cm">## Rx Power : .1.3.6.1.4.1.9.9.91.1.1.1.1.4.{ifIndex}</span>
+<span class="cm">## Tx Power : .1.3.6.1.4.1.9.9.91.1.1.1.1.4.{ifIndex+1}</span>
+
+$ snmpget -v3 -l authPriv -u nmsuser -a SHA -A <span class="str">"AuthPass123!"</span> -x AES -X <span class="str">"PrivPass456!"</span> \
+  <span class="num">10.10.0.1</span> <span class="str">.1.3.6.1.4.1.9.9.91.1.1.1.1.4.10101</span>
+
+CISCO-ENTITY-SENSOR-MIB::entSensorValue.<span class="num">10101</span> = INTEGER: <span class="num">-285</span>
+<span class="cm">## Valeur en unité 0.1 dBm → -28.5 dBm</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 9 ══════════════════════ -->
+  <section class="chapter" id="ftth">
+    <div class="chapter-header">
+      <div class="chapter-num-block">09</div>
+      <div class="chapter-title-block">
+        <h2>Architecture réseau FTTH</h2>
+        <p class="chapter-intro">Topologie PON, budget optique, déploiement GPON et XGS-PON.</p>
+      </div>
+    </div>
+
+    <div class="arch-diagram">
+      <div class="arch-title">Architecture FTTH GPON — Topologie Point-Multipoint</div>
+      <div class="arch-flow">
+        <div class="arch-node blue">
+          <div class="arch-node-label">Internet</div>
+          <div class="arch-node-sub">Transit IP</div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-node accent">
+          <div class="arch-node-label">OLT</div>
+          <div class="arch-node-sub">Central Office</div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-node">
+          <div class="arch-node-label">Fibre Feeder</div>
+          <div class="arch-node-sub">OS2 — 1–20 km</div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-node">
+          <div class="arch-node-label">Splitter 1:4</div>
+          <div class="arch-node-sub">NRO / Armoire rue</div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-node">
+          <div class="arch-node-label">Splitter 1:8</div>
+          <div class="arch-node-sub">Chambre de dist.</div>
+        </div>
+        <div class="arch-arrow"></div>
+        <div class="arch-node green">
+          <div class="arch-node-label">ONT x32</div>
+          <div class="arch-node-sub">Chez l'abonné</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-full">
+      <img src="https://i.pinimg.com/736x/25/da/d7/25dad730ae7e51012539db750d5344c6.jpg" alt="Infrastructure FTTH NRO">
+      <div class="img-caption">
+        <div class="img-caption-title">Nœud de Raccordement Optique (NRO) — Infrastructure FTTH</div>
+        <div class="img-caption-desc">Armoire extérieure hébergeant l'OLT, les tiroirs optiques de distribution et les splitters passifs. Point de convergence entre la fibre feeder (venant du central office) et les fibres de distribution vers les abonnés.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Budget optique GPON</h3>
+      <p>Le budget optique (ou bilan de liaison) est la somme maximale des pertes admissibles entre l'OLT et l'ONT. En GPON (ITU-T G.984), les classes de puissance définissent :</p>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Élément</th><th>Perte typique</th><th>Commentaire</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Fibre feeder (10 km OS2)</td><td>2.0 dB</td><td>0.2 dB/km × 10 km</td></tr>
+          <tr><td>Splitter 1:4 (cascade niveau 1)</td><td>7.0 dB</td><td>Pertes d'insertion PLC</td></tr>
+          <tr><td>Splitter 1:8 (cascade niveau 2)</td><td>10.5 dB</td><td>Ratio 1:32 total</td></tr>
+          <tr><td>Fibre distribution (2 km)</td><td>0.4 dB</td><td>Dernier kilomètre</td></tr>
+          <tr><td>Connecteurs (6 × 0.3 dB)</td><td>1.8 dB</td><td>Épissures + connecteurs</td></tr>
+          <tr><td>Marge de sécurité</td><td>3.0 dB</td><td>Réparations futures, vieillissement</td></tr>
+          <tr><td><strong>Total budget consommé</strong></td><td><strong>24.7 dB</strong></td><td>Budget max GPON Classe B+ : 28 dB ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="infobox infobox-tip">
+      <div class="infobox-label">Tip — Standards PON en 2025</div>
+      <p>Le déploiement XGS-PON (10 Gbps symétrique, ITU-T G.9807) est désormais la référence pour les nouveaux déploiements. Il est rétrocompatible avec l'infrastructure fibre GPON existante (même bande passante OS2, même splitters PLC), seuls les OLT et ONT doivent être remplacés ou ajoutés en co-déploiement.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ CHAPITRE 10 ══════════════════════ -->
+  <section class="chapter" id="supervision">
+    <div class="chapter-header">
+      <div class="chapter-num-block">10</div>
+      <div class="chapter-title-block">
+        <h2>Supervision & Monitoring réseau fibre</h2>
+        <p class="chapter-intro">SNMP, NMS, Grafana, Zabbix — surveillance en temps réel de l'infrastructure optique.</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>La supervision d'un réseau fibre opérateur repose sur plusieurs couches complémentaires : collecte des métriques optiques (puissance Rx/Tx, BER, FEC), monitoring des performances réseau (débit, latence, gigue) et gestion des alarmes (ONT déconnecté, seuil optique atteint, équipement en défaut).</p>
+
+      <h3>Stack de supervision recommandée</h3>
+      <ul>
+        <li><strong>Collecte SNMP :</strong> Zabbix ou Prometheus + SNMP Exporter — sondage des OLT/switches toutes les 60 secondes.</li>
+        <li><strong>NMS dédié :</strong> iMaster NCE (Huawei), CloudView (Nokia/ISAM), EMS Cisco — pour la gestion native des équipements et la corrélation des alarmes.</li>
+        <li><strong>Visualisation :</strong> Grafana avec base de données temporelle InfluxDB ou Prometheus. Dashboards personnalisés par port PON, par zone géographique, par client.</li>
+        <li><strong>Alerting :</strong> PagerDuty, OpsGenie, ou alertes Grafana. Seuils typiques : RxPower < -27 dBm (alerte), < -30 dBm (critique).</li>
+      </ul>
+
+      <h3>Métriques clés à surveiller</h3>
+      <ul>
+        <li>Puissance optique reçue par l'OLT pour chaque ONT (RxPower en dBm)</li>
+        <li>Taux d'erreur binaire (BER) avant et après correction FEC</li>
+        <li>Débit upstream/downstream par GEMPORT et par abonné</li>
+        <li>Nombre de resets/renegociations PON par heure</li>
+        <li>Température des modules SFP (seuil d'alarme typique : 70°C)</li>
+        <li>Tension d'alimentation des OLT et switches (seuils ±5%)</li>
+      </ul>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">Zabbix — Template SNMP OLT Huawei (extrait)</span></div>
+      <div class="code-body"><span class="cm"># Template Item : Puissance Rx ONT par port PON</span>
+<span class="kw">Name</span>: <span class="str">PON{#PORTNUM} - ONT{#ONTID} RxPower</span>
+<span class="kw">Type</span>: SNMP agent
+<span class="kw">OID</span>: <span class="str">.1.3.6.1.4.1.2011.6.128.1.1.2.51.1.4.{#SNMPINDEX}</span>
+<span class="kw">Units</span>: <span class="str">dBm</span>
+<span class="kw">Preprocessing</span>:
+  - <span class="kw">multiplier</span>: <span class="num">0.01</span>   <span class="cm"># Valeur retournée en centièmes de dBm</span>
+
+<span class="cm"># Trigger : Alerte dégradation signal optique</span>
+<span class="kw">Expression</span>: {Template:rxpower.last()} &lt; <span class="num">-27</span>
+<span class="kw">Severity</span>: WARNING
+<span class="kw">Name</span>: <span class="str">RxPower dégradé sur ONT {HOST.NAME} - Port {#PORTNUM}</span>
+
+<span class="cm"># Trigger critique : risque de coupure imminente</span>
+<span class="kw">Expression</span>: {Template:rxpower.last()} &lt; <span class="num">-30</span>
+<span class="kw">Severity</span>: HIGH
+<span class="kw">Name</span>: <span class="str">CRITIQUE - Signal optique insuffisant ONT {HOST.NAME}</span></div>
+    </div>
+
+    <div class="infobox infobox-info">
+      <div class="infobox-label">Bonne pratique — Archivage des mesures OTDR</div>
+      <p>Conserver toutes les traces OTDR de recette dans un système documentaire centralisé (GIS ou base de données dédiée). En cas d'incident (cassure, dégradation progressive), la comparaison avec les mesures initiales permet de détecter immédiatement l'origine et la localisation exacte du problème, réduisant le MTTR de plusieurs heures.</p>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <div class="img-card">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=80" alt="Dashboard Grafana réseau fibre">
+        <div class="img-caption">
+          <div class="img-caption-title">Dashboard Grafana — Supervision trafic réseau fibre</div>
+          <div class="img-caption-desc">Visualisation temps réel des débits par port PON, des puissances optiques et des alertes. Intégration InfluxDB / Prometheus pour la persistance des métriques.</div>
+        </div>
+      </div>
+      <div class="img-card">
+        <img src="https://i.pinimg.com/1200x/c5/6b/b6/c56bb60ed349211706e4f3547535cdfc.jpg" alt="NOC centre opérations réseau">
+        <div class="img-caption">
+          <div class="img-caption-title">Centre d'Opérations Réseau (NOC)</div>
+          <div class="img-caption-desc">Salle de supervision avec murs d'écrans affichant les dashboards NMS, les cartes géographiques des alarmes réseau et les métriques de performance en temps réel.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Guide  Fibre Optique & Réseaux FTTH</strong> — Documentation professionnelle</p>
+  <p style="margin-top:10px">Contenu à titre éducatif et de référence technique · Standards ITU-T G.984 / G.9807 · IEEE 802.3 · IEC 60793</p>
+</footer>
+
+</body>
+</html>

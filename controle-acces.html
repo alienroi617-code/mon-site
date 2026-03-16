@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrôle d'Accès — SecurePro Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112244;
+    --navy-light: #1a3366;
+    --steel: #2a4a7f;
+    --accent: #e8a020;
+    --accent-light: #f5c060;
+    --silver: #c8d4e8;
+    --light: #f0f4fa;
+    --white: #ffffff;
+    --text: #1a2840;
+    --text-mid: #3a5070;
+    --red: #c0392b;
+    --green: #1a7a4a;
+    --border: #d0dcea;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 2px solid var(--accent);
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 800; letter-spacing: 2px;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 30px; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
+    color: var(--silver); text-decoration: none; text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--steel) 100%);
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 0;
+    padding-top: 64px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-content { padding: 80px 60px 80px 80px; }
+  .hero-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 3px;
+    color: var(--accent); text-transform: uppercase;
+    border: 1px solid var(--accent); border-radius: 2px;
+    padding: 6px 14px; margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 900; line-height: 1.0;
+    color: var(--white); letter-spacing: -1px;
+    margin-bottom: 28px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; display: block; }
+  .hero p {
+    font-size: 17px; line-height: 1.75;
+    color: var(--silver); max-width: 480px; margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--accent); color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 16px 32px; border-radius: 2px;
+    transition: background .2s, transform .2s;
+  }
+  .hero-cta:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+  .hero-visual {
+    position: relative; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 60px;
+  }
+  .hero-img-stack {
+    position: relative; width: 100%; max-width: 540px;
+  }
+  .hero-img-main {
+    width: 100%; border-radius: 4px;
+    border: 3px solid rgba(232,160,32,0.4);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .hero-img-badge-card {
+    position: absolute; bottom: -24px; left: -24px;
+    background: var(--navy);
+    border: 2px solid var(--accent);
+    border-radius: 4px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+  .hero-img-badge-card img { width: 56px; height: 56px; object-fit: cover; border-radius: 3px; }
+  .hero-img-badge-card div { }
+  .hero-img-badge-card .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase;
+  }
+  .hero-img-badge-card .val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--white);
+  }
+
+  /* ===== SECTION WRAPPER ===== */
+  section { padding: 100px 80px; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 14px; display: block;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 800; line-height: 1.05;
+    color: var(--navy); letter-spacing: -0.5px;
+    margin-bottom: 24px;
+  }
+  .section-title span { color: var(--accent); }
+  .section-divider {
+    width: 60px; height: 3px;
+    background: var(--accent); margin-bottom: 32px;
+  }
+  .section-body {
+    font-size: 16.5px; line-height: 1.85;
+    color: var(--text-mid); max-width: 760px;
+  }
+
+  /* ===== INTRO ===== */
+  .intro { background: var(--light); }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+  .intro-img { width: 100%; border-radius: 4px; box-shadow: 0 20px 60px rgba(10,22,40,0.15); }
+  .intro-img-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--text-mid); letter-spacing: 1px;
+    margin-top: 10px; text-align: center;
+  }
+
+  /* ===== WHEN ===== */
+  .when-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 50px; }
+  .when-card {
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; background: var(--white);
+    box-shadow: 0 4px 20px rgba(10,22,40,0.06);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .when-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(10,22,40,0.13); }
+  .when-card img { width: 100%; height: 200px; object-fit: cover; }
+  .when-card-body { padding: 24px; }
+  .when-card-body h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 700; color: var(--navy);
+    margin-bottom: 10px; letter-spacing: .3px;
+  }
+  .when-card-body p { font-size: 14.5px; line-height: 1.7; color: var(--text-mid); }
+
+  /* ===== WHERE ===== */
+  .where { background: var(--navy); }
+  .where .section-title { color: var(--white); }
+  .where .section-body { color: var(--silver); }
+  .where-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 50px;
+  }
+  .where-item { position: relative; overflow: hidden; border-radius: 4px; }
+  .where-item img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.75); transition: transform .4s, filter .4s; }
+  .where-item:hover img { transform: scale(1.06); filter: brightness(0.55); }
+  .where-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(10,22,40,0.92));
+    padding: 28px 16px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px; font-weight: 700; letter-spacing: .5px;
+    color: var(--white);
+  }
+  .where-label span {
+    display: block; font-size: 11px; font-family: 'JetBrains Mono', monospace;
+    color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  /* ===== WHY ===== */
+  .why-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .why-benefits { list-style: none; margin-top: 36px; }
+  .why-benefits li {
+    border-left: 3px solid var(--accent);
+    padding: 18px 24px;
+    margin-bottom: 16px;
+    background: var(--light);
+    border-radius: 0 4px 4px 0;
+  }
+  .why-benefits li h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+  }
+  .why-benefits li p { font-size: 14.5px; color: var(--text-mid); line-height: 1.65; }
+  .why-visual { display: flex; flex-direction: column; gap: 20px; }
+  .why-visual img, .why-visual .gif-placeholder {
+    width: 100%; border-radius: 4px;
+    border: 2px solid var(--border);
+    box-shadow: 0 8px 30px rgba(10,22,40,0.1);
+  }
+  .gif-box {
+    background: var(--navy);
+    border: 2px solid var(--accent);
+    border-radius: 4px; overflow: hidden;
+    position: relative;
+  }
+  .gif-box img { width: 100%; display: block; }
+  .gif-overlay-label {
+    position: absolute; top: 10px; right: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    background: var(--accent); color: var(--navy);
+    padding: 4px 10px; border-radius: 2px;
+  }
+
+  /* ===== TYPES ===== */
+  .types { background: var(--light); }
+  .types-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 50px; }
+  .type-card {
+    background: var(--white);
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; position: relative;
+    transition: box-shadow .3s, transform .3s;
+  }
+  .type-card:hover { box-shadow: 0 16px 50px rgba(10,22,40,0.13); transform: translateY(-4px); }
+  .type-card-img { width: 100%; height: 230px; object-fit: cover; }
+  .type-card-body { padding: 26px 24px; }
+  .type-card-body .type-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent); letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  .type-card-body h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 800; color: var(--navy);
+    margin-bottom: 10px; letter-spacing: -.2px;
+  }
+  .type-card-body p { font-size: 14.5px; line-height: 1.7; color: var(--text-mid); }
+
+  /* ===== EQUIPMENT ===== */
+  .equipment { background: var(--white); }
+  .equip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 50px; }
+  .equip-item {
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; background: var(--light);
+    transition: box-shadow .3s;
+  }
+  .equip-item:hover { box-shadow: 0 8px 28px rgba(10,22,40,0.11); }
+  .equip-item img { width: 100%; height: 180px; object-fit: cover; }
+  .equip-item-label {
+    padding: 14px 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--navy);
+    border-top: 2px solid var(--border);
+  }
+  .equip-item-label span {
+    display: block; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--text-mid); letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  /* WIRING SCHEMA */
+  .wiring-schema {
+    margin-top: 60px;
+    background: var(--navy);
+    border-radius: 6px; padding: 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+  }
+  .wiring-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 800; color: var(--white);
+    margin-bottom: 10px;
+  }
+  .wiring-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--accent); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  .wiring-desc { font-size: 15px; color: var(--silver); line-height: 1.7; }
+  .wiring-diagram { display: flex; flex-direction: column; gap: 0; }
+  .wire-row {
+    display: flex; align-items: stretch; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .wire-pin {
+    width: 90px; padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px; font-weight: 500;
+    display: flex; align-items: center;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .wire-desc {
+    padding: 14px 20px; flex: 1;
+    font-size: 14px; color: var(--silver);
+    display: flex; align-items: center;
+  }
+  .pin-12v { color: #f5c060; }
+  .pin-gnd { color: #a0b4c8; }
+  .pin-com { color: #80c8f0; }
+  .pin-no { color: #70e8a0; }
+  .pin-nc { color: #f08070; }
+  .pin-bell { color: #d890f0; }
+
+  /* ===== INTEGRATION ===== */
+  .integration { background: var(--light); }
+  .integration-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+  .integration-visual { display: flex; flex-direction: column; gap: 18px; }
+  .integration-img { width: 100%; border-radius: 4px; border: 2px solid var(--border); }
+
+  /* ===== GUIDE ===== */
+  .guide { background: var(--white); }
+  .guide-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-top: 50px; position: relative;
+  }
+  .guide-steps::before {
+    content: '';
+    position: absolute; top: 100px; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--accent), var(--steel));
+    z-index: 0;
+  }
+  .guide-step {
+    background: var(--light);
+    border: 1px solid var(--border); border-radius: 4px;
+    overflow: hidden; position: relative; z-index: 1;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .guide-step:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(10,22,40,0.12); }
+  .guide-step-img { width: 100%; height: 180px; object-fit: cover; }
+  .guide-step-body { padding: 22px 20px; }
+  .guide-step-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 42px; font-weight: 900; color: var(--accent);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .guide-step h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 19px; font-weight: 800; color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .guide-step p { font-size: 13.5px; line-height: 1.65; color: var(--text-mid); }
+  .guide-step-tag {
+    display: inline-block; margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    background: var(--navy); color: var(--accent);
+    padding: 4px 10px; border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ===== CONCLUSION ===== */
+  .conclusion {
+    background: var(--navy);
+    text-align: center; padding: 120px 80px;
+  }
+  .conclusion .section-label { justify-content: center; display: flex; }
+  .conclusion .section-title { color: var(--white); margin: 0 auto 24px; }
+  .conclusion .section-divider { margin: 0 auto 32px; }
+  .conclusion .section-body { color: var(--silver); margin: 0 auto 50px; text-align: center; }
+  .conclusion-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; max-width: 960px; margin: 0 auto 60px;
+  }
+  .conclusion-card {
+    border: 1px solid rgba(232,160,32,0.3);
+    border-radius: 4px; padding: 32px 28px;
+    background: rgba(255,255,255,0.04);
+  }
+  .conclusion-card h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 800; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .conclusion-card p { font-size: 14.5px; color: var(--silver); line-height: 1.7; }
+  .conclusion-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--accent); color: var(--navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 18px 40px; border-radius: 2px;
+    transition: background .2s;
+  }
+  .conclusion-cta:hover { background: var(--accent-light); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #060e1a;
+    padding: 40px 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  footer .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 800; color: var(--white); letter-spacing: 2px;
+  }
+  footer .logo span { color: var(--accent); }
+  footer p { font-size: 13px; color: rgba(200,212,232,0.4); }
+
+  /* ===== ANIMATED PULSE ===== */
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  .live-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: #2ecc71; margin-right: 6px;
+    animation: pulse-dot 1.5s infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * {
+    animation: fade-up .7s ease both;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: .1s; }
+  .hero-content > *:nth-child(2) { animation-delay: .25s; }
+  .hero-content > *:nth-child(3) { animation-delay: .4s; }
+  .hero-content > *:nth-child(4) { animation-delay: .55s; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px) {
+    section { padding: 80px 40px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-visual { display: none; }
+    .hero-content { padding: 100px 40px 80px; }
+    .intro-grid, .why-layout, .integration-grid { grid-template-columns: 1fr; }
+    .when-cards, .types-grid { grid-template-columns: repeat(2, 1fr); }
+    .where-grid { grid-template-columns: repeat(2, 1fr); }
+    .equip-grid { grid-template-columns: repeat(2, 1fr); }
+    .guide-steps { grid-template-columns: repeat(2, 1fr); }
+    .guide-steps::before { display: none; }
+    .conclusion-cards { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .wiring-schema { grid-template-columns: 1fr; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 700px) {
+    section { padding: 60px 24px; }
+    .when-cards, .types-grid, .where-grid, .equip-grid, .guide-steps { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; }
+    .conclusion { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span></span></div>
+  <div class="nav-links">
+    <a href="service.html">Retour</a>
+    <a href="#">Vidéosurveillance</a>
+    <a href="#">Contrôle d'Accès</a>
+    <a href="#">Biométrie</a>
+    
+  </div>
+</nav>
+
+<!-- ===== SECTION 1 — HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="live-dot"></span>Systèmes de sécurité actifs</div>
+    <h1>Le Contrôle d'Accès :<em>sécuriser et gérer</em>les entrées intelligemment</h1>
+    <p>Des solutions complètes pour contrôler, tracer et sécuriser chaque point d'entrée de vos locaux — de la badge RFID à la reconnaissance biométrique multi-facteurs.</p>
+    <a href="#intro" class="hero-cta">Découvrir nos solutions</a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img-stack">
+      <img class="hero-img-main"
+        src="https://i.pinimg.com/1200x/37/0a/e7/370ae763203ccbf572384de2a0093137.jpg"
+        alt="Porte sécurisée avec lecteur RFID et serrure électronique">
+      
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2 — INTRODUCTION ===== -->
+<section class="intro" id="intro">
+  <div class="intro-grid">
+    <div>
+      <span class="section-label">Définition</span>
+      <h2 class="section-title">Qu'est-ce qu'un système de contrôle d'accès ?</h2>
+      <div class="section-divider"></div>
+      <p class="section-body">
+        Un système de contrôle d'accès est un ensemble d'équipements électroniques et logiciels qui permettent de <strong>gérer, restreindre et enregistrer les entrées et sorties</strong> d'un bâtiment, d'une zone ou d'une pièce spécifique.
+      </p>
+      <br>
+      <p class="section-body">
+        Contrairement à une simple serrure mécanique, un système moderne intègre des lecteurs d'identifiants (badges RFID, empreintes, visage), une centrale de gestion, des actionneurs (serrures électromagnétiques, gâches) et un logiciel permettant de définir des droits d'accès précis par personne, par zone et par plage horaire.
+      </p>
+      <br>
+      <p class="section-body">
+        Le résultat : un contrôle total, une <strong>traçabilité complète</strong> de chaque accès et une réduction drastique des risques d'intrusion.
+      </p>
+    </div>
+    <div>
+      <img class="intro-img"
+        src="https://i.pinimg.com/1200x/4b/ff/4e/4bff4e66fa33a0a806d26e9f9f795f4f.jpg"
+        alt="Système de contrôle d'accès installé sur une porte professionnelle">
+      <p class="intro-img-caption">Système de contrôle d'accès complet — lecteur RFID + serrure magnétique + bouton de sortie</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3 — QUAND ===== -->
+<section id="quand">
+  <span class="section-label">Cas d'usage</span>
+  <h2 class="section-title">À quel moment utilise-t-on<span> le contrôle d'accès ?</span></h2>
+  <div class="section-divider"></div>
+  <p class="section-body">
+    Le contrôle d'accès devient indispensable dès que vous devez protéger des personnes, des données ou des biens sensibles, gérer des flux de personnes ou garantir la conformité réglementaire (RGPD, normes sectorielles).
+  </p>
+  <div class="when-cards">
+    <div class="when-card">
+      <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&auto=format" alt="Entreprise open-space">
+      <div class="when-card-body">
+        <h3>Entreprises & bureaux</h3>
+        <p>Gérer les accès par département, restreindre les zones sensibles (comptabilité, serveurs, direction) et tracer les mouvements du personnel.</p>
+      </div>
+    </div>
+    <div class="when-card">
+      <img src="https://i.pinimg.com/1200x/0b/7b/3c/0b7b3c63141a4ab36c78caccad476f08.jpg" alt="Zone sensible sécurisée">
+      <div class="when-card-body">
+        <h3>Zones sensibles & classifiées</h3>
+        <p>Salles informatiques, laboratoires, archives confidentielles : seul le personnel autorisé peut y accéder, avec authentification renforcée.</p>
+      </div>
+    </div>
+    <div class="when-card">
+      <img src="https://i.pinimg.com/736x/fd/2c/b6/fd2cb6f9d18651ebda4b68b5b4a3af33.jpg" alt="Bâtiment sécurisé">
+      <div class="when-card-body">
+        <h3>Bâtiments multi-locataires</h3>
+        <p>Immeubles résidentiels, parkings, espaces partagés : chaque résident ou locataire dispose de droits précis sur les zones qui le concernent.</p>
+      </div>
+    </div>
+    <div class="when-card">
+      <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&auto=format" alt="Gestion des employés">
+      <div class="when-card-body">
+        <h3>Gestion du personnel</h3>
+        <p>Suivi des horaires, gestion des présences, attribution et révocation instantanée des droits en cas de départ ou de changement de poste.</p>
+      </div>
+    </div>
+    <div class="when-card">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format" alt="Infrastructure critique serveurs">
+      <div class="when-card-body">
+        <h3>Infrastructures critiques</h3>
+        <p>Usines, stations énergie, data centers : protection des installations vitales contre les accès non autorisés, sabotages ou actes malveillants.</p>
+      </div>
+    </div>
+    <div class="when-card">
+      <img src="https://i.pinimg.com/736x/d6/c7/82/d6c7825d24764d8fbf6ddbbe3ae5a52c.jpg" alt="Contrôle visiteurs réception">
+      <div class="when-card-body">
+        <h3>Gestion des visiteurs</h3>
+        <p>Accès temporaires, badges visiteurs à durée limitée, accompagnement obligatoire en zone restreinte : tout est paramétrable depuis le logiciel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4 — OÙ ===== -->
+<section class="where" id="ou">
+  <span class="section-label">Secteurs d'application</span>
+  <h2 class="section-title">Où est utilisé<span> le contrôle d'accès ?</span></h2>
+  <div class="section-divider"></div>
+  <p class="section-body">Tous les secteurs d'activité sont concernés. Du petit commerce à l'infrastructure d'État, le contrôle d'accès s'adapte à chaque contexte.</p>
+  <div class="where-grid">
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&auto=format" alt="Immeuble entreprise">
+      <div class="where-label"><span>Secteur</span>Entreprise</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=500&auto=format" alt="Hôpital">
+      <div class="where-label"><span>Secteur</span>Hôpital</div>
+    </div>
+    <div class="where-item">
+      <img src="https://i.pinimg.com/1200x/1c/d7/cd/1cd7cd218aa4f663250d9b371cb43149.jpg" alt="Banque">
+      <div class="where-label"><span>Secteur</span>Banque</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=500&auto=format" alt="Université">
+      <div class="where-label"><span>Secteur</span>Université</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&auto=format" alt="Hôtel">
+      <div class="where-label"><span>Secteur</span>Hôtel</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&auto=format" alt="Data Center">
+      <div class="where-label"><span>Secteur</span>Data Center</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&auto=format" alt="Immeuble résidentiel">
+      <div class="where-label"><span>Secteur</span>Résidentiel</div>
+    </div>
+    <div class="where-item">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&auto=format" alt="Industrie usine">
+      <div class="where-label"><span>Secteur</span>Industrie</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5 — POURQUOI ===== -->
+<section id="pourquoi">
+  <span class="section-label">Avantages</span>
+  <h2 class="section-title">Pourquoi le contrôle d'accès<span> est essentiel ?</span></h2>
+  <div class="section-divider"></div>
+  <div class="why-layout">
+    <div>
+      <p class="section-body">Investir dans un système de contrôle d'accès, c'est choisir une sécurité proactive plutôt que réactive. Voici les bénéfices concrets pour votre organisation :</p>
+      <ul class="why-benefits">
+        <li>
+          <h4>Sécurité des personnes</h4>
+          <p>Seules les personnes autorisées peuvent pénétrer dans les zones à risque. En cas d'urgence, le système peut verrouiller ou déverrouiller instantanément toutes les portes.</p>
+        </li>
+        <li>
+          <h4>Protection des biens & données</h4>
+          <p>Les vols internes et les intrusions nocturnes sont drastiquement réduits. Les accès aux serveurs, coffres et équipements sensibles sont strictement contrôlés.</p>
+        </li>
+        <li>
+          <h4>Gestion intelligente des accès</h4>
+          <p>Attribution de droits par personne, par zone et par plage horaire. Un visiteur peut avoir un accès temporaire de 2h, un technicien un accès limité à l'atelier.</p>
+        </li>
+        <li>
+          <h4>Historique complet des entrées/sorties</h4>
+          <p>Chaque accès est enregistré avec l'heure, la date et l'identifiant de la personne. Ces données sont exploitables pour des audits ou des investigations.</p>
+        </li>
+        <li>
+          <h4>Réduction drastique des intrusions</h4>
+          <p>Contrairement à une clé mécanique, un badge peut être désactivé en quelques secondes depuis le logiciel, sans changer de serrure.</p>
+        </li>
+      </ul>
+    </div>
+    <div class="why-visual">
+      <div class="gif-box">
+        <img src="https://i.imgur.com/placeholder-gif.gif"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&auto=format'"
+          alt="Ouverture automatique d'une porte après authentification badge">
+        <span class="gif-overlay-label">Authentification RFID</span>
+      </div>
+      <img src="https://i.pinimg.com/736x/0c/0a/cc/0c0acc03cb82c27ec2b958c7e9a6277f.jpg"
+        alt="Panneau de contrôle d'accès logiciel de gestion"
+        style="border-radius:4px; border:2px solid var(--border);">
+      <div class="gif-box">
+        
+        <span class="gif-overlay-label">Contrôle biométrique</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6 — TYPES ===== -->
+<section class="types" id="types">
+  <span class="section-label">Technologies disponibles</span>
+  <h2 class="section-title">Les types de<span> contrôle d'accès</span></h2>
+  <div class="section-divider"></div>
+  <p class="section-body">Il existe plusieurs technologies d'authentification, chacune adaptée à un niveau de sécurité et à un contexte d'utilisation spécifique.</p>
+  <div class="types-grid">
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://i.pinimg.com/1200x/f6/72/11/f672117eeb8f1a3120ae5fb2f99c666a.jpg"
+        alt="Lecteur RFID badge contrôle d'accès">
+      <div class="type-card-body">
+        <div class="type-num">01 — RFID</div>
+        <h3>Contrôle d'accès par badge RFID</h3>
+        <p>Le badge RFID (ou HID) est la technologie la plus répandue. L'utilisateur présente son badge devant un lecteur à courte portée (3 à 10 cm). Rapide, fiable et facile à gérer.</p>
+      </div>
+    </div>
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://i.pinimg.com/736x/e0/96/bb/e096bb65147af8326e06769a6a2e0e9a.jpg"
+        alt="Lecteur empreinte digitale biométrique">
+      <div class="type-card-body">
+        <div class="type-num">02 — BIOMÉTRIE</div>
+        <h3>Contrôle biométrique par empreinte</h3>
+        <p>L'empreinte digitale est unique et ne peut pas être oubliée ou copiée facilement. Solution idéale pour les zones à haute sécurité où le badge peut être partagé ou perdu.</p>
+      </div>
+    </div>
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://i.pinimg.com/1200x/39/7b/dc/397bdc6d7be7ea05285e5b17d1de1b3c.jpg"
+        alt="Terminal reconnaissance faciale">
+      <div class="type-card-body">
+        <div class="type-num">03 — FACIAL</div>
+        <h3>Reconnaissance faciale</h3>
+        <p>Les terminaux de reconnaissance faciale modernes identifient les personnes en moins d'une seconde, même avec un masque partiel. Idéal pour les flux importants sans contact.</p>
+      </div>
+    </div>
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://i.pinimg.com/1200x/e4/07/d3/e407d37297b19437a190373e47cda972.jpg"
+        alt="Clavier à code keypad sécurité">
+      <div class="type-card-body">
+        <div class="type-num">04 — CODE</div>
+        <h3>Clavier à code (Keypad)</h3>
+        <p>Simple et économique, le clavier à code est souvent utilisé en complément d'un badge (double authentification) ou seul pour des zones à sécurité intermédiaire.</p>
+      </div>
+    </div>
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&auto=format"
+        alt="Smartphone accès mobile NFC Bluetooth">
+      <div class="type-card-body">
+        <div class="type-num">05 — MOBILE</div>
+        <h3>Accès par smartphone (NFC/BLE)</h3>
+        <p>Le smartphone devient un badge. Via NFC ou Bluetooth Low Energy, l'utilisateur déverrouille la porte avec son téléphone. Pratique pour les hôtels, coworkings et immeubles modernes.</p>
+      </div>
+    </div>
+    <div class="type-card">
+      <img class="type-card-img"
+        src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format"
+        alt="Multi-facteurs supervision centrale logiciel">
+      <div class="type-card-body">
+        <div class="type-num">06 — MULTI-FACTEURS</div>
+        <h3>Authentification multi-facteurs</h3>
+        <p>Combinaison de badge + code PIN + biométrie. Réservé aux sites critiques (banques, data centers, laboratoires). Aucun accès possible sans validation de tous les facteurs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7 — ÉQUIPEMENTS ===== -->
+<section class="equipment" id="equipements">
+  <span class="section-label">Catalogue équipements</span>
+  <h2 class="section-title">Les équipements d'un<span> système complet</span></h2>
+  <div class="section-divider"></div>
+  <p class="section-body">Un système de contrôle d'accès professionnel est composé de plusieurs éléments qui fonctionnent ensemble. Voici les composants essentiels :</p>
+
+  <div class="equip-grid">
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/1200x/4f/5b/ad/4f5bade6de8bd591a9b53463aeaadec7.jpg" alt="Contrôleur d'accès Hikvision">
+      <div class="equip-item-label"><span>Cerveau du système</span>Contrôleur d'accès</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/736x/f3/ef/d7/f3efd76a0dafb1ffddaf30daddac07d4.jpg" alt="alarm ">
+      <div class="equip-item-label"><span>Identification</span> Alarm </div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/736x/7d/ba/fd/7dbafd0dd8bc1bb8f21589a02c353238.jpg" alt="Lecteur biométrique empreinte">
+      <div class="equip-item-label"><span>Biométrie</span>Lecteur d'empreintes</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/736x/fc/8f/f6/fc8ff6f7b0690d165ede560b4e856f7b.jpg" alt="Serrure magnétique 12V">
+      <div class="equip-item-label"><span>Actionneur</span>Serrure magnétique 12V</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/1200x/ea/61/5c/ea615ced9b3c0a68a20edd8034367dcd.jpg" alt="Bouton de sortie poussoir">
+      <div class="equip-item-label"><span>Sortie d'urgence</span>Bouton de sortie</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/1200x/8f/7a/13/8f7a13938a03b71faf18d4f933dbf1cd.jpg" alt="Alimentation 12V stabilisée">
+      <div class="equip-item-label"><span>Alimentation</span>Bloc 12V / 2A stabilisé</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/1200x/6a/12/7c/6a127cc7388cabb31e33d7574c8db946.jpg" alt="Capteur d'ouverture de porte">
+      <div class="equip-item-label"><span>Détection</span>Capteur d'ouverture de porte</div>
+    </div>
+    <div class="equip-item">
+      <img src="https://i.pinimg.com/736x/c1/6c/6e/c16c6e5353207b11ec3c4da76d92c8f4.jpg" alt="Caméra IP surveillance entrée">
+      <div class="equip-item-label"><span>Surveillance</span>Caméra IP d'entrée</div>
+    </div>
+  </div>
+
+  <!-- WIRING SCHEMA -->
+  <div class="wiring-schema">
+    <div>
+      <div class="wiring-subtitle">Câblage électronique</div>
+      <div class="wiring-title">Schéma de connexion<br>de la serrure magnétique</div>
+      <p class="wiring-desc">La serrure magnétique se câble sur la sortie relais du contrôleur d'accès. Les bornes NO/NC définissent le comportement en cas de coupure de courant (fail-safe ou fail-secure). L'alimentation 12V est généralement dédiée et indépendante du contrôleur.</p>
+    </div>
+    <div class="wiring-diagram">
+      <div class="wire-row">
+        <div class="wire-pin pin-12v">12V+</div>
+        <div class="wire-desc">Alimentation positive 12V DC — Alimente la serrure magnétique</div>
+      </div>
+      <div class="wire-row">
+        <div class="wire-pin pin-gnd">GND</div>
+        <div class="wire-desc">Masse commune — Référence 0V de toute l'installation</div>
+      </div>
+      <div class="wire-row">
+        <div class="wire-pin pin-com">COM</div>
+        <div class="wire-desc">Contact commun du relais — Point de départ vers la serrure</div>
+      </div>
+      <div class="wire-row">
+        <div class="wire-pin pin-no">NO</div>
+        <div class="wire-desc">Normally Open — Circuit ouvert au repos, fermé lors d'un accès autorisé (fail-safe)</div>
+      </div>
+      <div class="wire-row">
+        <div class="wire-pin pin-nc">NC</div>
+        <div class="wire-desc">Normally Closed — Circuit fermé au repos, ouvert lors d'un accès (fail-secure)</div>
+      </div>
+      <div class="wire-row" style="border-bottom:none;">
+        <div class="wire-pin pin-bell">BELL</div>
+        <div class="wire-desc">Sortie sonnette / buzzer — Signal sonore à chaque passage de badge</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8 — INTÉGRATION VIDÉOSURVEILLANCE ===== -->
+<section class="integration" id="integration">
+  <span class="section-label">Intégration système</span>
+  <div class="integration-grid">
+    <div>
+      <h2 class="section-title">Intégration avec la<span> vidéosurveillance</span></h2>
+      <div class="section-divider"></div>
+      <p class="section-body">
+        Le contrôle d'accès et la vidéosurveillance forment le <strong>duo indissociable de la sécurité moderne</strong>. Lorsqu'ils sont intégrés, chaque événement d'accès déclenche automatiquement un enregistrement vidéo.
+      </p>
+      <br>
+      <p class="section-body">
+        Concrètement : quand un badge est présenté, la caméra d'entrée commence à enregistrer. Si l'accès est refusé, une alarme peut être générée et l'image capturée est immédiatement accessible depuis le logiciel de supervision. Vous savez <em>qui</em> a tenté d'entrer, <em>quand</em>, et vous disposez de la preuve visuelle.
+      </p>
+      <br>
+      <p class="section-body">
+        Les plateformes comme <strong>Hikvision iVMS-4200</strong>, <strong>Genetec Security Center</strong> ou <strong>Milestone XProtect</strong> permettent une gestion unifiée : un seul logiciel pour gérer vos caméras IP et vos points d'accès, avec une cartographie interactive de votre site.
+      </p>
+      <br>
+      <p class="section-body">
+        Cette synergie est particulièrement précieuse pour les enquêtes post-incident : en quelques clics, retrouvez tous les accès d'une personne sur une période donnée, avec les vidéos correspondantes synchronisées.
+      </p>
+    </div>
+    <div class="integration-visual">
+      <div class="gif-box">
+        
+        <span class="gif-overlay-label">Enregistrement déclenché</span>
+      </div>
+      <img class="integration-img"
+        src="https://i.imgur.com/JmUD177.png"
+        alt="Interface logiciel supervision caméras et contrôle d'accès unifié">
+      <img class="integration-img"
+        src="https://i.imgur.com/zLr26We.png"
+        alt="Salle de supervision sécurité moniteurs">
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 9 — GUIDE DE CHOIX ===== -->
+<section class="guide" id="guide">
+  <span class="section-label">Guide de sélection</span>
+  <h2 class="section-title">Comment choisir<span> le bon système ?</span></h2>
+  <div class="section-divider"></div>
+  <p class="section-body">Le choix dépend de la taille du site, du niveau de sécurité requis et du budget. Voici un guide simplifié pour vous orienter :</p>
+  <div class="guide-steps">
+    <div class="guide-step">
+      <img class="guide-step-img"
+        src="https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=500&auto=format"
+        alt="Petite entreprise TPE PME badge RFID">
+      <div class="guide-step-body">
+        <div class="guide-step-num">01</div>
+        <h4>Petite entreprise (< 20 pers.)</h4>
+        <p>Un lecteur RFID standalone par porte, sans logiciel complexe. Simple à installer, à administrer et à maintenir. Idéal pour TPE/PME.</p>
+        <span class="guide-step-tag">Badge RFID standalone</span>
+      </div>
+    </div>
+    <div class="guide-step">
+      <img class="guide-step-img"
+        src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&auto=format"
+        alt="Entreprise moyenne réseau accès logiciel">
+      <div class="guide-step-body">
+        <div class="guide-step-num">02</div>
+        <h4>Entreprise moyenne (20–200 pers.)</h4>
+        <p>Contrôleur réseau multi-portes + logiciel de gestion des accès. Gestion centralisée des badges, des horaires et des droits.</p>
+        <span class="guide-step-tag">Badge + logiciel centralisé</span>
+      </div>
+    </div>
+    <div class="guide-step">
+      <img class="guide-step-img"
+        src="https://i.pinimg.com/1200x/25/45/46/2545466aac6269b7684f0986487a568a.jpg"
+        alt="Site sensible biométrie caméra">
+      <div class="guide-step-body">
+        <div class="guide-step-num">03</div>
+        <h4>Site sensible (laboratoire, serveurs)</h4>
+        <p>Lecteur biométrique couplé à une caméra IP d'entrée. Traçabilité maximale, impossible à contourner avec un badge volé.</p>
+        <span class="guide-step-tag">Biométrie + Vidéo intégrée</span>
+      </div>
+    </div>
+    <div class="guide-step">
+      <img class="guide-step-img"
+        src="https://i.pinimg.com/1200x/19/40/35/194035a5352f109650a697c3480a0750.jpg"
+        alt="Site critique data center banque multi-facteurs">
+      <div class="guide-step-body">
+        <div class="guide-step-num">04</div>
+        <h4>Site critique (banque, data center)</h4>
+        <p>Authentification multi-facteurs (badge + PIN + empreinte), supervision 24h/24 depuis une salle de contrôle centralisée avec redondance.</p>
+        <span class="guide-step-tag">Multi-facteurs + supervision</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 10 — CONCLUSION ===== -->
+<section class="conclusion" id="conclusion">
+  <span class="section-label">En résumé</span>
+  <h2 class="section-title" style="max-width:760px; margin:0 auto 24px;">Le contrôle d'accès :<span> un pilier incontournable</span><br>de la sécurité moderne</h2>
+  <div class="section-divider" style="margin:0 auto 32px;"></div>
+  <p class="section-body" style="max-width:700px; margin:0 auto 50px; text-align:center;">
+    Dans un monde où les menaces physiques et numériques convergent, le contrôle d'accès est bien plus qu'une simple serrure connectée. C'est un système vivant, intégré à votre politique de sécurité globale.
+  </p>
+  <div class="conclusion-cards">
+    <div class="conclusion-card">
+      <h4>Sécurité proactive</h4>
+      <p>Vous contrôlez qui entre, quand, et dans quelle zone — avant toute intrusion, pas après. La prévention vaut toujours mieux que la réaction.</p>
+    </div>
+    <div class="conclusion-card">
+      <h4>Traçabilité totale</h4>
+      <p>Chaque accès est enregistré. En cas d'incident, vous disposez d'un historique complet, exploitable en justice ou pour vos audits internes.</p>
+    </div>
+    <div class="conclusion-card">
+      <h4>Évolutivité & intégration</h4>
+      <p>Un système bien conçu évolue avec vous : ajout de portes, nouvelles technologies, intégration avec la vidéosurveillance et les alarmes anti-intrusion.</p>
+    </div>
+  </div>
+  <a href="#" class="conclusion-cta">Demander un audit de sécurité gratuit</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo"><span>PRO</span> — Systèmes de sécurité électronique</div>
+  <p>© 2025  Solutions. Tous droits réservés.</p>
+</footer>
+
+</body>
+</html>

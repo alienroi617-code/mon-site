@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Technique des Télécommunications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --ink-light: #3a3f4d;
+    --ink-muted: #6b7280;
+    --surface: #fafaf8;
+    --surface-2: #f3f2ef;
+    --surface-3: #e8e6e0;
+    --accent: #1a4fad;
+    --accent-warm: #c44b2a;
+    --accent-green: #1a7a3f;
+    --border: #d4d0c8;
+    --gold: #a07830;
+    --shadow: 0 2px 12px rgba(15,17,23,0.08);
+    --shadow-lg: 0 8px 40px rgba(15,17,23,0.14);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,248,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 56px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--accent);
+    white-space: nowrap;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  nav a {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all 0.18s;
+  }
+  nav a:hover { background: var(--surface-2); color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: white;
+    padding: 100px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 80% at 80% 50%, rgba(26,79,173,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(196,75,42,0.2) 0%, transparent 60%);
+  }
+  .hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: #7aadff;
+  }
+  .hero-desc {
+    font-size: 18px;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .hero-meta-item .label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .hero-meta-item .value {
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-child { border-bottom: none; }
+
+  .section-header {
+    margin-bottom: 56px;
+  }
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 42px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .section-lead {
+    font-size: 18px;
+    color: var(--ink-light);
+    max-width: 700px;
+    line-height: 1.65;
+  }
+
+  h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    margin: 40px 0 16px;
+    letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 28px 0 10px;
+  }
+  p { color: var(--ink-light); margin-bottom: 16px; }
+
+  /* IMAGES */
+  .img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+  }
+  .img-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .img-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  figure {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+  figure:hover { box-shadow: var(--shadow-lg); }
+  figure img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+  figcaption {
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--ink-muted);
+    border-top: 1px solid var(--surface-3);
+    line-height: 1.5;
+  }
+  figcaption strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  /* CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: var(--surface-2);
+    color: var(--ink-muted);
+    margin-bottom: 14px;
+  }
+  .card h3 { font-size: 18px; margin: 0 0 10px; }
+  .card p { font-size: 14px; margin: 0; line-height: 1.6; }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding: 8px 0;
+    margin: 32px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 32px;
+    align-items: flex-start;
+  }
+  .timeline-dot {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 0 4px var(--surface);
+  }
+  .timeline-content {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    flex: 1;
+    box-shadow: var(--shadow);
+  }
+  .timeline-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .timeline-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+  .timeline-desc { font-size: 14px; color: var(--ink-muted); margin: 0; line-height: 1.55; }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(26,79,173,0.06);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+  .callout.warm { border-color: var(--accent-warm); background: rgba(196,75,42,0.06); }
+  .callout.green { border-color: var(--accent-green); background: rgba(26,122,63,0.06); }
+  .callout-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .callout.warm .callout-title { color: var(--accent-warm); }
+  .callout.green .callout-title { color: var(--accent-green); }
+  .callout p { font-size: 14px; margin: 0; color: var(--ink-light); }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 28px 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 14px;
+  }
+  thead tr { background: var(--ink); color: white; }
+  thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  tbody tr { border-bottom: 1px solid var(--surface-3); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(even) { background: var(--surface); }
+  tbody td { padding: 13px 18px; color: var(--ink-light); vertical-align: top; }
+  tbody td:first-child { font-weight: 600; color: var(--ink); }
+
+  /* CODE BLOCK */
+  pre {
+    background: #1a1e2b;
+    color: #e4e9f5;
+    padding: 24px 28px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 24px 0;
+    box-shadow: var(--shadow-lg);
+  }
+  pre .comment { color: #5c6a8a; }
+  pre .keyword { color: #7aadff; }
+  pre .string { color: #a3e4a0; }
+  pre .value { color: #ffcb7a; }
+
+  /* ARCHITECTURE DIAGRAM */
+  .arch-diagram {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px;
+    margin: 32px 0;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .arch-layer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .arch-layer-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    width: 120px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .arch-layer-content {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    flex-wrap: wrap;
+  }
+  .arch-node {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid;
+    white-space: nowrap;
+  }
+  .arch-node.blue { background: rgba(26,79,173,0.1); border-color: rgba(26,79,173,0.35); color: #1a4fad; }
+  .arch-node.green { background: rgba(26,122,63,0.1); border-color: rgba(26,122,63,0.35); color: #1a7a3f; }
+  .arch-node.orange { background: rgba(196,75,42,0.1); border-color: rgba(196,75,42,0.35); color: #c44b2a; }
+  .arch-node.gray { background: var(--surface-2); border-color: var(--border); color: var(--ink-light); }
+  .arch-arrow {
+    text-align: center;
+    font-size: 18px;
+    color: var(--border);
+    margin: 2px 0;
+    padding-left: 132px;
+  }
+
+  /* STEPS */
+  .steps {
+    counter-reset: step;
+    margin: 32px 0;
+  }
+  .step {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    counter-increment: step;
+  }
+  .step-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--ink);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .step-body h4 { margin: 6px 0 8px; }
+  .step-body p { font-size: 14px; margin: 0; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin: 0 3px;
+    vertical-align: middle;
+  }
+  .badge-blue { background: rgba(26,79,173,0.15); color: #1a4fad; }
+  .badge-green { background: rgba(26,122,63,0.15); color: #1a7a3f; }
+  .badge-red { background: rgba(196,75,42,0.15); color: #c44b2a; }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin: 20px 0 32px;
+  }
+
+  /* TWO COLUMN */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin: 28px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 40px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer strong { color: white; }
+
+  @media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    nav { padding: 0 20px; }
+    .hero { padding: 60px 20px 50px; }
+    .img-grid-3, .img-grid-2, .two-col { grid-template-columns: 1fr; }
+    .arch-layer-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">Guide Télécom</span>
+    <a href="#intro">Introduction</a>
+    <a href="#types">Types de réseaux</a>
+    <a href="#architecture">Architecture</a>
+    <a href="#technologies">Technologies</a>
+    <a href="#equipements">Équipements</a>
+    <a href="#transmission">Transmission</a>
+    <a href="#configuration">Configuration</a>
+    <a href="#deploiement">Déploiement</a>
+    <a href="#securite">Sécurité</a>
+    <a href="service.html">Retour</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-label">Guide Technique Complet · Édition 2024</p>
+    <h1>Les <em>Télécommunications</em><br>Modernes</h1>
+    <p class="hero-desc">Principes fondamentaux, architectures réseau, technologies et équipements — un guide pédagogique complet pour techniciens, étudiants et professionnels du secteur.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="label">Niveau</span>
+        <span class="value">Technique · Professionnel</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Chapitres</span>
+        <span class="value">9 sections détaillées</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Domaines</span>
+        <span class="value">Réseau · Radio · Fibre · 5G</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SECTION 1 ===== -->
+<section id="intro">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">01 — Introduction</span>
+      <h2>Qu'est-ce que les<br>télécommunications ?</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Les télécommunications désignent l'ensemble des techniques et systèmes permettant la transmission à distance d'informations — texte, voix, données, images ou vidéo — via des signaux électriques, optiques ou radio.</p>
+    </div>
+
+    <p>Depuis l'invention du télégraphe au XIXe siècle jusqu'aux réseaux 5G et à l'internet des objets d'aujourd'hui, les télécommunications ont profondément transformé la société humaine. Elles constituent une infrastructure critique pour les entreprises, les gouvernements et les particuliers, permettant une connectivité quasi instantanée à l'échelle planétaire.</p>
+
+    <p>Un réseau de télécommunications est un ensemble d'équipements, de protocoles et de technologies interconnectés qui permettent l'échange d'informations entre utilisateurs, systèmes ou organisations. Ces réseaux reposent sur trois éléments fondamentaux : <strong>un émetteur</strong>, <strong>un canal de transmission</strong> et <strong>un récepteur</strong>.</p>
+
+    <div class="callout">
+      <p class="callout-title">Définition IEEE</p>
+      <p>Les télécommunications sont « toute transmission, émission ou réception de signaux, d'écrits, d'images, de sons ou de renseignements de toute nature, par fil, radioélectricité, optique ou autres systèmes électromagnétiques. »</p>
+    </div>
+
+    <h3>Évolution historique des télécommunications</h3>
+    <p>L'histoire des télécommunications est marquée par des ruptures technologiques successives qui ont chacune multiplié la capacité et la portée des communications humaines.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot">1844</div>
+        <div class="timeline-content">
+          <p class="timeline-year">1844 — Âge du télégraphe</p>
+          <p class="timeline-title">Télégraphe électrique de Morse</p>
+          <p class="timeline-desc">Samuel Morse inaugure la première ligne télégraphique commerciale entre Washington et Baltimore. Le code Morse encode le texte en séquences de signaux courts et longs transmis sur un fil électrique.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">1876</div>
+        <div class="timeline-content">
+          <p class="timeline-year">1876 — Téléphonie analogique</p>
+          <p class="timeline-title">Brevet du téléphone par Alexander Graham Bell</p>
+          <p class="timeline-desc">La voix humaine est convertie en signal électrique analogique et transmise via des fils de cuivre. Les centraux téléphoniques commutateurs permettent la mise en relation de millions d'abonnés.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">1950</div>
+        <div class="timeline-content">
+          <p class="timeline-year">1950–1980 — Réseaux numériques</p>
+          <p class="timeline-title">Numérisation des communications</p>
+          <p class="timeline-desc">La technologie PCM (Pulse Code Modulation) permet la conversion des signaux analogiques en données numériques. Les premiers réseaux de données émergent avec la technologie X.25.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">1983</div>
+        <div class="timeline-content">
+          <p class="timeline-year">1983 — L'ère Internet</p>
+          <p class="timeline-title">Adoption du protocole TCP/IP</p>
+          <p class="timeline-desc">ARPANET adopte TCP/IP, posant les bases de l'Internet moderne. Le World Wide Web (1991) et la démocratisation du haut débit transforment radicalement les usages des télécommunications.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2010</div>
+        <div class="timeline-content">
+          <p class="timeline-year">2010–2024 — Réseaux mobiles modernes</p>
+          <p class="timeline-title">4G LTE, 5G et convergence numérique</p>
+          <p class="timeline-desc">Les réseaux 4G LTE (2010) puis 5G (2019) offrent des débits dépassant le gigabit par seconde avec des latences inférieures à 5 ms. La 5G ouvre la voie à l'IoT massif, aux villes intelligentes et à l'industrie 4.0.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-3">
+      <figure>
+        <img src="https://i.pinimg.com/736x/cc/19/0f/cc190f783f965f5d5252fe2ebdd3bfc0.jpg" alt="Infrastructure fibre optique">
+        <figcaption><strong>Infrastructure fibre optique</strong>Câbles à fibre optique dans un centre de données moderne — chaque fibre peut transporter des térabits de données par seconde grâce à la transmission par lumière laser.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://i.pinimg.com/736x/de/de/5e/dede5e5f4a399b6c6e0e27ac58ee4109.jpg" alt="Station de base GSM">
+        <figcaption><strong>Antenne de station de base</strong>Tour cellulaire équipée d'antennes sectorielles 4G/5G — la colonne vertébrale des réseaux mobiles modernes couvrant les zones urbaines et rurales.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/National_Telecom_Centre%2C_Islamabad.jpg/640px-National_Telecom_Centre%2C_Islamabad.jpg" alt="Centre de télécommunications national">
+        <figcaption><strong>Centre national de télécommunications</strong>Infrastructure centrale d'un opérateur national — point de convergence des réseaux fixes, mobiles et de transmission longue distance.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2 ===== -->
+<section id="types">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">02 — Types de réseaux</span>
+      <h2>Les grandes familles<br>de réseaux télécoms</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Les réseaux de télécommunications se divisent en trois grandes catégories selon leur médium de transmission : les réseaux filaires, sans fil et satellitaires, chacun ayant des caractéristiques propres en termes de débit, portée et coût.</p>
+    </div>
+
+    <h3>Réseaux filaires</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-tag">Cuivre</span>
+        <h3>Paires de cuivre torsadées</h3>
+        <p>Utilisées historiquement pour la téléphonie (PSTN) et les technologies DSL (ADSL, VDSL). La paire de fils de cuivre torsadée réduit les interférences électromagnétiques. Portée limitée à quelques km, débit maximal autour de 250 Mbps en VDSL2 vectorisé.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Fibre Optique</span>
+        <h3>Transmission par lumière laser</h3>
+        <p>La fibre optique transmet des données sous forme d'impulsions lumineuses dans un fil de verre ou plastique. Débits potentiels : plusieurs térabits/s. Deux types principaux : monomode (longue distance, SMF) et multimode (courtes distances, MMF). Insensible aux interférences EM.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Coaxial</span>
+        <h3>Câble coaxial (HFC)</h3>
+        <p>Utilisé dans les réseaux câble TV (HFC) et les connexions internet via DOCSIS 3.1 / 4.0. Offre des débits descendants jusqu'à 10 Gbps. Présent dans la plupart des réseaux d'accès câble urbains (Orange, SFR, Numericable).</p>
+      </div>
+    </div>
+
+    <h3>Réseaux sans fil</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-tag">Wi-Fi / 802.11</span>
+        <h3>Réseaux locaux sans fil</h3>
+        <p>Basé sur les standards IEEE 802.11 (Wi-Fi 4/5/6/7). Fonctionne sur les bandes 2.4 GHz, 5 GHz et 6 GHz. Wi-Fi 6E (802.11ax) : débits théoriques jusqu'à 9.6 Gbps. Portée typique : 30-100 m en intérieur. Utilisé pour la connectivité locale résidentielle et d'entreprise.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Micro-ondes</span>
+        <h3>Faisceaux hertziens (BLR)</h3>
+        <p>Transmission en ligne directe (LOS) entre deux points distants. Fréquences : 6-86 GHz. Débits modernes : jusqu'à 10 Gbps par faisceau en E-band (80 GHz). Utilisé pour le backhaul des stations 4G/5G et la connexion de sites éloignés. Portée : 1-50 km selon la fréquence.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Cellulaire</span>
+        <h3>Réseaux mobiles 2G→5G</h3>
+        <p>Réseau de cellules radio hexagonales couvrant un territoire. Chaque cellule est gérée par une station de base (eNodeB en 4G, gNodeB en 5G). La 5G NR (New Radio) utilise des fréquences sub-6 GHz et mmWave (24-100 GHz) pour des débits dépassant 1 Gbps.</p>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Optical_fiber_cable.jpg/640px-Optical_fiber_cable.jpg" alt="Câble à fibre optique">
+        <figcaption><strong>Câble à fibre optique multibrins</strong>Section transversale d'un câble optique montrant les tubes tampons protégeant les fibres individuelles. Un câble standard peut contenir 4 à 3600 fibres, chacune capable de transporter plusieurs térabits de données.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/5G_NR_Cell_Tower_in_Incheon%2C_South_Korea.jpg/640px-5G_NR_Cell_Tower_in_Incheon%2C_South_Korea.jpg" alt="Tour cellulaire 5G NR">
+        <figcaption><strong>Station de base 5G NR en Corée du Sud</strong>Tour équipée d'antennes Massive MIMO 5G NR, capables de gérer simultanément des centaines de connexions grâce au beamforming et à la formation de faisceaux adaptatifs.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Réseaux satellitaires</h3>
+    <p>Les communications par satellite permettent de couvrir des zones inaccessibles aux réseaux terrestres : océans, déserts, régions montagneuses et zones rurales isolées.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Orbite</th>
+            <th>Altitude</th>
+            <th>Latence</th>
+            <th>Exemples</th>
+            <th>Usages principaux</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GEO (Géostationnaire)</td>
+            <td>35 786 km</td>
+            <td>500–700 ms</td>
+            <td>Intelsat, Eutelsat, SES</td>
+            <td>TV satellite, internet rural haut débit, VSAT</td>
+          </tr>
+          <tr>
+            <td>MEO (Orbite Moyenne)</td>
+            <td>5 000–20 000 km</td>
+            <td>80–150 ms</td>
+            <td>O3b mPOWER (SES)</td>
+            <td>Internet maritime, IoT global</td>
+          </tr>
+          <tr>
+            <td>LEO (Orbite Basse)</td>
+            <td>200–1 200 km</td>
+            <td>20–40 ms</td>
+            <td>Starlink, OneWeb, Amazon Kuiper</td>
+            <td>Internet haut débit, zones rurales, mobilité</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/VSAT_dish_telus_bc_canada.JPG/640px-VSAT_dish_telus_bc_canada.JPG" alt="Antenne VSAT">
+        <figcaption><strong>Terminal VSAT professionnel (Very Small Aperture Terminal)</strong>Antenne parabolique VSAT de 1.8m installée pour la connectivité satellite en zone rurale. Les systèmes VSAT offrent des débits de 2 à 50 Mbps avec une disponibilité de 99.5%.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Starlink_Satellite_Train.jpg/640px-Starlink_Satellite_Train.jpg" alt="Train de satellites Starlink">
+        <figcaption><strong>Constellation Starlink en orbite LEO</strong>Train de satellites Starlink photographié peu après leur mise en orbite à 550 km d'altitude. SpaceX exploite plus de 5 000 satellites pour offrir une couverture mondiale avec une latence de 20-40 ms.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3 ===== -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">03 — Architecture réseau</span>
+      <h2>Architecture d'un réseau<br>de télécommunications</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Un réseau de télécommunications moderne s'organise en couches hiérarchiques, depuis le cœur de réseau (backbone) jusqu'à l'équipement de l'utilisateur final, en passant par des réseaux de distribution et d'accès.</p>
+    </div>
+
+    <h3>Architecture en couches — Vue globale</h3>
+    <div class="arch-diagram">
+      <div class="arch-layer">
+        <div class="arch-layer-label">Backbone</div>
+        <div class="arch-layer-content">
+          <div class="arch-node blue">Cœur de réseau IP/MPLS</div>
+          <div class="arch-node blue">Routeurs de transit (Core)</div>
+          <div class="arch-node blue">Liens fibre longue distance (100G–400G)</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Distribution</div>
+        <div class="arch-layer-content">
+          <div class="arch-node green">Routeurs de bordure (PE)</div>
+          <div class="arch-node green">Commutateurs d'agrégation</div>
+          <div class="arch-node green">Liaisons métro (10G–100G)</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Accès</div>
+        <div class="arch-layer-content">
+          <div class="arch-node orange">OLT (fibre optique GPON/XGS-PON)</div>
+          <div class="arch-node orange">DSLAM (réseau cuivre)</div>
+          <div class="arch-node orange">Contrôleur de station de base (BSC)</div>
+        </div>
+      </div>
+      <div class="arch-arrow">↕</div>
+      <div class="arch-layer">
+        <div class="arch-layer-label">Utilisateur</div>
+        <div class="arch-layer-content">
+          <div class="arch-node gray">ONT / Livebox</div>
+          <div class="arch-node gray">Modem ADSL/câble</div>
+          <div class="arch-node gray">Smartphone / PC / IoT</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Le backbone (cœur de réseau)</h3>
+        <p>Le backbone constitue l'épine dorsale du réseau. Il interconnecte les grandes villes et les continents via des liaisons à très haut débit (100 Gbps à 400 Gbps par longueur d'onde) sur fibre optique. Les câbles sous-marins forment la composante internationale du backbone mondial.</p>
+        <p>Les routeurs de cœur de réseau traitent des millions de paquets par seconde en utilisant des protocoles comme <span class="badge badge-blue">MPLS</span> pour la commutation d'étiquettes et <span class="badge badge-blue">BGP</span> pour le routage inter-domaines.</p>
+      </div>
+      <div>
+        <h3>Réseau d'accès</h3>
+        <p>Le réseau d'accès constitue le « dernier kilomètre » entre l'infrastructure de l'opérateur et l'abonné. C'est souvent le maillon limitant en termes de débit. Les technologies d'accès modernes incluent :</p>
+        <ul style="font-size:14px; color:var(--ink-light); padding-left:20px; line-height:2;">
+          <li>FTTH (Fiber To The Home) — XGS-PON, NG-PON2</li>
+          <li>xDSL sur cuivre (ADSL2+, VDSL2 vectorisé)</li>
+          <li>Câble coaxial DOCSIS 3.1 / 4.0</li>
+          <li>4G/5G FWA (Fixed Wireless Access)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/640px-Internet_map_1024.jpg" alt="Topologie de l'Internet mondial">
+        <figcaption><strong>Visualisation de la topologie de l'Internet mondial</strong>Représentation des interconnexions entre Autonomous Systems (AS) à travers le globe. Chaque point représente un nœud de réseau, les lignes indiquent les peerings BGP entre opérateurs.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Telecom_equipment_rack.jpg/640px-Telecom_equipment_rack.jpg" alt="Baie de brassage télécom">
+        <figcaption><strong>Baie de brassage en salle télécom</strong>Point de distribution d'un réseau d'accès local comprenant des équipements DSLAM, commutateurs Ethernet et panneaux de brassage fibre optique — cœur opérationnel d'un nœud de distribution.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4 ===== -->
+<section id="technologies">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">04 — Technologies</span>
+      <h2>Technologies de<br>télécommunications</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Des réseaux fixes à la 5G, en passant par la VoIP et la fibre optique, chaque technologie répond à des besoins spécifiques en termes de débit, portée, latence et coût de déploiement.</p>
+    </div>
+
+    <h3>Évolution des réseaux mobiles</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Génération</th>
+            <th>Norme</th>
+            <th>Débit crête</th>
+            <th>Latence</th>
+            <th>Fréquences</th>
+            <th>Innovation clé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2G (1991)</td>
+            <td>GSM / GPRS / EDGE</td>
+            <td>384 kbps</td>
+            <td>300–1000 ms</td>
+            <td>900 / 1800 MHz</td>
+            <td>Voix numérique, SMS</td>
+          </tr>
+          <tr>
+            <td>3G (2001)</td>
+            <td>UMTS / HSPA+</td>
+            <td>42 Mbps</td>
+            <td>100–500 ms</td>
+            <td>850 / 2100 MHz</td>
+            <td>Internet mobile, vidéo</td>
+          </tr>
+          <tr>
+            <td>4G (2010)</td>
+            <td>LTE-Advanced</td>
+            <td>1 Gbps</td>
+            <td>10–50 ms</td>
+            <td>700 MHz–2.6 GHz</td>
+            <td>HD video streaming, VoLTE</td>
+          </tr>
+          <tr>
+            <td>5G (2019)</td>
+            <td>NR (New Radio)</td>
+            <td>20 Gbps</td>
+            <td>1–5 ms</td>
+            <td>Sub-6 GHz / mmWave</td>
+            <td>URLLC, mMTC, eMBB, réseau découpé (slicing)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>VoIP — Voix sur IP</h3>
+    <p>La VoIP (Voice over Internet Protocol) encode la voix analogique en paquets numériques transmis via le réseau IP. Cette technologie a révolutionné la téléphonie en permettant des communications vocales à coût marginal nul sur l'infrastructure internet existante.</p>
+
+    <div class="callout green">
+      <p class="callout-title">Protocoles VoIP principaux</p>
+      <p><strong>SIP (Session Initiation Protocol)</strong> — signalisation et établissement d'appels · <strong>RTP (Real-time Transport Protocol)</strong> — transport des flux audio/vidéo · <strong>SRTP</strong> — version sécurisée chiffrée · <strong>WebRTC</strong> — VoIP directement dans le navigateur web.</p>
+    </div>
+
+    <h3>Fibre optique — Principe de fonctionnement</h3>
+    <p>La transmission par fibre optique exploite le phénomène de réflexion totale interne : un rayon lumineux injecté dans le cœur de la fibre (indice de réfraction élevé) reste confiné et se propage sur des centaines de kilomètres avec une atténuation minimale (0.2 dB/km pour la fibre SMF).</p>
+
+    <div class="two-col">
+      <div>
+        <h4>Fibre monomode (SMF)</h4>
+        <p>Cœur très fin (9 µm), un seul mode de propagation, longueurs d'onde 1310/1550 nm. Portée : jusqu'à 80 km sans amplification. Utilisée pour les liaisons longue distance et les backbones métropolitains. Technologies : DWDM (multiplexage en longueur d'onde dense), 100G/400G ZR.</p>
+      </div>
+      <div>
+        <h4>Fibre multimode (MMF)</h4>
+        <p>Cœur plus large (50 ou 62.5 µm), plusieurs modes de propagation. Portée limitée à 300-2000 m. Utilisée dans les data centers et les réseaux locaux haute performance. Standards : 10GBASE-SR, 40GBASE-SR4, 100GBASE-SR4 (OM3/OM4/OM5).</p>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-3">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Fibreoptic.jpg/640px-Fibreoptic.jpg" alt="Fibres optiques lumineuses">
+        <figcaption><strong>Fibres optiques illuminées</strong>Visualisation de la propagation de la lumière par réflexion totale interne dans des fibres optiques de verre. La lumière laser peut parcourir des milliers de kilomètres avec une atténuation de seulement 0.2 dB par km.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/5G_tower_in_Hong_Kong_-_February_2020.jpg/640px-5G_tower_in_Hong_Kong_-_February_2020.jpg" alt="Antennes 5G en environnement urbain">
+        <figcaption><strong>Infrastructure 5G en milieu urbain dense</strong>Antennes 5G mmWave installées sur mobilier urbain à Hong Kong — la 5G millimétrique nécessite une densification importante du réseau avec des small cells tous les 100-300 mètres.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Submarine_cable_cross-section_3D_plain.svg/640px-Submarine_cable_cross-section_3D_plain.svg.png" alt="Section d'un câble sous-marin">
+        <figcaption><strong>Structure d'un câble sous-marin à fibre optique</strong>Coupe transversale montrant les couches protectrices successives (polyéthylène, acier, aluminium) entourant les fibres optiques. Les câbles modernes transportent jusqu'à 400 Tbps sur 20 000 km.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5 ===== -->
+<section id="equipements">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">05 — Équipements</span>
+      <h2>Équipements des réseaux<br>de télécommunications</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Les réseaux modernes reposent sur un écosystème complexe d'équipements spécialisés, chacun jouant un rôle précis dans la chaîne de transmission, de commutation et de routage des informations.</p>
+    </div>
+
+    <h3>Routeurs de cœur de réseau</h3>
+    <p>Le routeur est le composant fondamental d'un réseau IP. Il analyse l'en-tête de chaque paquet et le transmet vers la meilleure interface de sortie selon sa table de routage. Les routeurs de cœur de réseau (comme le Cisco ASR 9000 ou le Juniper PTX) traitent plusieurs térabits par seconde.</p>
+
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Cisco-1700-Router.jpg/640px-Cisco-1700-Router.jpg" alt="Routeur Cisco professionnel">
+        <figcaption><strong>Routeur Cisco série professionnelle</strong>Routeur de distribution pour réseaux d'entreprise équipé de modules d'interface WAN (T1/E1, fibre, ADSL). Ce type d'équipement assure le routage IP, le NAT, le pare-feu et les fonctions QoS pour plusieurs centaines d'utilisateurs.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Cisco_Catalyst_702x.jpg/640px-Cisco_Catalyst_702x.jpg" alt="Switch réseau manageable">
+        <figcaption><strong>Commutateur Ethernet manageable (Switch Layer 3)</strong>Switch de distribution Cisco Catalyst 7000 série équipé de ports 10 GigabitEthernet et de modules fibre optique QSFP+. Ces équipements gèrent les VLANs, le routage inter-VLAN et le spanning-tree dans les réseaux d'entreprise.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Commutateurs réseau (Switches)</h3>
+    <p>Contrairement au routeur qui opère au niveau IP (couche 3), le commutateur Ethernet opère principalement au niveau MAC (couche 2). Il apprend dynamiquement les adresses MAC des équipements connectés et commute les trames Ethernet à grande vitesse. Les switches L3 combinent commutation et routage.</p>
+
+    <div class="callout warm">
+      <p class="callout-title">Différence Switch vs Routeur</p>
+      <p><strong>Switch (L2) :</strong> Commute des trames Ethernet entre ports selon les adresses MAC — opère dans un même réseau (LAN). <strong>Routeur (L3) :</strong> Route des paquets IP entre réseaux différents selon les adresses IP — connecte des réseaux distincts (LAN, WAN, Internet).</p>
+    </div>
+
+    <h3>Stations de base et antennes radio</h3>
+    <p>La station de base (eNodeB en 4G, gNodeB en 5G) est l'interface radio entre le réseau mobile et les terminaux. Elle comprend une Unité Radio (RU/RRH) installée au sommet du mât et une Unité de bande de base (BBU/DU) qui traite les signaux numériquement.</p>
+
+    <div class="img-grid img-grid-3">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Ericsson_Radio_System.jpg/640px-Ericsson_Radio_System.jpg" alt="Équipement radio Ericsson">
+        <figcaption><strong>Unité radio Ericsson AIR (Active Integrated Radio)</strong>Antenne active 5G intégrant les circuits radio et les éléments rayonnants dans un même boîtier compact. Les antennes Massive MIMO contiennent 32 à 192 éléments actifs permettant le beamforming adaptatif 3D.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Huawei_AAU_5G_antenna.jpg/640px-Huawei_AAU_5G_antenna.jpg" alt="Antenne AAU 5G Huawei">
+        <figcaption><strong>Antenne Active Array Unit (AAU) 5G</strong>Module AAU Huawei 5G intégrant 64 ports d'émission-réception pour le Massive MIMO. La formation de faisceaux numériques permet de concentrer l'énergie radio vers chaque utilisateur individuellement, multipliant la capacité du réseau.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Microwave_link.jpg/640px-Microwave_link.jpg" alt="Antenne à faisceau hertzien">
+        <figcaption><strong>Liaisons à faisceaux hertziens micro-ondes</strong>Antennes paraboliques de backhaul micro-ondes installées sur un mat de télécommunication. Ces liaisons point-à-point en bande E (80 GHz) offrent des débits jusqu'à 10 Gbps pour connecter les stations de base 4G/5G.</figcaption>
+      </figure>
+    </div>
+
+    <h3>Équipements fibre optique</h3>
+    <div class="cards">
+      <div class="card">
+        <span class="card-tag">OLT</span>
+        <h3>Optical Line Terminal</h3>
+        <p>Équipement actif situé chez l'opérateur dans le central téléphonique ou le nœud optique. Il regroupe et gère les flux de plusieurs centaines d'abonnés GPON/XGS-PON. Chaque port OLT dessert un arbre PON de 32 à 128 abonnés sur 20 km de portée.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">ONT / ONU</span>
+        <h3>Optical Network Terminal</h3>
+        <p>Équipement passif chez l'abonné convertissant le signal optique en signal électrique. La Livebox ou la Freebox Révolution contient un module ONT. XGS-PON offre 10 Gbps symétrique par abonné dans les déploiements FTTH nouvelle génération.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">DWDM</span>
+        <h3>Multiplexeur en longueur d'onde</h3>
+        <p>Permet de transporter plusieurs canaux optiques (jusqu'à 96) sur une seule fibre, chacun à une longueur d'onde différente. Un système DWDM 100G ×96 canaux transporte 9.6 Tbps sur une fibre unique. Utilisé sur tous les backbones longue distance.</p>
+      </div>
+    </div>
+
+    <h3>Systèmes VSAT et équipements satellite</h3>
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Iridium_satellite_phones.jpg/640px-Iridium_satellite_phones.jpg" alt="Terminaux satellite Iridium">
+        <figcaption><strong>Terminaux de communication satellite portable</strong>Téléphones satellites Iridium permettant les communications voix et données dans les zones les plus reculées du globe. Le réseau Iridium utilise 66 satellites LEO en orbite à 780 km d'altitude pour une couverture polaire complète.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Starlink_dish_in_snow.jpg/640px-Starlink_dish_in_snow.jpg" alt="Terminal Starlink">
+        <figcaption><strong>Terminal Starlink (Dishy McFlatface) en conditions hivernales</strong>Antenne phased array de Starlink mesurant 59×38 cm, auto-orientable sans mécanisme mobile. Elle se dégivre automatiquement et supporte des vents jusqu'à 96 km/h. Débits typiques : 50–250 Mbps avec 20–40 ms de latence.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6 ===== -->
+<section id="transmission">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">06 — Transmission</span>
+      <h2>Transmission des données<br>dans les réseaux télécoms</h2>
+      <div class="divider"></div>
+      <p class="section-lead">La transmission efficace de l'information repose sur des techniques fondamentales : modulation du signal, multiplexage des canaux, codage pour la fiabilité et transport en paquets ou en circuits.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h3>Modulation</h3>
+        <p>La modulation consiste à encoder une information (signal en bande de base) sur une onde porteuse haute fréquence adaptée au canal de transmission. Les modulations modernes comme la QAM-1024 permettent d'encoder 10 bits par symbole, maximisant l'efficacité spectrale.</p>
+        <h4>Types de modulation</h4>
+        <ul style="font-size:14px; color:var(--ink-light); padding-left:20px; line-height:2.2;">
+          <li><strong>AM</strong> — Modulation d'amplitude (radio AM)</li>
+          <li><strong>FM</strong> — Modulation de fréquence (radio FM)</li>
+          <li><strong>BPSK/QPSK</strong> — Modulation de phase (satellite)</li>
+          <li><strong>QAM-16/64/256/1024</strong> — Amplitude + phase (4G/5G/Wi-Fi)</li>
+          <li><strong>OFDM</strong> — Multiporteuses orthogonales (LTE, Wi-Fi 6)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Multiplexage</h3>
+        <p>Le multiplexage permet de partager un même canal physique entre plusieurs communications simultanées. C'est une technique fondamentale pour optimiser l'utilisation de la bande passante disponible.</p>
+        <h4>Techniques de multiplexage</h4>
+        <ul style="font-size:14px; color:var(--ink-light); padding-left:20px; line-height:2.2;">
+          <li><strong>FDM/FDMA</strong> — Division en fréquence (analogique)</li>
+          <li><strong>TDM/TDMA</strong> — Division temporelle (2G GSM)</li>
+          <li><strong>CDMA</strong> — Division par code (3G UMTS)</li>
+          <li><strong>OFDMA</strong> — Multiporteuses + FDMA (4G/5G)</li>
+          <li><strong>DWDM</strong> — Division en longueur d'onde (fibre)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Transport des données — Commutation de paquets</h3>
+    <p>Internet repose sur la commutation de paquets : chaque message est découpé en paquets de taille fixe ou variable (MTU typique : 1500 octets sur Ethernet), chaque paquet étant routé indépendamment à travers le réseau et réassemblé à destination.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Paramètre</th>
+            <th>Définition</th>
+            <th>Valeurs typiques</th>
+            <th>Impact sur les services</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bande passante</td>
+            <td>Débit maximal du lien</td>
+            <td>100 Mbps à 400 Gbps</td>
+            <td>Capacité à gérer de nombreux utilisateurs simultanés</td>
+          </tr>
+          <tr>
+            <td>Latence (RTT)</td>
+            <td>Temps aller-retour d'un paquet</td>
+            <td>1 ms (5G) à 700 ms (GEO)</td>
+            <td>Qualité de la voix, jeux en ligne, transactions financières</td>
+          </tr>
+          <tr>
+            <td>Gigue (Jitter)</td>
+            <td>Variation de la latence</td>
+            <td>&lt;10 ms pour la VoIP</td>
+            <td>Qualité audio/vidéo en temps réel</td>
+          </tr>
+          <tr>
+            <td>Taux de perte</td>
+            <td>Paquets perdus / total envoyés</td>
+            <td>&lt;0.1% nominal</td>
+            <td>Retransmissions TCP, dégradation qualité vidéo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <p class="callout-title">Protocoles de transport clés</p>
+      <p><strong>TCP</strong> (Transmission Control Protocol) — transport fiable avec contrôle de flux et retransmission des paquets perdus. Idéal pour les transferts de fichiers, pages web, e-mails. <strong>UDP</strong> (User Datagram Protocol) — transport non-fiable mais rapide, sans connexion. Utilisé pour la VoIP, le streaming vidéo et les jeux en ligne où la rapidité prime sur la fiabilité.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7 ===== -->
+<section id="configuration">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">07 — Configuration</span>
+      <h2>Configuration des équipements<br>télécoms</h2>
+      <div class="divider"></div>
+      <p class="section-lead">La configuration des équipements réseau est au cœur du métier d'ingénieur télécom. Cette section couvre les commandes essentielles et les bonnes pratiques pour configurer routeurs, switches et équipements radio.</p>
+    </div>
+
+    <h3>Configuration d'un routeur Cisco — IOS</h3>
+    <h4>Configuration IP et interfaces</h4>
+    <pre>
+<span class="comment">! Connexion et configuration de base</span>
+Router> enable
+Router# configure terminal
+Router(config)# hostname ROUTER-PARIS-01
+
+<span class="comment">! Configuration d'une interface WAN</span>
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip address <span class="value">192.168.1.1 255.255.255.0</span>
+Router(config-if)# description <span class="string">Liaison WAN vers Opérateur - MPLS</span>
+Router(config-if)# no shutdown
+
+<span class="comment">! Configuration NAT (Network Address Translation)</span>
+Router(config)# ip nat inside source list 1 interface G0/0 overload
+Router(config)# access-list 1 permit <span class="value">10.0.0.0 0.255.255.255</span>
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ip nat inside
+Router(config-if)# exit
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip nat outside</pre>
+
+    <h4>Routage dynamique OSPF</h4>
+    <pre>
+<span class="comment">! Activation OSPF et annonce des réseaux</span>
+Router(config)# router ospf <span class="value">1</span>
+Router(config-router)# router-id <span class="value">1.1.1.1</span>
+Router(config-router)# network <span class="value">10.0.0.0 0.0.0.255</span> area <span class="value">0</span>
+Router(config-router)# network <span class="value">192.168.1.0 0.0.0.255</span> area <span class="value">0</span>
+Router(config-router)# passive-interface <span class="string">GigabitEthernet0/2</span>
+Router(config-router)# auto-cost reference-bandwidth <span class="value">10000</span>
+
+<span class="comment">! Vérification de l'état OSPF</span>
+Router# show ip ospf neighbor
+Router# show ip route ospf
+Router# show ip ospf interface</pre>
+
+    <h4>Configuration BGP (Border Gateway Protocol)</h4>
+    <pre>
+<span class="comment">! BGP pour peering avec l'opérateur (eBGP)</span>
+Router(config)# router bgp <span class="value">65001</span>
+Router(config-router)# bgp router-id <span class="value">1.1.1.1</span>
+Router(config-router)# neighbor <span class="value">203.0.113.1</span> remote-as <span class="value">65000</span>
+Router(config-router)# neighbor <span class="value">203.0.113.1</span> description <span class="string">Peering-Opérateur-Principal</span>
+Router(config-router)# network <span class="value">198.51.100.0</span> mask <span class="value">255.255.255.0</span>
+
+<span class="comment">! Filtrage des routes BGP avec route-map</span>
+Router(config)# route-map FILTRE-ENTRANT permit <span class="value">10</span>
+Router(config-route-map)# match ip address prefix-list PREFIXES-ACCEPTES
+Router(config-route-map)# set local-preference <span class="value">200</span></pre>
+
+    <h3>Configuration d'un switch — VLANs et Trunk</h3>
+    <pre>
+<span class="comment">! Création des VLANs</span>
+Switch(config)# vlan <span class="value">10</span>
+Switch(config-vlan)# name PRODUCTION
+Switch(config)# vlan <span class="value">20</span>
+Switch(config-vlan)# name MANAGEMENT
+Switch(config)# vlan <span class="value">30</span>
+Switch(config-vlan)# name VOIP
+
+<span class="comment">! Configuration d'un port access (station de travail)</span>
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan <span class="value">10</span>
+Switch(config-if)# spanning-tree portfast
+
+<span class="comment">! Configuration d'un port trunk (liaison inter-switch)</span>
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk encapsulation dot1q
+Switch(config-if)# switchport trunk allowed vlan <span class="value">10,20,30</span>
+Switch(config-if)# switchport trunk native vlan <span class="value">99</span>
+
+<span class="comment">! Agrégation de liens (LACP - 802.3ad)</span>
+Switch(config)# interface range GigabitEthernet0/2-3
+Switch(config-if-range)# channel-group <span class="value">1</span> mode active
+Switch(config-if-range)# exit
+Switch(config)# interface Port-channel1
+Switch(config-if)# switchport mode trunk</pre>
+
+    <h3>Supervision réseau — SNMP et NMS</h3>
+    <p>La supervision réseau permet de surveiller l'état des équipements en temps réel, de détecter les pannes et d'analyser les performances. SNMP (Simple Network Management Protocol) est le protocole standard pour la supervision des équipements télécoms.</p>
+
+    <pre>
+<span class="comment">! Configuration SNMP v3 (sécurisé) sur Cisco IOS</span>
+Router(config)# snmp-server group <span class="string">MONITORING-GROUP</span> v3 priv
+Router(config)# snmp-server user <span class="string">nms-user</span> MONITORING-GROUP v3
+Router(config-if)# auth sha <span class="string">AuthPassword123!</span>
+Router(config-if)# priv aes 128 <span class="string">PrivPassword456!</span>
+
+<span class="comment">! Définition des trappes SNMP (alertes)</span>
+Router(config)# snmp-server host <span class="value">10.0.100.10</span> version 3 priv <span class="string">nms-user</span>
+Router(config)# snmp-server enable traps interface
+Router(config)# snmp-server enable traps bgp
+Router(config)# snmp-server enable traps ospf</pre>
+
+    <h3>Configuration d'une liaison radio micro-ondes</h3>
+    <p>La configuration d'une liaison point-à-point (PtP) micro-ondes implique plusieurs étapes critiques pour garantir la qualité du lien radio.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Planification de la fréquence</h4>
+          <p>Sélection d'une paire de fréquences dans la bande attribuée (ex: 11 GHz, 18 GHz, E-band 80 GHz). Vérification de la disponibilité et demande de licence auprès de l'ARCEP (France) ou de l'ARTP (Cameroun).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Calcul de bilan de liaison (Link Budget)</h4>
+          <p>Calcul de la puissance reçue (RSL) en fonction de la distance, des gains d'antennes, des pertes en espace libre (FSPL) et de la marge de liaison. Marge recommandée : ≥ 30 dB pour 99.999% de disponibilité.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Alignement des antennes</h4>
+          <p>Ajustement fin de l'azimut et de l'élévation de l'antenne parabolique pour maximiser le signal reçu. Utilisation d'un analyseur de spectre ou du logiciel de gestion du lien pour guider l'alignement en temps réel.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Configuration de la modulation adaptative</h4>
+          <p>Paramétrage de l'ATPC (Automatic Transmit Power Control) et de l'ACM (Adaptive Coding and Modulation) : le système passe automatiquement de QPSK (temps de pluie) à QAM-2048 (beau temps) selon les conditions radio.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8 ===== -->
+<section id="deploiement">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">08 — Déploiement</span>
+      <h2>Déploiement d'un réseau<br>de télécommunications</h2>
+      <div class="divider"></div>
+      <p class="section-lead">Le déploiement d'une infrastructure télécom est un projet complexe qui suit une méthodologie rigoureuse, depuis l'étude de faisabilité jusqu'à la mise en production, en passant par la planification, l'installation et les tests.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Étude de site (Site Survey)</h4>
+          <p>Analyse des besoins en capacité, évaluation du terrain, mesures radio (pour les réseaux sans fil), étude géotechnique pour les fondations, vérification des droits d'accès et autorisations. Production du rapport d'audit de site.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Planification et conception réseau</h4>
+          <p>Dimensionnement du réseau selon les prévisions de trafic (modèle Erlang pour la voix, débits moyens pour les données). Conception de l'architecture (topologie, redondance N+1 ou N+N, plan d'adressage IP, plan VLAN, routage).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Choix des technologies et appel d'offres</h4>
+          <p>Sélection des technologies adaptées aux contraintes (débit requis, budget CAPEX/OPEX, disponibilité cible). Rédaction du cahier des charges techniques et évaluation des offres des équipementiers (Ericsson, Nokia, Huawei, Cisco, Juniper).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Installation des équipements</h4>
+          <p>Génie civil (construction de pylônes, shelter, tranchées), installation des équipements actifs dans les baies, câblage structuré, pose de la fibre optique (soufflage ou tirage en fourreau). Raccordement au réseau électrique et aux systèmes de supervision.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Configuration et intégration réseau</h4>
+          <p>Configuration des équipements selon les plans validés : interfaces, routage, VLANs, QoS, sécurité, supervision SNMP. Intégration dans le système d'exploitation réseau (NMS, OSS/BSS) de l'opérateur.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <h4>Tests d'acceptance (ATP)</h4>
+          <p>Vérification systématique de toutes les fonctionnalités selon le plan de test prédéfini : tests de débit (iperf, Y.1564), mesures de latence, tests de basculement (failover), validation de la QoS, tests de charge (Spirent, IXIA).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-body">
+          <h4>Mise en production et suivi (Go-Live)</h4>
+          <p>Basculement progressif du trafic sur le nouveau réseau (migration planifiée hors des heures de pointe). Surveillance renforcée pendant la période de stabilisation (72h). Documentation finale (DOE — Dossier des Ouvrages Exécutés) et transfert au NOC.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-grid img-grid-2">
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Fiber_optic_cable_technician.jpg/640px-Fiber_optic_cable_technician.jpg" alt="Technicien fibre optique">
+        <figcaption><strong>Technicien en cours de soudure de fibre optique</strong>Opération de fusion de fibres optiques à l'aide d'une soudeuse automatique sur le terrain. Cette opération requiert une formation spécialisée — les pertes de jonction doivent être inférieures à 0.1 dB pour garantir les performances du lien.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Network_Operations_Center.jpg/640px-Network_Operations_Center.jpg" alt="Centre d'opérations réseau NOC">
+        <figcaption><strong>Centre d'Opérations Réseau (NOC)</strong>Salle de supervision 24h/24 où les ingénieurs surveillent en temps réel l'état du réseau, traitent les alarmes et coordonnent les interventions. Les outils de NMS (Network Management System) affichent la topologie réseau et les métriques de performance.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 9 ===== -->
+<section id="securite">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-number">09 — Sécurité</span>
+      <h2>Sécurité des réseaux<br>de télécommunications</h2>
+      <div class="divider"></div>
+      <p class="section-lead">La sécurisation des infrastructures de télécommunications est un enjeu critique — une attaque réussie peut paralyser l'accès à Internet de millions d'utilisateurs ou compromettre des communications gouvernementales sensibles.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <span class="card-tag">Chiffrement</span>
+        <h3>Protection des communications</h3>
+        <p>TLS 1.3 pour les communications web et applicatives. IPSec pour les tunnels VPN entre sites. MACsec (802.1AE) pour le chiffrement point-à-point sur les liens Ethernet. Chiffrement des liaisons radio (AES-256) sur les équipements micro-ondes.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Pare-feu</span>
+        <h3>Filtrage et contrôle d'accès</h3>
+        <p>Pare-feux de périmètre (Cisco ASA, Fortinet, Palo Alto) filtrant le trafic entrant et sortant. ACL (Access Control Lists) sur les routeurs pour limiter les flux autorisés. Segmentation par zones de sécurité (DMZ, LAN, WAN).</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">DDoS</span>
+        <h3>Protection contre les attaques volumétriques</h3>
+        <p>Les attaques DDoS peuvent saturer des liens à plusieurs centaines de Gbps. Protection via scrubbing centers (Akamai, Cloudflare), RTBH (Remote Triggered Black Hole), MPLS Traffic Engineering pour détourner les flux malveillants.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Authentification</span>
+        <h3>Contrôle des accès aux équipements</h3>
+        <p>RADIUS / TACACS+ pour l'authentification centralisée des administrateurs réseau. MFA (Multi-Factor Authentication) obligatoire pour l'accès aux équipements critiques. Gestion des clés SSH et rotation régulière des mots de passe selon la politique ITSEC.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">BGP Sec</span>
+        <h3>Sécurisation du routage internet</h3>
+        <p>RPKI (Resource Public Key Infrastructure) pour valider l'origine des annonces BGP et prévenir les détournements de routes (BGP hijacking). ROA (Route Origin Authorizations) permettent de certifier qu'un AS est autorisé à annoncer un préfixe IP.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag">Monitoring</span>
+        <h3>Détection et réponse aux incidents</h3>
+        <p>SIEM (Security Information and Event Management) corrélant les logs de tous les équipements. IDS/IPS réseau (Suricata, Snort) détectant les intrusions. NetFlow / sFlow pour l'analyse comportementale du trafic et la détection d'anomalies.</p>
+      </div>
+    </div>
+
+    <div class="callout warm">
+      <p class="callout-title">Bonnes pratiques de sécurité réseau (ANSSI)</p>
+      <p>1. Inventorier et cartographier l'ensemble des équipements et des flux réseau. 2. Appliquer le principe du moindre privilège sur tous les accès. 3. Mettre à jour régulièrement les firmware des équipements. 4. Chiffrer toutes les communications de gestion (SSH, SNMPv3, HTTPS). 5. Sauvegarder régulièrement les configurations et tester les procédures de restauration.</p>
+    </div>
+
+    <pre>
+<span class="comment">! Configuration sécurisée d'un routeur — Bonnes pratiques</span>
+
+<span class="comment">! Désactivation des services inutiles</span>
+Router(config)# no ip http server
+Router(config)# no ip finger
+Router(config)# no service tcp-small-servers
+Router(config)# no service udp-small-servers
+Router(config)# no cdp run
+
+<span class="comment">! Sécurisation des accès SSH uniquement</span>
+Router(config)# ip ssh version <span class="value">2</span>
+Router(config)# ip ssh time-out <span class="value">60</span>
+Router(config)# ip ssh authentication-retries <span class="value">3</span>
+Router(config)# line vty 0 4
+Router(config-line)# transport input <span class="string">ssh</span>
+Router(config-line)# login local
+Router(config-line)# exec-timeout <span class="value">5 0</span>
+
+<span class="comment">! Protection contre les attaques sur le plan de contrôle (CoPP)</span>
+Router(config)# ip access-list extended MGMT-ACCESS
+Router(config-ext-nacl)# permit tcp <span class="value">10.100.0.0 0.0.0.255</span> any eq <span class="value">22</span>
+Router(config-ext-nacl)# deny tcp any any eq <span class="value">22</span> log</pre>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Guide Technique des Télécommunications</strong> — Documentation pédagogique complète</p>
+  <p style="margin-top:8px;">Couvre les technologies filaires, sans fil et satellitaires · Architecture réseau · Configuration · Sécurité</p>
+  <p style="margin-top:8px; font-size:11px; opacity:0.5;">À des fins éducatives et professionnelles · Les captures d'écran de configuration sont illustratives</p>
+</footer>
+
+</body>
+</html>
